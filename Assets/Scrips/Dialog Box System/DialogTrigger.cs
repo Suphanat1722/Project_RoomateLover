@@ -2,19 +2,13 @@
 
 public class DialogTrigger : MonoBehaviour
 {
-    public Dialog dialog; // บทสนทนาที่ต้องการแสดง
+    public string characterName; // ชื่อตัวละครที่ต้องการแสดงบทสนทนา
 
-    public static bool isShowCanvasDialogBox = false; 
+    public static bool isShowCanvasDialogBox = false;
 
     public void TriggerDialog()
     {
         isShowCanvasDialogBox = true;
-
-        if (isShowCanvasDialogBox)
-        {
-            FindFirstObjectByType<DialogManager>().StartDialog(dialog);
-        }
+        FindFirstObjectByType<DialogManager>().StartDialog(characterName);
     }
 }
-
-

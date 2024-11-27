@@ -2,31 +2,68 @@
 using System.Collections;
 using TMPro;
 using System.Collections.Generic;
+using System.IO;
 
 public class DialogManager : MonoBehaviour
 {
     public TextMeshProUGUI nameText; // ช่องแสดงชื่อของตัวละคร
     public TextMeshProUGUI dialogText; // ช่องแสดงข้อความสนทนา
+    public string jsonFilePath = "dialogues"; // ไฟล์ JSON ในโฟลเดอร์ Resources
 
     private Queue<string> sentences; // คิวสำหรับเก็บประโยคสนทนา
+    private DialogData dialogData; // ข้อมูลบทสนทนา
 
     void Start()
     {
         sentences = new Queue<string>();
+        LoadDialogData(); // โหลดข้อมูลบทสนทนาเมื่อเริ่มต้น
     }
 
-    public void StartDialog(Dialog dialog)
+    void LoadDialogData()
     {
+        TextAsset jsonFile = Resources.Load<TextAsset>(jsonFilePath);
+        if (jsonFile != null)
+        {
+            dialogData = JsonUtility.FromJson<DialogData>(jsonFile.text);
+            Debug.Log("Dialog data loaded successfully.");
+        }
+        else
+        {
+            Debug.LogError("Failed to load JSON file at " + jsonFilePath);
+        }
+    }
+
+    public void StartDialog(string characterName)
+    {
+        Dialog dialog = FindDialogByName(characterName);
+        if (dialog == null)
+        {
+            Debug.LogError("Dialog not found for character: " + characterName);
+            return;
+        }
+
         nameText.text = dialog.characterName;
-        
         sentences.Clear();
 
         foreach (string sentence in dialog.sentences)
         {
             sentences.Enqueue(sentence);
+            Debug.Log($"Enqueued: {sentence}");
         }
-        
+
         DisplayNextSentence();
+    }
+
+    Dialog FindDialogByName(string characterName)
+    {
+        foreach (var dialog in dialogData.dialogs)
+        {
+            if (dialog.characterName == characterName)
+            {
+                return dialog;
+            }
+        }
+        return null;
     }
 
     public void DisplayNextSentence()
@@ -38,7 +75,7 @@ public class DialogManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
-        
+
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
     }

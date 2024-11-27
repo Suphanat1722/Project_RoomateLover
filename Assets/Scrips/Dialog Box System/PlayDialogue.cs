@@ -10,28 +10,6 @@ public class PlayDialogue : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // เมื่อคลิกเมาส์ซ้าย
-        {
-            RaycastInteraction();
-        }
-
-        ShowCanvasDialogBox();
-    }
-
-    void RaycastInteraction()
-    {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-        if (hit.collider != null)
-        {
-            Debug.Log("Clicked on: " + hit.collider.name);
-            // เพิ่มการกระทำที่คุณต้องการ
-            dialogTrigger.TriggerDialog();
-        }
-    }
-    void ShowCanvasDialogBox()
-    {
         if (DialogTrigger.isShowCanvasDialogBox)
         {
             dialogBox.SetActive(true);
@@ -46,6 +24,23 @@ public class PlayDialogue : MonoBehaviour
         {
             dialogBox.SetActive(false);
             character.SetActive(true);
+
+            if (Input.GetMouseButtonDown(0)) // เมื่อคลิกเมาส์ซ้าย
+            {
+                RaycastInteraction();
+            }
+        }
+    }
+
+    void RaycastInteraction()
+    {
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            // เพิ่มการกระทำที่คุณต้องการ
+            dialogTrigger.TriggerDialog();
         }
     }
 }
