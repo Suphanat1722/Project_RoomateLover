@@ -1,0 +1,20 @@
+{
+    "dialogs": [
+        {
+            "characterName": "Nina",
+            "sentences": [
+                "Hello!",
+                "How are you?",
+                "See you later!"
+            ]
+        },
+        {
+            "characterName": "Bob",
+            "sentences": [
+                "Hi there!",
+                "I'm good, thanks.",
+                "Bye!"
+            ]
+        }
+    ]
+}
