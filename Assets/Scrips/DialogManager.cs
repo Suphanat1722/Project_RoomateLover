@@ -55,7 +55,7 @@ public class DialogManager : MonoBehaviour
 
     void EndDialog()
     {
-        DialogTrigger.isShow = false;
+        DialogTrigger.isShowCanvasDialogBox = false;
         Debug.Log("End");
     }
 }

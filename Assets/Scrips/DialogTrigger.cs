@@ -3,18 +3,14 @@
 public class DialogTrigger : MonoBehaviour
 {
     public Dialog dialog; // บทสนทนาที่ต้องการแสดง
-    public GameObject dialogBox;
-    public GameObject character;
 
-    public static bool isShow = false;
+    public static bool isShowCanvasDialogBox = false; 
 
     public void TriggerDialog()
     {
+        isShowCanvasDialogBox = true;
 
-        dialogBox.SetActive(true);
-        character.SetActive(false);
-        isShow = true;
-        if (isShow)
+        if (isShowCanvasDialogBox)
         {
             FindFirstObjectByType<DialogManager>().StartDialog(dialog);
         }
