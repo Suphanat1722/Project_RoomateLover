@@ -7,12 +7,15 @@ using Unity.VisualScripting;
 
 public class DialogManager : MonoBehaviour
 {
-    public TextMeshProUGUI nameText; // ช่องแสดงชื่อของตัวละคร
-    public TextMeshProUGUI dialogText; // ช่องแสดงข้อความสนทนา
-    public string jsonFilePath = "dialogues"; // ไฟล์ JSON ในโฟลเดอร์ Resources
+    [SerializeField] private TextMeshProUGUI nameText; // ช่องแสดงชื่อของตัวละคร
+    [SerializeField] private TextMeshProUGUI dialogText; // ช่องแสดงข้อความสนทนา
 
-    private Queue<string> sentences; // คิวสำหรับเก็บประโยคสนทนา
-    private DialogData dialogData; // ข้อมูลบทสนทนา
+    public static string selectedLanguage = "th"; // ภาษาเลือก
+
+    string jsonFilePath = $"dialogues_{selectedLanguage}";
+
+    Queue<string> sentences; // คิวสำหรับเก็บประโยคสนทนา
+    DialogData dialogData; // ข้อมูลบทสนทนา
 
     void Start()
     {
@@ -92,7 +95,8 @@ public class DialogManager : MonoBehaviour
 
     void EndDialog()
     {
-        DialogTrigger.isShowCanvasDialogBox = false;
+        DialogTrigger.isDialogActive = false;
+        FindFirstObjectByType<DialogTrigger>()?.EndDialogue();
         Debug.Log("End");
     }
 }
