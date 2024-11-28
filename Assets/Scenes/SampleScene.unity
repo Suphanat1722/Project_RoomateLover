@@ -841,7 +841,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427bb9b040c7dad41b0c5236e20500f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: Nina
+  dialogManager: {fileID: 1914295775}
+  dialogBox: {fileID: 1915815402}
 --- !u!114 &863343099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,7 +858,6 @@ MonoBehaviour:
   dialogManager: {fileID: 1914295775}
   dialogTrigger: {fileID: 863343098}
   dialogBox: {fileID: 1915815402}
-  character: {fileID: 107283679}
 --- !u!1 &996254117
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
     "dialogs": [
         {
             "characterName": "Nina",
+            "title": "NinaInRoom",
             "sentences": [
                 "Hello!",
                 "How are you?",
@@ -9,7 +10,8 @@
             ]
         },
         {
-            "characterName": "Bob",
+            "characterName": "Nina",
+            "title": "test",
             "sentences": [
                 "Hi there!",
                 "I'm good, thanks.",

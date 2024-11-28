@@ -3,28 +3,12 @@ using UnityEngine.EventSystems;
 
 public class PlayDialogue : MonoBehaviour
 {
-    public DialogManager dialogManager;
     public DialogTrigger dialogTrigger;
-    public GameObject dialogBox;
-    public GameObject character;
 
     void Update()
     {
-        if (DialogTrigger.isShowCanvasDialogBox)
+        if (!DialogTrigger.isShowCanvasDialogBox)
         {
-            dialogBox.SetActive(true);
-            character.SetActive(false);
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                dialogManager.DisplayNextSentence();
-            }
-        }
-        else
-        {
-            dialogBox.SetActive(false);
-            character.SetActive(true);
-
             if (Input.GetMouseButtonDown(0)) // เมื่อคลิกเมาส์ซ้าย
             {
                 RaycastInteraction();
@@ -40,7 +24,7 @@ public class PlayDialogue : MonoBehaviour
         if (hit.collider != null)
         {
             // เพิ่มการกระทำที่คุณต้องการ
-            dialogTrigger.TriggerDialog();
+            dialogTrigger.TriggerDialog("Nina", "test");
         }
     }
 }
