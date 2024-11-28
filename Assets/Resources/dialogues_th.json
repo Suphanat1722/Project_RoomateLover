@@ -1,0 +1,22 @@
+﻿{
+    "dialogs": [
+        {
+            "characterName": "นีน่า",
+            "title": "นีน่าในห้อง",
+            "sentences": [
+                "สวัสดี!",
+                "ฉันนีน่า",
+                "คุณชื่ออะไรหรอ"
+            ]
+        },
+        {
+            "characterName": "Nina",
+            "title": "test",
+            "sentences": [
+                "Hi there!",
+                "I'm good, thanks.",
+                "Bye!"
+            ]
+        }
+    ]
+}

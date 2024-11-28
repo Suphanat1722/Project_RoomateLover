@@ -3,15 +3,19 @@ using System.Collections;
 using TMPro;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 
 public class DialogManager : MonoBehaviour
 {
-    public TextMeshProUGUI nameText; // ช่องแสดงชื่อของตัวละคร
-    public TextMeshProUGUI dialogText; // ช่องแสดงข้อความสนทนา
-    public string jsonFilePath = "dialogues"; // ไฟล์ JSON ในโฟลเดอร์ Resources
+    [SerializeField] private TextMeshProUGUI nameText; // ช่องแสดงชื่อของตัวละคร
+    [SerializeField] private TextMeshProUGUI dialogText; // ช่องแสดงข้อความสนทนา
 
-    private Queue<string> sentences; // คิวสำหรับเก็บประโยคสนทนา
-    private DialogData dialogData; // ข้อมูลบทสนทนา
+    public static string selectedLanguage = "th"; // ภาษาเลือก
+
+    string jsonFilePath = $"dialogues_{selectedLanguage}";
+
+    Queue<string> sentences; // คิวสำหรับเก็บประโยคสนทนา
+    DialogData dialogData; // ข้อมูลบทสนทนา
 
     void Start()
     {
@@ -25,7 +29,7 @@ public class DialogManager : MonoBehaviour
         if (jsonFile != null)
         {
             dialogData = JsonUtility.FromJson<DialogData>(jsonFile.text);
-            Debug.Log("Dialog data loaded successfully.");
+            //Debug.Log("Dialog data loaded successfully.");
         }
         else
         {
@@ -33,9 +37,9 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    public void StartDialog(string characterName)
+    public void StartDialog(string characterName, string title)
     {
-        Dialog dialog = FindDialogByName(characterName);
+        Dialog dialog = FindDialogByNameAndDialog(characterName, title);
         if (dialog == null)
         {
             Debug.LogError("Dialog not found for character: " + characterName);
@@ -48,17 +52,16 @@ public class DialogManager : MonoBehaviour
         foreach (string sentence in dialog.sentences)
         {
             sentences.Enqueue(sentence);
-            Debug.Log($"Enqueued: {sentence}");
+            //Debug.Log($"Enqueued: {sentence}");
         }
-
         DisplayNextSentence();
     }
 
-    Dialog FindDialogByName(string characterName)
+    Dialog FindDialogByNameAndDialog(string characterName, string dialogueTitle)
     {
         foreach (var dialog in dialogData.dialogs)
         {
-            if (dialog.characterName == characterName)
+            if (dialog.characterName == characterName && dialog.title == dialogueTitle)
             {
                 return dialog;
             }
@@ -92,7 +95,8 @@ public class DialogManager : MonoBehaviour
 
     void EndDialog()
     {
-        DialogTrigger.isShowCanvasDialogBox = false;
+        DialogTrigger.isDialogActive = false;
+        FindFirstObjectByType<DialogTrigger>()?.EndDialogue();
         Debug.Log("End");
     }
 }
