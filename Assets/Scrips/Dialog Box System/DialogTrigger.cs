@@ -11,7 +11,6 @@ public class DialogTrigger : MonoBehaviour
 
     public void TriggerDialog(string characterName, string titleName, Action onDialogEnd)
     {
-        Debug.Log("Strat");
         canvasDialogBoxActive.SetActive(true);
         dialogManager.StartDialog(characterName, titleName);
         this.onDialogEnded = onDialogEnd;
@@ -30,15 +29,13 @@ public class DialogTrigger : MonoBehaviour
 
     void Update()
     {
-        if (canvasDialogBoxActive.activeSelf)
+        if (Input.GetMouseButtonDown(0)) // เมื่อคลิกเมาส์ซ้าย
         {
-            if (Input.GetMouseButtonUp(0)) // เมื่อคลิกเมาส์ซ้าย
+            if (canvasDialogBoxActive.activeSelf)
             {
                 dialogManager.DisplayNextSentence();
-                Debug.Log("Next");
+                Debug.Log("NextSentence");
             }
-        }
-
-        
+        }       
     }
 }
