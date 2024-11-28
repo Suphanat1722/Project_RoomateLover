@@ -20,7 +20,7 @@ public class PlayDialogue : MonoBehaviour
 
             if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Character"))
             {
-                dialogTrigger.TriggerDialog("Nina", "test", EndTest);
+                dialogTrigger.TriggerDialog("นีน่า", "นีน่าในห้อง", EndTest);
                 
             }
         }

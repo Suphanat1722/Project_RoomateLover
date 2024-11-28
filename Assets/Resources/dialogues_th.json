@@ -1,12 +1,12 @@
-{
+﻿{
     "dialogs": [
         {
-            "characterName": "Nina",
-            "title": "NinaInRoom",
+            "characterName": "นีน่า",
+            "title": "นีน่าในห้อง",
             "sentences": [
-                "Hello!",
-                "How are you?",
-                "See you later!"
+                "สวัสดี!",
+                "ฉันนีน่า",
+                "คุณชื่ออะไรหรอ"
             ]
         },
         {
