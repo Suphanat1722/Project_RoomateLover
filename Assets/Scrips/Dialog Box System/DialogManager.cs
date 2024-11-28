@@ -95,7 +95,6 @@ public class DialogManager : MonoBehaviour
 
     void EndDialog()
     {
-        DialogTrigger.isDialogActive = false;
         FindFirstObjectByType<DialogTrigger>()?.EndDialogue();
         Debug.Log("End");
     }
