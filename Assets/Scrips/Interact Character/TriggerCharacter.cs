@@ -5,6 +5,7 @@ public class TriggerCharacter : MonoBehaviour
 {
     [SerializeField] private DialogTrigger dialogTrigger;
     [SerializeField] private GameObject canvasButtonInteract;
+    [SerializeField] private GameObject canvasDialogBoxActive;
     [SerializeField] private GameObject[] characters;
 
     void Start()
@@ -14,14 +15,18 @@ public class TriggerCharacter : MonoBehaviour
 
     void Update()
     {
-        RaycastInteraction();  
+        CilckCharacterInRoom();
+
+        if (canvasButtonInteract.activeSelf)
+        {
+            NotActiveCharacter();
+        }
     }
 
-    void RaycastInteraction()
+    void CilckCharacterInRoom()//เช็คว่าเมาส์ชนกับตัวละครไหม
     {
         if (Input.GetMouseButtonUp(0)) // เมื่อคลิกเมาส์ซ้าย
-        {
-            
+        {          
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
@@ -32,9 +37,15 @@ public class TriggerCharacter : MonoBehaviour
                 NotActiveCharacter();
             }
         }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            canvasButtonInteract.SetActive(false);
+            RandomCharacterInRoomActive();
+        }
     }
 
-    void ButtonInteractActive()
+    void ButtonInteractActive()//เปิด ปุ่มที่กระทำกับตัวละคร
     {
         canvasButtonInteract.SetActive(true);
         RandomCharacterInRoomActive();
@@ -47,13 +58,16 @@ public class TriggerCharacter : MonoBehaviour
         {
             characters[i].SetActive(i == randomIndex);
         }
-    }
+    }//สุ่มตัวละครขึ้นในฉาก
 
-    void NotActiveCharacter()
+    void NotActiveCharacter()//ปิดตัวละครทั้งหมดในฉาก
     {
-        for (int i = 0; i < characters.Length; i++)
+        if (canvasButtonInteract.activeSelf || canvasDialogBoxActive.activeSelf)
         {
-            characters[i].SetActive(false);
-        }
+            for (int i = 0; i < characters.Length; i++)
+            {
+                characters[i].SetActive(false);
+            }
+        }   
     }
 }

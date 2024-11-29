@@ -305,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogTrigger: {fileID: 863343098}
   canvasButtonInteract: {fileID: 1613248773}
+  canvasDialogBoxActive: {fileID: 1915815402}
   characters:
   - {fileID: 1339536262}
   - {fileID: 1424967232}
@@ -3654,7 +3655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1651750562
 Transform:
   m_ObjectHideFlags: 0
@@ -4554,7 +4555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1915815403
 MonoBehaviour:
   m_ObjectHideFlags: 0
