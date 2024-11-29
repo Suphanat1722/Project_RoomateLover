@@ -29,13 +29,13 @@ public class DialogTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // เมื่อคลิกเมาส์ซ้าย
+        if (Input.GetMouseButtonDown(0) && DialogManager.isTypingFinished && canvasDialogBoxActive.activeSelf)
         {
-            if (canvasDialogBoxActive.activeSelf)
-            {
-                dialogManager.DisplayNextSentence();
-                Debug.Log("NextSentence");
-            }
-        }       
+            dialogManager.DisplayNextSentence();
+        }  
+        else if (Input.GetMouseButtonDown(0) && !DialogManager.isTypingFinished && canvasDialogBoxActive.activeSelf)
+        {
+            DialogManager.isLeftClickedToSkip = true;
+        }
     }
 }
