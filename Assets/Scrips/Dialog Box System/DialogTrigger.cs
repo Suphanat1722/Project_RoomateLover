@@ -4,7 +4,6 @@ using Live2D.Cubism.Core;
 
 public class DialogTrigger : MonoBehaviour
 {
-    public static bool isDialogActive = false;
     [SerializeField]GameObject canvasDialogBoxActive;
 
     DialogManager dialogManager; 
@@ -12,7 +11,6 @@ public class DialogTrigger : MonoBehaviour
 
     public void TriggerDialog(string characterName, string titleName, Action onDialogEnd)
     {
-        isDialogActive = true;
         canvasDialogBoxActive.SetActive(true);
         dialogManager.StartDialog(characterName, titleName);
         this.onDialogEnded = onDialogEnd;
@@ -20,7 +18,6 @@ public class DialogTrigger : MonoBehaviour
 
     public void EndDialogue()
     {
-        isDialogActive = false;
         canvasDialogBoxActive.SetActive(false);
         onDialogEnded?.Invoke();
     }
@@ -32,15 +29,13 @@ public class DialogTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0)) // เมื่อคลิกเมาส์ซ้าย
+        if (Input.GetMouseButtonDown(0) && DialogManager.isTypingFinished && canvasDialogBoxActive.activeSelf)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-            if (hit.collider == null && isDialogActive)
-            {
-                dialogManager.DisplayNextSentence();
-            }
+            dialogManager.DisplayNextSentence();
+        }  
+        else if (Input.GetMouseButtonDown(0) && !DialogManager.isTypingFinished && canvasDialogBoxActive.activeSelf)
+        {
+            DialogManager.isLeftClickedToSkip = true;
         }
     }
 }
