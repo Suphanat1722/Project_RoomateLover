@@ -36,6 +36,6 @@ public class DialogTrigger : MonoBehaviour
                 dialogManager.DisplayNextSentence();
                 Debug.Log("NextSentence");
             }
-        }       
+        }
     }
 }

@@ -83,14 +83,20 @@ public class DialogManager : MonoBehaviour
         StartCoroutine(TypeSentence(sentence));
     }
 
+    public static bool isTypingFinished;
+
     IEnumerator TypeSentence(string sentence)
     {
         dialogText.text = "";
+        isTypingFinished = false;
+
         foreach (char letter in sentence.ToCharArray())
         {
             dialogText.text += letter;
-            yield return new WaitForSeconds(0.05f); // ระยะเวลาระหว่างตัวอักษร
+            yield return new WaitForSeconds(0.05f); //ระยะเวลาระหว่างตัวอักษร
         }
+
+        isTypingFinished = true;
     }
 
     void EndDialog()
