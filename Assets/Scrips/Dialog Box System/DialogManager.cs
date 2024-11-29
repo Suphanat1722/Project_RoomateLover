@@ -102,6 +102,5 @@ public class DialogManager : MonoBehaviour
     void EndDialog()
     {
         FindFirstObjectByType<DialogTrigger>()?.EndDialogue();
-        Debug.Log("End");
     }
 }

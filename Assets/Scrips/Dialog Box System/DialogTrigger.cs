@@ -34,7 +34,6 @@ public class DialogTrigger : MonoBehaviour
             if (canvasDialogBoxActive.activeSelf)
             {
                 dialogManager.DisplayNextSentence();
-                Debug.Log("NextSentence");
             }
         }
     }

@@ -27,7 +27,6 @@ public class TriggerCharacter : MonoBehaviour
 
             if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Character"))
             {
-                Debug.Log("Click Nina");
                 dialogTrigger.TriggerDialog("นีน่า", "นีน่าในห้อง", ButtonInteractActive);
                 
                 NotActiveCharacter();
