@@ -68,7 +68,6 @@ public class CharacterManager : MonoBehaviour
     {
         menuInteractCharacter.SetActive(true);
         panelMenuButtonInteract.SetActive(true);
-        RandomCharacterInRoom();
     }
 
     /// <summary>
