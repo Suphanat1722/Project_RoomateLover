@@ -3,10 +3,11 @@ using UnityEngine.EventSystems;
 
 public class TriggerCharacter : MonoBehaviour
 {
-    [SerializeField] private DialogTrigger dialogTrigger;
-    [SerializeField] private GameObject canvasButtonInteract;
-    [SerializeField] private GameObject canvasDialogBoxActive;
-    [SerializeField] private GameObject[] characters;
+    [SerializeField] DialogTrigger dialogTrigger;
+    [SerializeField] GameObject menuInteractCharacter;
+    [SerializeField] GameObject panelMenuButtonInteract;
+    [SerializeField] GameObject canvasDialogBoxActive;
+    [SerializeField] GameObject[] characters;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class TriggerCharacter : MonoBehaviour
     {
         CilckCharacterInRoom();
 
-        if (canvasButtonInteract.activeSelf)
+        if (menuInteractCharacter.activeSelf)
         {
             NotActiveCharacter();
         }
@@ -38,20 +39,21 @@ public class TriggerCharacter : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(1)&& menuInteractCharacter.activeSelf)
         {
-            canvasButtonInteract.SetActive(false);
+            menuInteractCharacter.SetActive(false);
             RandomCharacterInRoomActive();
         }
     }
 
     void ButtonInteractActive()//เปิด ปุ่มที่กระทำกับตัวละคร
     {
-        canvasButtonInteract.SetActive(true);
+        menuInteractCharacter.SetActive(true);
+        panelMenuButtonInteract.SetActive(true);
         RandomCharacterInRoomActive();
     }
 
-    void RandomCharacterInRoomActive()
+    public void RandomCharacterInRoomActive()
     {
         int randomIndex = Random.Range(0, characters.Length);
         for (int i = 0; i < characters.Length; i++)
@@ -62,7 +64,7 @@ public class TriggerCharacter : MonoBehaviour
 
     void NotActiveCharacter()//ปิดตัวละครทั้งหมดในฉาก
     {
-        if (canvasButtonInteract.activeSelf || canvasDialogBoxActive.activeSelf)
+        if (menuInteractCharacter.activeSelf || canvasDialogBoxActive.activeSelf)
         {
             for (int i = 0; i < characters.Length; i++)
             {
