@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -47,7 +48,6 @@ public class CharacterManager : MonoBehaviour
 
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Character"))
                 {
-                    Debug.Log("นีน่า");
                     dialogTrigger.TriggerDialog("นีน่า", "นีน่าในห้อง", ActivateInteractMenu);
                     DisableAllCharacters();
                 }
@@ -76,6 +76,12 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     public void RandomCharacterInRoom()
     {
+        StartCoroutine(RandomCharacterWithDelay());
+    }
+    private IEnumerator RandomCharacterWithDelay()
+    {
+        yield return new WaitForSeconds(0.3f); // หน่วงเวลา 0.5 วินาที
+
         int randomIndex = Random.Range(0, characters.Length);
         for (int i = 0; i < characters.Length; i++)
         {
@@ -98,17 +104,6 @@ public class CharacterManager : MonoBehaviour
     }
 
     /// <summary>
-    /// พูดคุยกับตัวละคร
-    /// </summary>
-    public void ChatWithCharacter()
-    {
-        panelMenuButtonInteract.SetActive(false);
-        menuInteractCharacter.SetActive(false);
-
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกพูดคุย", ActivateTalkMenu);
-    }
-
-    /// <summary>
     /// เปิดเมนูพูดคุย
     /// </summary>
     private void ActivateTalkMenu()
@@ -118,8 +113,22 @@ public class CharacterManager : MonoBehaviour
     }
 
     /// <summary>
-    /// พูดคุยเรื่องทั่วไป
+    /// รีเซ็ตการตั้งค่าห้อง
     /// </summary>
+    private void ResetRoom()
+    {
+        RandomCharacterInRoom();
+    }
+
+    //------------------------------------------------ส่วนการกระทำต่างๆ ของปุ่ม----------------------------------
+
+    public void ChatWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกพูดคุย", ActivateTalkMenu);
+    }
     public void TalkNormally()
     {
         panelButtonTalk.SetActive(false);
@@ -127,12 +136,74 @@ public class CharacterManager : MonoBehaviour
 
         dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
     }
-
-    /// <summary>
-    /// รีเซ็ตการตั้งค่าห้อง
-    /// </summary>
-    private void ResetRoom()
+    public void TalkFunny()
     {
-        RandomCharacterInRoom();
+        panelButtonTalk.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องตลก", ResetRoom);
+    }
+    public void TalkDirty()
+    {
+        panelButtonTalk.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องลามก", ResetRoom);
+    }
+    public void TalkSerious()
+    {
+        panelButtonTalk.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องจริงจัง", ResetRoom);
+    }
+
+
+    public void DrinkWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเครื่องดื่ม", ResetRoom);
+    }
+
+    public void PlayGameWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเล่นเกม", ResetRoom);
+    }
+
+    public void WatchTvWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("ผู้เล่น", "เลือกดูTV", ResetRoom);
+    }
+
+    public void ShowerWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกอาบน้ำ", ResetRoom);
+    }
+
+    public void ShoppingWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกซื้อของออนไลน์", ResetRoom);
+    }
+
+    public void GoToBedWithCharacter()
+    {
+        panelMenuButtonInteract.SetActive(false);
+        menuInteractCharacter.SetActive(false);
+
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", ResetRoom);
     }
 }

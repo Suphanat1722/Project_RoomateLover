@@ -1376,7 +1376,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: ChatWithCharacter
+        m_MethodName: ShoppingWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2544,7 +2544,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: ChatWithCharacter
+        m_MethodName: ShowerWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2677,7 +2677,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: TalkNormally
+        m_MethodName: TalkSerious
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3551,7 +3551,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: ChatWithCharacter
+        m_MethodName: WatchTvWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3684,7 +3684,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: TalkNormally
+        m_MethodName: TalkFunny
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4713,7 +4713,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: TalkNormally
+        m_MethodName: TalkDirty
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4846,7 +4846,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: ChatWithCharacter
+        m_MethodName: DrinkWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5149,7 +5149,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: ChatWithCharacter
+        m_MethodName: GoToBedWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5282,7 +5282,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: ChatWithCharacter
+        m_MethodName: DrinkWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
