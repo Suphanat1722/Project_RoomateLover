@@ -264,8 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 107283681}
-  - component: {fileID: 107283682}
-  - component: {fileID: 107283683}
+  - component: {fileID: 107283684}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -292,7 +291,7 @@ Transform:
   - {fileID: 1780462324}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &107283682
+--- !u!114 &107283684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,30 +300,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 107283679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cecfcbeb13f601445bbae8635de757c3, type: 3}
+  m_Script: {fileID: 11500000, guid: e9b9aef35b83ec243b841422b5bb3d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogTrigger: {fileID: 863343098}
   menuInteractCharacter: {fileID: 1339646062}
   panelMenuButtonInteract: {fileID: 1724145217}
-  canvasDialogBoxActive: {fileID: 1915815402}
+  panelButtonTalk: {fileID: 692252632}
+  dialogBoxActive: {fileID: 1915815402}
   characters:
   - {fileID: 1339536262}
   - {fileID: 1424967232}
   - {fileID: 1144328680}
   - {fileID: 1780462323}
---- !u!114 &107283683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 107283679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a41bd06e13b12443ad7e4946f0c4ed9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &126923039
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,9 +609,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1386,9 +1374,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1954,9 +1942,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: TalkNomal
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: TalkNormally
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2554,9 +2542,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2687,9 +2675,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: TalkNomal
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: TalkNormally
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3561,9 +3549,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3694,9 +3682,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: TalkNomal
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: TalkNormally
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4024,7 +4012,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1339646063}
   m_Layer: 5
-  m_Name: ' Menu Interact Character'
+  m_Name: Dialog Box Active
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4550,7 +4538,6 @@ GameObject:
   - component: {fileID: 1613248776}
   - component: {fileID: 1613248775}
   - component: {fileID: 1613248774}
-  - component: {fileID: 1613248778}
   m_Layer: 5
   m_Name: Canvas Interact Character Button
   m_TagString: Untagged
@@ -4641,23 +4628,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1613248778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1613248773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9729d7f26a94ef43a17bc9d48e599b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogTrigger: {fileID: 863343098}
-  menuInteractCharacter: {fileID: 1339646062}
-  panelMenuButtonInteract: {fileID: 1724145217}
-  panelButtonTalk: {fileID: 692252632}
-  triggerCharacter: {fileID: 107283682}
 --- !u!1 &1634715528
 GameObject:
   m_ObjectHideFlags: 0
@@ -4741,9 +4711,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: TalkNomal
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: TalkNormally
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4874,9 +4844,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5177,9 +5147,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5310,9 +5280,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1613248778}
-        m_TargetAssemblyTypeName: ButtonInteractCharacter, Assembly-CSharp
-        m_MethodName: Chatting
+      - m_Target: {fileID: 107283684}
+        m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
+        m_MethodName: ChatWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

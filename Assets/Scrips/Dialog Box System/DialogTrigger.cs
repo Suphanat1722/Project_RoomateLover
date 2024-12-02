@@ -29,11 +29,11 @@ public class DialogTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && DialogManager.isTypingFinished && canvasDialogBoxActive.activeSelf)
+        if (Input.GetMouseButtonDown(0) && DialogManager. isTyping && canvasDialogBoxActive.activeSelf)
         {
             dialogManager.DisplayNextSentence();
         }  
-        else if (Input.GetMouseButtonDown(0) && !DialogManager.isTypingFinished && canvasDialogBoxActive.activeSelf)
+        else if (Input.GetMouseButtonDown(0) && !DialogManager. isTyping && canvasDialogBoxActive.activeSelf)
         {
             DialogManager.isLeftClickedToSkip = true;
         }
