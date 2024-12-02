@@ -4846,7 +4846,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 107283684}
         m_TargetAssemblyTypeName: CharacterManager, Assembly-CSharp
-        m_MethodName: DrinkWithCharacter
+        m_MethodName: PlayGameWithCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
