@@ -12,6 +12,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private GameObject panelButtonTalk;
     [SerializeField] private GameObject dialogBoxActive;
     [SerializeField] private GameObject ItemIventoryActive;
+    [SerializeField] private GameObject ItemGameIventoryActive;
 
     [Header("Character Settings")]
     [SerializeField] private GameObject[] characters;
@@ -55,10 +56,14 @@ public class CharacterManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(1) && (menuInteractCharacter.activeSelf || ItemIventoryActive.activeSelf)) // คลิกขวาเพื่อปิดเมนู
+        if (Input.GetMouseButtonUp(1) && (
+            menuInteractCharacter.activeSelf || 
+            ItemIventoryActive.activeSelf || 
+            ItemGameIventoryActive.activeSelf)) // คลิกขวาเพื่อปิดเมนู
         {
             menuInteractCharacter.SetActive(false);
             ItemIventoryActive.SetActive(false);
+            ItemGameIventoryActive.SetActive(false);
             RandomCharacterInRoom();
         }
     }
@@ -113,9 +118,14 @@ public class CharacterManager : MonoBehaviour
         menuInteractCharacter.SetActive(true);
     }
 
-    private void ActiveIteminventory()
+    private void ActiveItemInventory()
     {
         ItemIventoryActive.SetActive(true);
+    }
+
+    private void ActiveItemGameInventory()
+    {
+        ItemGameIventoryActive.SetActive(true);
     }
 
     /// <summary>
@@ -135,6 +145,9 @@ public class CharacterManager : MonoBehaviour
 
         dialogTrigger.TriggerDialog("นีน่า", "เลือกพูดคุย", ActivateTalkMenu);
     }
+    /// <summary>
+    /// ปุ่มแยกย่อยของ ChatWithCharacter()
+    /// </summary>
     public void TalkNormally()
     {
         panelButtonTalk.SetActive(false);
@@ -142,6 +155,9 @@ public class CharacterManager : MonoBehaviour
 
         dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
     }
+    /// <summary>
+    /// ปุ่มแยกย่อยของ ChatWithCharacter()
+    /// </summary>
     public void TalkFunny()
     {
         panelButtonTalk.SetActive(false);
@@ -149,6 +165,9 @@ public class CharacterManager : MonoBehaviour
 
         dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องตลก", ResetRoom);
     }
+    /// <summary>
+    /// ปุ่มแยกย่อยของ ChatWithCharacter()
+    /// </summary>
     public void TalkDirty()
     {
         panelButtonTalk.SetActive(false);
@@ -156,6 +175,9 @@ public class CharacterManager : MonoBehaviour
 
         dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องลามก", ResetRoom);
     }
+    /// <summary>
+    /// ปุ่มแยกย่อยของ ChatWithCharacter()
+    /// </summary>
     public void TalkSerious()
     {
         panelButtonTalk.SetActive(false);
@@ -170,7 +192,7 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกเครื่องดื่ม", ActiveIteminventory);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเครื่องดื่ม", ActiveItemInventory);
     }
 
     public void PlayGameWithCharacter()
@@ -178,7 +200,7 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกเล่นเกม", ResetRoom);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเล่นเกม", ActiveItemGameInventory);
     }
 
     public void WatchTvWithCharacter()
