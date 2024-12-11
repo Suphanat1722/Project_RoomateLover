@@ -11,6 +11,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private GameObject panelMenuButtonInteract;
     [SerializeField] private GameObject panelButtonTalk;
     [SerializeField] private GameObject dialogBoxActive;
+    [SerializeField] private GameObject ItemIventoryActive;
 
     [Header("Character Settings")]
     [SerializeField] private GameObject[] characters;
@@ -54,9 +55,10 @@ public class CharacterManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(1) && menuInteractCharacter.activeSelf) // คลิกขวาเพื่อปิดเมนู
+        if (Input.GetMouseButtonUp(1) && (menuInteractCharacter.activeSelf || ItemIventoryActive.activeSelf)) // คลิกขวาเพื่อปิดเมนู
         {
             menuInteractCharacter.SetActive(false);
+            ItemIventoryActive.SetActive(false);
             RandomCharacterInRoom();
         }
     }
@@ -111,6 +113,11 @@ public class CharacterManager : MonoBehaviour
         menuInteractCharacter.SetActive(true);
     }
 
+    private void ActiveIteminventory()
+    {
+        ItemIventoryActive.SetActive(true);
+    }
+
     /// <summary>
     /// รีเซ็ตการตั้งค่าห้อง
     /// </summary>
@@ -163,7 +170,7 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกเครื่องดื่ม", ResetRoom);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเครื่องดื่ม", ActiveIteminventory);
     }
 
     public void PlayGameWithCharacter()
