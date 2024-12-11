@@ -83,13 +83,13 @@ public class DialogManager : MonoBehaviour
         StartCoroutine(TypeSentence(sentence));
     }
 
-    public static bool isTypingFinished;
+    public static bool isTyping;
     public static bool isLeftClickedToSkip;
 
     IEnumerator TypeSentence(string sentence)
     {
         dialogText.text = "";
-        isTypingFinished = false;
+        isTyping = false;
         isLeftClickedToSkip = false; // รีเซ็ตค่าเมื่อเริ่มแสดงข้อความใหม่
 
         foreach (char letter in sentence.ToCharArray())
@@ -104,7 +104,7 @@ public class DialogManager : MonoBehaviour
             yield return new WaitForSeconds(0.05f); //ระยะเวลาระหว่างตัวอักษร
         }
 
-        isTypingFinished = true;
+        isTyping = true;
     }
 
     void EndDialog()
