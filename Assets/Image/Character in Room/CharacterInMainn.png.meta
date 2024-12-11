@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: e013d617f513311448e897d7ced390d6
+guid: 7a18d2cd6532fdc4d85a87fe3f61ec79
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4925706274733741374
-    second: BackgroundRoom_0
+      213: -3743558862496004775
+    second: CharacterInMainn_0
+  - first:
+      213: -5267231408892802222
+    second: CharacterInMainn_1
+  - first:
+      213: 8291106136563742556
+    second: CharacterInMainn_2
+  - first:
+      213: -7794527532047088996
+    second: CharacterInMainn_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BackgroundRoom_0
+      name: CharacterInMainn_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1920
-        height: 1080
+        x: 99
+        y: 712
+        width: 232
+        height: 316
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2ca259a9d3064abb0800000000000000
-      internalID: -4925706274733741374
+      spriteID: 9158e0a6f68b837459d5d6cdefa2ee78
+      internalID: 1619958453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterInMainn_1
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 783
+        width: 371
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e3c0b61fd1d7e542b77dea52482134e
+      internalID: 1251300891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterInMainn_2
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 744
+        width: 152
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8cc563c5e725584d85ee47d577c930f
+      internalID: -1612636970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterInMainn_3
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 735
+        width: 179
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12078769f8a572b409173b2af08edeca
+      internalID: -1964110675
       vertices: []
       indices: 
       edges: []
@@ -125,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4485b427856b46b49867cafdc4ba3d93
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BackgroundRoom_0: -4925706274733741374
+      CharacterInMainn_0: 1619958453
+      CharacterInMainn_1: 1251300891
+      CharacterInMainn_2: -1612636970
+      CharacterInMainn_3: -1964110675
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
