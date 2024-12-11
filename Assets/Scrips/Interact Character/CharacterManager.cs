@@ -13,6 +13,8 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private GameObject dialogBoxActive;
     [SerializeField] private GameObject ItemIventoryActive;
     [SerializeField] private GameObject ItemGameIventoryActive;
+    [SerializeField] private GameObject ShowerOptionsActive;
+    [SerializeField] private GameObject ShoppingActive;
 
     [Header("Character Settings")]
     [SerializeField] private GameObject[] characters;
@@ -59,11 +61,16 @@ public class CharacterManager : MonoBehaviour
         if (Input.GetMouseButtonUp(1) && (
             menuInteractCharacter.activeSelf || 
             ItemIventoryActive.activeSelf || 
-            ItemGameIventoryActive.activeSelf)) // คลิกขวาเพื่อปิดเมนู
+            ItemGameIventoryActive.activeSelf ||
+            ShowerOptionsActive.activeSelf ||
+            ShoppingActive.activeSelf
+            )) // คลิกขวาเพื่อปิดเมนู
         {
             menuInteractCharacter.SetActive(false);
             ItemIventoryActive.SetActive(false);
             ItemGameIventoryActive.SetActive(false);
+            ShowerOptionsActive.SetActive(false);
+            ShoppingActive.SetActive(false);
             RandomCharacterInRoom();
         }
     }
@@ -127,6 +134,17 @@ public class CharacterManager : MonoBehaviour
     {
         ItemGameIventoryActive.SetActive(true);
     }
+
+    private void ActiveButtonShowerOptions()
+    {
+        ShowerOptionsActive.SetActive(true);
+    }
+
+    private void ActiveButtonShopping()
+    {
+        ShoppingActive.SetActive(true);
+    }
+
 
     /// <summary>
     /// รีเซ็ตการตั้งค่าห้อง
@@ -216,7 +234,7 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกอาบน้ำ", ResetRoom);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกอาบน้ำ", ActiveButtonShowerOptions);
     }
 
     public void ShoppingWithCharacter()
@@ -224,7 +242,7 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกซื้อของออนไลน์", ResetRoom);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกซื้อของออนไลน์", ActiveButtonShopping);
     }
 
     public void GoToBedWithCharacter()
