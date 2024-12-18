@@ -8642,6 +8642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionPointText: {fileID: 1758845390}
+  sexualPointText: {fileID: 277321398}
   moneyText: {fileID: 76205742}
 --- !u!114 &1283497548
 MonoBehaviour:
