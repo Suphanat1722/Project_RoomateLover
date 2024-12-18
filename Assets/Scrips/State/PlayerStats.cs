@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int actionPoint { get; private set; }
-    public int money { get; private set; }
-    public int sexualPoint { get; private set; }
+    public int actionPoint { get;  set; }
+    public int money { get;  set; }
+    public int sexualPoint { get;  set; }
 
     public PlayerStats(int energy,int sexual, int money)
     {
