@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 76205743}
   - component: {fileID: 76205742}
   m_Layer: 5
-  m_Name: Text Amount
+  m_Name: label Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1723,7 +1723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 306439082}
   m_Layer: 5
-  m_Name: Amount
+  m_Name: Monny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3909,7 +3909,7 @@ GameObject:
   - component: {fileID: 658221884}
   - component: {fileID: 658221883}
   m_Layer: 5
-  m_Name: label Amount
+  m_Name: Text Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8641,6 +8641,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e5e83326425a134e8942bbb47c4f296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionPointText: {fileID: 1758845390}
+  moneyText: {fileID: 76205742}
 --- !u!114 &1283497548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8654,7 +8656,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeText: {fileID: 915013447}
-  energyText: {fileID: 1758845390}
 --- !u!4 &1283497549
 Transform:
   m_ObjectHideFlags: 0

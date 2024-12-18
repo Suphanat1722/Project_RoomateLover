@@ -25,24 +25,13 @@ public class GameTime : MonoBehaviour
         }
     }
 
-    /* วิธีเรียกใช้
-        GameTime gameTime = new GameTime(8, 0, 1, 1, 2024);
-        gameTime.AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
-        Debug.Log($"Time: {gameTime.Hour}:{gameTime.Minute}, Day: {gameTime.Day}");
-    */
-
-
     public TextMeshProUGUI timeText;
-    public TextMeshProUGUI energyText;
 
     private void Start()
     {
         // ตั้งค่าเวลาเริ่มต้น
         Hour = 8;
-        Minute = 0;
-
-        // อัปเดต UI เริ่มต้น
-        UpdateTimeUI();
+        Minute = 0;     
     }
 
     private void Update()
@@ -50,10 +39,8 @@ public class GameTime : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
-            UpdateTimeUI(); // อัปเดตเวลาใน UI
         }
-
-
+        UpdateTimeUI();
     }
 
     private void UpdateTimeUI()
