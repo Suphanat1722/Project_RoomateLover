@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    public int actionPoint { get;  set; }
-    public int money { get;  set; }
-    public int sexualPoint { get;  set; }
+    public int actionPoint { get; private set; }
+    public int sexualPoint { get; private set; }
+    public int money { get; private set; }
 
-    public PlayerStats(int energy,int sexual, int money)
+    public PlayerStats(int energy, int sexual, int money)
     {
         actionPoint = energy;
         sexualPoint = sexual;
@@ -37,6 +37,11 @@ public class PlayerStats : MonoBehaviour
     public void AddMoney(int amount) => money += amount;
     public void DeductMoney(int amount) => money = Mathf.Max(0, money - amount);
 
+    // ฟังก์ชันสำหรับตั้งค่าคุณสมบัติ
+    public void SetActionPoint(int value) => actionPoint = value;
+    public void SetSexualPoint(int value) => sexualPoint = value;
+    public void SetMoney(int value) => money = value;
+
     public TextMeshProUGUI actionPointText;
     public TextMeshProUGUI sexualPointText;
     public TextMeshProUGUI moneyText;
@@ -65,5 +70,5 @@ public class PlayerStats : MonoBehaviour
         sexualPointText.text = $"{sexualPoint}";
         moneyText.text = $"{money}";
     }
-    
+
 }
