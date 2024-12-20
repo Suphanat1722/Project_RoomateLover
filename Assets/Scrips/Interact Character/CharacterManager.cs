@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -39,13 +40,19 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     private void HandleCharacterInteraction()
     {
-        if (Input.GetMouseButtonUp(0)) // คลิกซ้าย
+        if (Input.GetMouseButtonUp(0))
         {
-            if (DialogManager.isTyping && menuInteractCharacter.activeSelf && dialogBoxActive.activeSelf) // ถ้ากำลังพิมพ์ ให้ข้ามไปแสดงประโยคทั้งหมด
+            // ตรวจสอบว่ามีการคลิก UI ก่อนหรือไม่
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return; // ถ้าคลิก UI ไม่ต้องทำอะไร
+            }
+
+            if (DialogManager.isTyping && menuInteractCharacter.activeSelf && dialogBoxActive.activeSelf)
             {
                 DialogManager.isLeftClickedToSkip = true;
             }
-            else // ถ้าไม่กำลังพิมพ์ ให้เริ่มการสนทนา
+            else
             {
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -112,6 +119,16 @@ public class CharacterManager : MonoBehaviour
             foreach (var character in characters)
             {
                 character.SetActive(false);
+            }
+        }
+
+        // ปิด Collider เมื่อ UI เปิด
+        foreach (var character in characters)
+        {
+            Collider2D collider = character.GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                collider.enabled = !menuInteractCharacter.activeSelf;
             }
         }
     }
