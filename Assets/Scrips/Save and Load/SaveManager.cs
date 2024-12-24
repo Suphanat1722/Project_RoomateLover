@@ -68,6 +68,7 @@ public class SaveManager : MonoBehaviour
             playerStats.SetActionPoint(saveData.actionPoint);
             playerStats.SetSexualPoint(saveData.sexualPoint);
             playerStats.SetMoney(saveData.money);
+            playerStats.UpdateStateUI();          
         }
         else
         {
@@ -84,7 +85,7 @@ public class SaveManager : MonoBehaviour
     }
 
     public void OnLoadedSlotClicked(int slotID)
-    {
+    { 
         LoadGame(gameTime, playerStats, slotID);
         DeactivateUiLoad();
         Debug.Log($"Loaded to Slot {slotID}");
