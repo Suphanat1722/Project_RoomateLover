@@ -19,8 +19,10 @@ public class PlayerStats : MonoBehaviour
         if (actionPoint >= amount)
         {
             actionPoint -= amount;
+            UpdateStateUI();
             return true; // ใช้พลังงานสำเร็จ
         }
+        UpdateStateUI();
         return false; // พลังงานไม่พอ
     }
 
@@ -29,8 +31,10 @@ public class PlayerStats : MonoBehaviour
         if (sexualPoint >= amount)
         {
             sexualPoint -= amount;
+            UpdateStateUI();
             return true; // ใช้พลังงานสำเร็จ
         }
+        UpdateStateUI();
         return false; // พลังงานไม่พอ
     }
 
@@ -61,10 +65,10 @@ public class PlayerStats : MonoBehaviour
             UseActionPoint(10);
             UseSexualPoint(1);
         }
-        UpdateStateUI();
+        
     }
 
-    void UpdateStateUI()
+    public void UpdateStateUI()
     {
         actionPointText.text = $"{actionPoint}";
         sexualPointText.text = $"{sexualPoint}";
