@@ -112,7 +112,13 @@
             "sentences": [
                 "ฉันง่วงแล้วสิ เราไปเข้านอนกันเถอะ"
             ]
-        }
-        
+        },
+        {
+            "characterName": "test",
+            "title": "test",
+            "sentences": [
+                "test ระบบ"
+            ]
+        }    
     ]
 }
