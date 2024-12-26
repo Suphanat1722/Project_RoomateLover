@@ -9,6 +9,9 @@ public class DialogTrigger : MonoBehaviour
     DialogManager dialogManager; 
     Action onDialogEnded;
 
+    // เพิ่ม Event สำหรับแจ้งเตือนเมื่อไดอะล็อกจบลง
+    public event Action OnDialogEndedEvent;
+
     public void TriggerDialog(string characterName, string titleName, Action onDialogEnd)
     {
         canvasDialogBoxActive.SetActive(true);
@@ -20,6 +23,7 @@ public class DialogTrigger : MonoBehaviour
     {
         canvasDialogBoxActive.SetActive(false);
         onDialogEnded?.Invoke();
+        OnDialogEndedEvent?.Invoke(); // แจ้งเตือนว่าไดอะล็อกจบลงแล้ว
     }
 
     void Start()

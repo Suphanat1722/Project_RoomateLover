@@ -30,7 +30,7 @@ public class GameTime : MonoBehaviour
     private void Start()
     {
         // ตั้งค่าเวลาเริ่มต้น
-        Hour = 8;
+        Hour = 19;
         Minute = 0;     
     }
 
@@ -42,16 +42,15 @@ public class GameTime : MonoBehaviour
         }
         UpdateTimeUI();
     }
+    public bool IsAfterMidnight()
+    {
+        return Hour >= 0 && Hour <= 7;
+    }
 
     private void UpdateTimeUI()
     {
-        // แปลงเวลาเป็นระบบ 12 ชั่วโมง
-        string period = Hour >= 12 ? "pm" : "am";
-        int displayHour = Hour % 12;
-        if (displayHour == 0) displayHour = 12; // แก้ไข 0 ให้เป็น 12
-
-        // อัปเดตข้อความแสดงผล
-        timeText.text = $"{displayHour:00}:{Minute:00} {period}";
+        // แสดงเวลาในรูปแบบ 24 ชั่วโมง
+        timeText.text = $"{Hour:00}:{Minute:00}";
     }
 
 }

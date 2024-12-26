@@ -7,6 +7,7 @@ public class PlayerStats : MonoBehaviour
     public int sexualPoint { get; private set; }
     public int money { get; private set; }
 
+
     public PlayerStats(int energy, int sexual, int money)
     {
         actionPoint = energy;
@@ -52,9 +53,9 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-        actionPoint = 25;
-        sexualPoint = 3;
-        money = 3000;
+        actionPoint = 50;
+        sexualPoint = 2;
+        money = 5000;
     }
 
     private void Update()
@@ -70,8 +71,8 @@ public class PlayerStats : MonoBehaviour
 
     public void UpdateStateUI()
     {
-        actionPointText.text = $"{actionPoint}";
-        sexualPointText.text = $"{sexualPoint}";
+        actionPointText.text = $"{actionPoint}/50";
+        sexualPointText.text = $"{sexualPoint}/2";
         moneyText.text = $"{money}";
     }
 

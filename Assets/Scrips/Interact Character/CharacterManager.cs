@@ -6,6 +6,12 @@ public class CharacterManager : MonoBehaviour
 {
     [Header("Dialog Settings")]
     [SerializeField] private DialogTrigger dialogTrigger;
+    [Header("PlayerStats Settings")]
+    [SerializeField] private PlayerStats playerStats;
+    [Header("GameTime Settings")]
+    [SerializeField] private GameTime gameTime;
+    [Header("SceneController Settings")]
+    [SerializeField] private SceneController sceneController;
 
     [Header("UI Elements")]
     [SerializeField] private GameObject menuInteractCharacter;
@@ -20,9 +26,18 @@ public class CharacterManager : MonoBehaviour
     [Header("Character Settings")]
     [SerializeField] private GameObject[] characters;
 
+    private bool isDialogEnded = false;
+
     private void Start()
     {
         RandomCharacterInRoom();
+        // สมัครสมาชิกกับ Event
+        dialogTrigger.OnDialogEndedEvent += HandleDialogEnded;
+    }
+    private void OnDestroy()
+    {
+        // ยกเลิกการสมัครสมาชิกเมื่อ Destroy
+        dialogTrigger.OnDialogEndedEvent -= HandleDialogEnded;
     }
 
     private void Update()
@@ -34,7 +49,21 @@ public class CharacterManager : MonoBehaviour
         {
             DisableAllCharacters();
         }
+        // เปลี่ยนฉากเมื่อเกินเที่ยงคืนและไดอะล็อกจบลงแล้ว
+        if (gameTime.IsAfterMidnight() && isDialogEnded)
+        {
+            dialogTrigger.TriggerDialog("test", "test", ()=>IntoNighScene(2));
+            
+            isDialogEnded = false; // รีเซ็ตสถานะ
+        }
+
     }
+    private void HandleDialogEnded()
+    {
+        Debug.Log("ไดอะล็อกสิ้นสุด");
+        isDialogEnded = true;
+    }
+
     /// <summary>
     /// ตรวจจับการคลิกตัวละครในฉาก และเปิดการโต้ตอบ
     /// </summary>
@@ -121,18 +150,22 @@ public class CharacterManager : MonoBehaviour
                 character.SetActive(false);
             }
         }
+    }
 
-        // ปิด Collider เมื่อ UI เปิด
+    /// <summary>
+    /// เช็คว่าเปิดเมนูหรือ UI อะไรอยู่ไหม (ไม่ได้ใช้งาน)
+    /// </summary>
+    public void ToggleCharacterInteraction(bool isMenuOpen)
+    {
         foreach (var character in characters)
         {
             Collider2D collider = character.GetComponent<Collider2D>();
             if (collider != null)
             {
-                collider.enabled = !menuInteractCharacter.activeSelf;
+                collider.enabled = !isMenuOpen && character.activeSelf;
             }
         }
     }
-
     /// <summary>
     /// เปิดเมนูพูดคุย
     /// </summary>
@@ -171,6 +204,13 @@ public class CharacterManager : MonoBehaviour
         RandomCharacterInRoom();
     }
 
+    /// <summary>
+    /// เปลี่ยนฉากเข้าช่วงกลางคืน
+    /// </summary>
+    private void IntoNighScene(int sceneIndex)
+    {
+        sceneController.LoadSceneByIndex(sceneIndex);
+    }
     //------------------------------------------------ส่วนการกระทำต่างๆ ของปุ่ม----------------------------------
 
     public void ChatWithCharacter()
@@ -185,40 +225,88 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     public void TalkNormally()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
+            playerStats.UseActionPoint(20);
+            gameTime.AddTime(5,30);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
     }
     /// <summary>
     /// ปุ่มแยกย่อยของ ChatWithCharacter()
     /// </summary>
     public void TalkFunny()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องตลก", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องตลก", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
+        
     }
     /// <summary>
     /// ปุ่มแยกย่อยของ ChatWithCharacter()
     /// </summary>
     public void TalkDirty()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องลามก", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องลามก", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
+
     }
     /// <summary>
     /// ปุ่มแยกย่อยของ ChatWithCharacter()
     /// </summary>
     public void TalkSerious()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องจริงจัง", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องจริงจัง", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
+
     }
 
 
@@ -240,10 +328,21 @@ public class CharacterManager : MonoBehaviour
 
     public void WatchTvWithCharacter()
     {
-        panelMenuButtonInteract.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelMenuButtonInteract.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "เลือกดูTV", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "เลือกดูTV", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
     }
 
     public void ShowerWithCharacter()
