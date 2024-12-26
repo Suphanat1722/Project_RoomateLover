@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      shower backglound_0: 3293333651291414532
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
