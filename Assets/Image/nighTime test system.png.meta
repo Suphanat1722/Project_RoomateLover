@@ -1,0 +1,507 @@
+fileFormatVersion: 2
+guid: 988c154376809b3408884850d9bf58aa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7635065245511553358
+    second: nighTime test system_0
+  - first:
+      213: -8804390448174509656
+    second: nighTime test system_1
+  - first:
+      213: 6208155872210309091
+    second: nighTime test system_2
+  - first:
+      213: -2502610088068319678
+    second: nighTime test system_3
+  - first:
+      213: -9176162386470540055
+    second: nighTime test system_4
+  - first:
+      213: -1031561164885490166
+    second: nighTime test system_5
+  - first:
+      213: 6676519341508829130
+    second: nighTime test system_6
+  - first:
+      213: -8379708453399242156
+    second: nighTime test system_7
+  - first:
+      213: 7532992807438738206
+    second: nighTime test system_8
+  - first:
+      213: 2394772990475017486
+    second: nighTime test system_9
+  - first:
+      213: 7199677390075340456
+    second: nighTime test system_10
+  - first:
+      213: 8536506525743079863
+    second: nighTime test system_11
+  - first:
+      213: -803543279579124588
+    second: nighTime test system_12
+  - first:
+      213: 3468203678975107437
+    second: nighTime test system_13
+  - first:
+      213: -5126917528354491564
+    second: nighTime test system_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 50
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nighTime test system_0
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 429
+        width: 640
+        height: 618
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4195a3736335f960800000000000000
+      internalID: 7635065245511553358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_1
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 289
+        width: 310
+        height: 762
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a157b8f88580d580800000000000000
+      internalID: -8804390448174509656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_2
+      rect:
+        serializedVersion: 2
+        x: 1049
+        y: 1018
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3efc951afdcc72650800000000000000
+      internalID: 6208155872210309091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_3
+      rect:
+        serializedVersion: 2
+        x: 1086
+        y: 1029
+        width: 34
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 246f0616261f44dd0800000000000000
+      internalID: -2502610088068319678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_4
+      rect:
+        serializedVersion: 2
+        x: 1049
+        y: 983
+        width: 36
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ec6f194de8b7a080800000000000000
+      internalID: -9176162386470540055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_5
+      rect:
+        serializedVersion: 2
+        x: 1093
+        y: 1012
+        width: 24
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0689e206982fa1f0800000000000000
+      internalID: -1031561164885490166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_6
+      rect:
+        serializedVersion: 2
+        x: 1095
+        y: 1009
+        width: 32
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acf98a6a7f2c7ac50800000000000000
+      internalID: 6676519341508829130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_7
+      rect:
+        serializedVersion: 2
+        x: 1043
+        y: 671
+        width: 144
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45adcc92f8b45bb80800000000000000
+      internalID: -8379708453399242156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_8
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 701
+        width: 126
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1365fefb019a8860800000000000000
+      internalID: 7532992807438738206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_9
+      rect:
+        serializedVersion: 2
+        x: 1388
+        y: 671
+        width: 296
+        height: 276
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0d96f6c851fb3120800000000000000
+      internalID: 2394772990475017486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_10
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 517
+        width: 191
+        height: 114
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a62ad4d0746ae360800000000000000
+      internalID: 7199677390075340456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_11
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 523
+        width: 190
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b168b1f473c77670800000000000000
+      internalID: 8536506525743079863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_12
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 165
+        width: 303
+        height: 283
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49ca80305ad39d4f0800000000000000
+      internalID: -803543279579124588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_13
+      rect:
+        serializedVersion: 2
+        x: 1416
+        y: 171
+        width: 147
+        height: 285
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d61a306eed8812030800000000000000
+      internalID: 3468203678975107437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nighTime test system_14
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 202
+        width: 130
+        height: 254
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 453f4b9eba789d8b0800000000000000
+      internalID: -5126917528354491564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nighTime test system_0: 7635065245511553358
+      nighTime test system_1: -8804390448174509656
+      nighTime test system_10: 7199677390075340456
+      nighTime test system_11: 8536506525743079863
+      nighTime test system_12: -803543279579124588
+      nighTime test system_13: 3468203678975107437
+      nighTime test system_14: -5126917528354491564
+      nighTime test system_2: 6208155872210309091
+      nighTime test system_3: -2502610088068319678
+      nighTime test system_4: -9176162386470540055
+      nighTime test system_5: -1031561164885490166
+      nighTime test system_6: 6676519341508829130
+      nighTime test system_7: -8379708453399242156
+      nighTime test system_8: 7532992807438738206
+      nighTime test system_9: 2394772990475017486
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
