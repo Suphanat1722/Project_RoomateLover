@@ -2,18 +2,18 @@
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
-public class NighTimeMainGame : MonoBehaviour
+public class NighttimeMainGame : MonoBehaviour
 {
     #region Fields and Variables
 
     [Header("Character Components")]
     public GameObject shirt;
     public GameObject shorts;
-    public GameObject shirtHighlight;
-    public GameObject shortsHighlight;
-    public GameObject shirtButton;
-    public GameObject shortsButton;
-    public GameObject underwearButton;
+    public GameObject underwear;
+    public GameObject bodyUpper;
+    public GameObject bodyUnder;
+    public GameObject bodyUpperButton;
+    public GameObject bodyUnderButton;
 
     private int moodCharacter; // Range: -30 to 30
     private int shirtLevel;
@@ -30,7 +30,6 @@ public class NighTimeMainGame : MonoBehaviour
 
     private void Update()
     {
-
         HandleMoodStatus();
         HandleMouseInput();
         UpdateClothingHighlights();
@@ -70,29 +69,23 @@ public class NighTimeMainGame : MonoBehaviour
     {
 
         // Reset all buttons to inactive
-        shirtButton.SetActive(false);
-        shortsButton.SetActive(false);
-        underwearButton.SetActive(false);
+        bodyUpperButton.SetActive(false);
+        bodyUnderButton.SetActive(false);
 
         // Activate the appropriate button based on the current layer
         switch (currentLayerName)
         {
-            case "Shirt":
-                shirtButton.SetActive(true);
+            case "Body Upper":
+                bodyUpperButton.SetActive(true);
                 break;
 
-            case "Shorts":
-                shortsButton.SetActive(true);
-                break;
-
-            case "Underwear":
-                underwearButton.SetActive(true);               
+            case "Body Under":
+                bodyUnderButton.SetActive(true);
                 break;
 
             case "cancel":
-                shirtButton.SetActive(false);
-                shortsButton.SetActive(false);
-                underwearButton.SetActive(false);
+                bodyUpperButton.SetActive(false);
+                bodyUnderButton.SetActive(false);
                 break;
 
             default:
@@ -110,19 +103,19 @@ public class NighTimeMainGame : MonoBehaviour
         {
             highlightLayerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
 
-            if (highlightLayerName == "Shirt")
+            if (highlightLayerName == "Body Upper")
             {
-                shirtHighlight.SetActive(true);
+                ToggleBodyUpperSprite(bodyUpper,true);
             }
-            else if (highlightLayerName == "Shorts")
+            else if (highlightLayerName == "Body Under")
             {
-                shortsHighlight.SetActive(true);
+                ToggleBodyUpperSprite(bodyUnder, true);
             }
         }
         else
         {
-            shirtHighlight.SetActive(false);
-            shortsHighlight.SetActive(false);
+            ToggleBodyUpperSprite(bodyUpper, false);
+            ToggleBodyUpperSprite(bodyUnder, false);
         }
     }
 
@@ -134,11 +127,11 @@ public class NighTimeMainGame : MonoBehaviour
     {
         moodCharacter -= 10;
 
-        if (currentLayerName == "Shirt")
-        {
-            shirtLevel++;
+        if (currentLayerName == "Body Upper")
+        {          
+            shirtLevel++;          
         }
-        else if (currentLayerName == "Shorts")
+        else if (currentLayerName == "Body Under")
         {
             shortsLevel++;
         }
@@ -146,11 +139,11 @@ public class NighTimeMainGame : MonoBehaviour
 
     public void DressClothes()
     {
-        if (currentLayerName == "Shirt")
+        if (currentLayerName == "Body Upper")
         {
             shirtLevel--;
         }
-        else if (currentLayerName == "Shorts")
+        else if (currentLayerName == "Body Under")
         {
             shortsLevel--;
         }
@@ -158,8 +151,29 @@ public class NighTimeMainGame : MonoBehaviour
 
     private void CheckClothingLevels()
     {
+        // Clamp shirtLevel and shortsLevel to valid range
+        shirtLevel = Mathf.Clamp(shirtLevel, 0, 3);
+        shortsLevel = Mathf.Clamp(shortsLevel, 0, 6);
+
+        // Update shirt visibility based on shirtLevel
         shirt.SetActive(shirtLevel < 3);
-        shorts.SetActive(shortsLevel < 3);
+
+        // Update shorts and underwear visibility based on shortsLevel
+        if (shortsLevel >= 6)
+        {
+            shorts.SetActive(false);
+            underwear.SetActive(false);
+        }
+        else if (shortsLevel >= 3)
+        {
+            shorts.SetActive(false);
+            underwear.SetActive(true);
+        }
+        else
+        {
+            shorts.SetActive(true);
+            underwear.SetActive(true);
+        }
     }
 
     public void TouchCharacter()
@@ -188,6 +202,23 @@ public class NighTimeMainGame : MonoBehaviour
     }
 
     #endregion
+
+
+    public void ToggleBodyUpperSprite(GameObject gameObj, bool isVisible)
+    {
+        // เข้าถึง SpriteRenderer ของ bodyUpper
+        SpriteRenderer spriteRenderer = gameObj.GetComponent<SpriteRenderer>();
+
+        // ตรวจสอบว่ามี SpriteRenderer หรือไม่
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = isVisible; // true เพื่อเปิด, false เพื่อปิด
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer not found on bodyUpper!");
+        }
+    }
 
     #region Debugging
 
