@@ -6,10 +6,15 @@ public class ButtonNighttimeController : MonoBehaviour
     public GameObject shirt;
     public GameObject shorts;
     public GameObject underwear;
-    public GameObject bodyUpper;
-    public GameObject bodyUnder;
+
+    public GameObject bodyUpperWearShirtCollider;
+    public GameObject bodyUpperNotWearShirtCollider;
+    public GameObject bodyUnderCollider;
+    public GameObject breastCollider;
+
     public GameObject bodyUpperButton;
     public GameObject bodyUnderButton;
+    public GameObject breastButton;
 
     private int shirtLevel;
     private int shortsLevel;
@@ -22,7 +27,7 @@ public class ButtonNighttimeController : MonoBehaviour
     private void Update()
     {
         HandleMouseInput();
-        UpdateClothingHighlights();
+        HoverClothingShowUiButton();
         CheckClothingLevels();
     }
 
@@ -59,6 +64,7 @@ public class ButtonNighttimeController : MonoBehaviour
         // Reset all buttons to inactive
         bodyUpperButton.SetActive(false);
         bodyUnderButton.SetActive(false);
+        breastButton.SetActive(false);
 
         // Activate the appropriate button based on the current layer
         switch (currentLayerName)
@@ -71,9 +77,14 @@ public class ButtonNighttimeController : MonoBehaviour
                 bodyUnderButton.SetActive(true);
                 break;
 
+            case "Breast":
+                breastButton.SetActive(true);
+                break;
+
             case "cancel":
                 bodyUpperButton.SetActive(false);
                 bodyUnderButton.SetActive(false);
+                breastButton.SetActive(false);
                 break;
 
             default:
@@ -82,7 +93,7 @@ public class ButtonNighttimeController : MonoBehaviour
         }
     }
 
-    private void UpdateClothingHighlights()
+    private void HoverClothingShowUiButton()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -93,17 +104,30 @@ public class ButtonNighttimeController : MonoBehaviour
 
             if (highlightLayerName == "Body Upper")
             {
-                ToggleBodyUpperSprite(bodyUpper, true);
+                if (!bodyUpperNotWearShirtCollider.activeSelf)
+                {
+                    ToggleSprite(bodyUpperWearShirtCollider, true);
+                }
+                else
+                {
+                    ToggleSprite(bodyUpperNotWearShirtCollider, true);
+                }              
             }
             else if (highlightLayerName == "Body Under")
             {
-                ToggleBodyUpperSprite(bodyUnder, true);
+                ToggleSprite(bodyUnderCollider, true);
+            }
+            else if (highlightLayerName == "Breast")
+            {
+                ToggleSprite(breastCollider, true);
             }
         }
         else
         {
-            ToggleBodyUpperSprite(bodyUpper, false);
-            ToggleBodyUpperSprite(bodyUnder, false);
+            ToggleSprite(bodyUpperWearShirtCollider, false);
+            ToggleSprite(bodyUpperNotWearShirtCollider, false);
+            ToggleSprite(bodyUnderCollider, false);
+            ToggleSprite(breastCollider, false);
         }
     }
 
@@ -114,7 +138,6 @@ public class ButtonNighttimeController : MonoBehaviour
     {
         if (currentLayerName == "Body Upper")
         {
-            Debug.Log(shirtLevel);
             shirtLevel++;
         }
         else if (currentLayerName == "Body Under")
@@ -137,14 +160,24 @@ public class ButtonNighttimeController : MonoBehaviour
 
     private void CheckClothingLevels()
     {
-        // Clamp shirtLevel and shortsLevel to valid range
         shirtLevel = Mathf.Clamp(shirtLevel, 0, 3);
         shortsLevel = Mathf.Clamp(shortsLevel, 0, 6);
 
-        // Update shirt visibility based on shirtLevel
-        shirt.SetActive(shirtLevel < 3);
+        if (shirtLevel == 3)
+        {
+            shirt.SetActive(false);
+            bodyUpperNotWearShirtCollider.SetActive(true);
+            bodyUpperWearShirtCollider.SetActive(false);
+            breastCollider.SetActive(true);
+        }
+        else
+        {
+            shirt.SetActive(true);
+            bodyUpperNotWearShirtCollider.SetActive(false);
+            bodyUpperWearShirtCollider.SetActive(true);
+            breastCollider.SetActive(false);
+        }
 
-        // Update shorts and underwear visibility based on shortsLevel
         if (shortsLevel >= 6)
         {
             shorts.SetActive(false);
@@ -164,9 +197,8 @@ public class ButtonNighttimeController : MonoBehaviour
 
     #endregion
 
-    public void ToggleBodyUpperSprite(GameObject gameObj, bool isVisible)
+    public void ToggleSprite(GameObject gameObj, bool isVisible)
     {
-        // เข้าถึง SpriteRenderer ของ bodyUpper
         SpriteRenderer spriteRenderer = gameObj.GetComponent<SpriteRenderer>();
 
         // ตรวจสอบว่ามี SpriteRenderer หรือไม่
@@ -174,10 +206,5 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             spriteRenderer.enabled = isVisible; // true เพื่อเปิด, false เพื่อปิด
         }
-        else
-        {
-            Debug.LogWarning("SpriteRenderer not found on bodyUpper!");
-        }
     }
-
 }
