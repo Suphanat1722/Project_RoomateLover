@@ -8,7 +8,7 @@ public class ShowerMiniGame : MonoBehaviour
     private int stateAlert = 0; // ค่าความสงสัย
     private int maxAlert = 10;  // ค่าความสงสัยสูงสุด
     private int stateJF = 0;
-    private bool hasAlerted = false; // ตัวแปรตรวจสอบสถานะ
+    private bool hasAlerted; // ตัวแปรตรวจสอบสถานะ
 
     private void Update()
     {

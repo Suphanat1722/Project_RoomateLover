@@ -4,98 +4,120 @@ using UnityEngine.Rendering;
 
 public class NighTimeMainGame : MonoBehaviour
 {
+    #region Fields and Variables
+
+    [Header("Character Components")]
     public GameObject shirt;
     public GameObject shorts;
     public GameObject shirtHighlight;
     public GameObject shortsHighlight;
     public GameObject shirtButton;
     public GameObject shortsButton;
+    public GameObject underwearButton;
 
-    int moodCharacter; // -30 ถึง 30
+    private int moodCharacter; // Range: -30 to 30
+    private int shirtLevel;
+    private int shortsLevel;
+    private string currentLayerName;
+    private string highlightLayerName;
 
-    // standrad คือ 0 และ 3 คือไม่ได้สวมอยู่
-    int shirtLevel = 0;
-    int shortsLevel = 0;
-    int underwearLevel = 0;
+    private int beforeStatus; // 1 = standard
+    private int currentStatus;
 
-    string layerName;
-    string layerNameForHighlight;
+    #endregion
+
+    #region Unity Methods
 
     private void Update()
     {
-        if (moodCharacter >= 10 && moodCharacter < 20)
-        {
-            Debug.Log("เริ่มมีอารมณ์");
-        }
-        else if (moodCharacter >= 20 && moodCharacter < 25)
-        {
-            Debug.Log("มีอารมณ์ร่วม");
-        }
-        else if (moodCharacter >= 25 && moodCharacter < 30)
-        {
-            Debug.Log("ใกล้");
-        }
 
-        //เช็คว่าสวมเสื้อผ้าอยู่ level ไหน
-        if (shirtLevel == 3)
-        {
-            shirt.SetActive(false);
-            //Debug.Log("ถอดเสื้อแล้ว");
-        }
-        else if (shirtLevel < 3)
-        {
-            shirt.SetActive(true);
-        }
+        HandleMoodStatus();
+        HandleMouseInput();
+        UpdateClothingHighlights();
+        CheckClothingLevels();
+    }
 
+    #endregion
+
+    #region Interaction Methods
+
+    private void HandleMouseInput()
+    {
         if (Input.GetMouseButtonUp(0))
         {
-            GetHoveredLayerName();
-            ShowButtonClilkOnCharacter();
+            DetectHoveredLayer();
+            ShowClothingButtons();
         }
-
-        HighlightInteraction();
+        if (Input.GetMouseButtonDown(1))
+        {
+            currentLayerName = "cancel";
+            ShowClothingButtons();
+        }
     }
 
-    private void GetHoveredLayerName() 
+    private void DetectHoveredLayer()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
-        //เช็คว่าเมาส์ชี้ที่ layer อะไร
         if (hit.collider != null)
         {
-           layerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
+            currentLayerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
         }
     }
 
-    public void ShowButtonClilkOnCharacter()
+    private void ShowClothingButtons()
     {
-        if (layerName == "Shirt")
+
+        // Reset all buttons to inactive
+        shirtButton.SetActive(false);
+        shortsButton.SetActive(false);
+        underwearButton.SetActive(false);
+
+        // Activate the appropriate button based on the current layer
+        switch (currentLayerName)
         {
-            shirtButton.SetActive(true);
-        }
-        else if (layerName == "Shorts")
-        {
-            shortsButton.SetActive(true);
+            case "Shirt":
+                shirtButton.SetActive(true);
+                break;
+
+            case "Shorts":
+                shortsButton.SetActive(true);
+                break;
+
+            case "Underwear":
+                underwearButton.SetActive(true);               
+                break;
+
+            case "cancel":
+                shirtButton.SetActive(false);
+                shortsButton.SetActive(false);
+                underwearButton.SetActive(false);
+                break;
+
+            default:
+                // No layer selected; keep all buttons inactive
+                break;
         }
     }
 
-    private void HighlightInteraction()
+    private void UpdateClothingHighlights()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
         if (hit.collider != null)
         {
-            layerNameForHighlight = LayerMask.LayerToName(hit.collider.gameObject.layer);
-        }
+            highlightLayerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
 
-        if (hit.collider != null && layerNameForHighlight == "Shirt")
-        {
-            shirtHighlight.SetActive(true);
-        } 
-        else if (hit.collider != null && layerNameForHighlight == "Shorts")
-        {
-            shortsHighlight.SetActive(true);
+            if (highlightLayerName == "Shirt")
+            {
+                shirtHighlight.SetActive(true);
+            }
+            else if (highlightLayerName == "Shorts")
+            {
+                shortsHighlight.SetActive(true);
+            }
         }
         else
         {
@@ -104,43 +126,79 @@ public class NighTimeMainGame : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Clothing Methods
+
     public void TakeOffClothes()
     {
-        moodCharacter = moodCharacter - 10;
+        moodCharacter -= 10;
 
-        if (layerName == "Shirt")
+        if (currentLayerName == "Shirt")
         {
             shirtLevel++;
         }
-        else if (layerName == "Shorts")
+        else if (currentLayerName == "Shorts")
         {
-            shortsLevel++; 
-        }
-        else if (layerName == "Underwear")
-        {
-
+            shortsLevel++;
         }
     }
 
-    public void DressingShirts()
+    public void DressClothes()
     {
-        shirtLevel--;
+        if (currentLayerName == "Shirt")
+        {
+            shirtLevel--;
+        }
+        else if (currentLayerName == "Shorts")
+        {
+            shortsLevel--;
+        }
     }
 
-    public void Touch()
+    private void CheckClothingLevels()
     {
-        moodCharacter = moodCharacter + 3;
+        shirt.SetActive(shirtLevel < 3);
+        shorts.SetActive(shortsLevel < 3);
     }
 
-    int beforeStatus; //standard คือ 1
-    int currentStatus;
-
-    public void DebugForTest(string action, string result, int beforeStatus, int currentStatus)
+    public void TouchCharacter()
     {
-        this.beforeStatus = beforeStatus;
-        this.currentStatus = currentStatus;
-
-        Debug.Log($"การกระทำ : {action} state : {beforeStatus}");
-        Debug.Log($"ผลลัพธ์   : {result} state : {currentStatus}");
+        moodCharacter += 3;
     }
+
+    #endregion
+
+    #region Mood Handling
+
+    private void HandleMoodStatus()
+    {
+        if (moodCharacter >= 10 && moodCharacter < 20)
+        {
+            Debug.Log("Mood: เริ่มมีอารมณ์");
+        }
+        else if (moodCharacter >= 20 && moodCharacter < 25)
+        {
+            Debug.Log("Mood: มีอารมณ์ร่วม");
+        }
+        else if (moodCharacter >= 25 && moodCharacter < 30)
+        {
+            Debug.Log("Mood: ใกล้ถึงจุดสุดยอด");
+        }
+    }
+
+    #endregion
+
+    #region Debugging
+
+    public void DebugForTest(string action, string result, int before, int current)
+    {
+        beforeStatus = before;
+        currentStatus = current;
+
+        Debug.Log($"Action: {action} | Before State: {beforeStatus}");
+        Debug.Log($"Result: {result} | Current State: {currentStatus}");
+    }
+
+    #endregion
 }
