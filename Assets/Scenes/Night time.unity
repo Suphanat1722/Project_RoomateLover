@@ -565,7 +565,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
         m_MethodName: Touch
         m_Mode: 1
@@ -1124,8 +1124,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
         m_MethodName: DressClothes
         m_Mode: 1
         m_Arguments:
@@ -1257,8 +1257,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
         m_MethodName: DressClothes
         m_Mode: 1
         m_Arguments:
@@ -1389,7 +1389,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 217343341}
-  - component: {fileID: 217343342}
+  - component: {fileID: 217343343}
+  - component: {fileID: 217343344}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1417,7 +1418,26 @@ Transform:
   - {fileID: 1410008035}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &217343342
+--- !u!114 &217343343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217343340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f73c57422f8db4791c1ce1cead9db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shirt: {fileID: 673172744}
+  shorts: {fileID: 423289501}
+  underwear: {fileID: 837149429}
+  bodyUpper: {fileID: 452017005}
+  bodyUnder: {fileID: 1946845154}
+  bodyUpperButton: {fileID: 8121362}
+  bodyUnderButton: {fileID: 202120171}
+--- !u!114 &217343344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1429,13 +1449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b838e62c192464ab6727547e238042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shirt: {fileID: 673172744}
-  shorts: {fileID: 423289501}
-  underwear: {fileID: 837149429}
-  bodyUpper: {fileID: 452017005}
-  bodyUnder: {fileID: 1946845154}
-  bodyUpperButton: {fileID: 8121362}
-  bodyUnderButton: {fileID: 202120171}
 --- !u!1 &243511240
 GameObject:
   m_ObjectHideFlags: 0
@@ -2162,7 +2175,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
         m_MethodName: Touch
         m_Mode: 1
@@ -5234,7 +5247,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
         m_MethodName: Touch
         m_Mode: 1
@@ -6137,7 +6150,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
         m_MethodName: Touch
         m_Mode: 1
@@ -9350,8 +9363,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
         m_MethodName: TakeOffClothes
         m_Mode: 1
         m_Arguments:
@@ -9549,7 +9562,7 @@ GameObject:
   - component: {fileID: 1806119757}
   - component: {fileID: 1806119756}
   m_Layer: 0
-  m_Name: Take Off
+  m_Name: Take Off Clothes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9619,8 +9632,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217343342}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
         m_MethodName: TakeOffClothes
         m_Mode: 1
         m_Arguments:
