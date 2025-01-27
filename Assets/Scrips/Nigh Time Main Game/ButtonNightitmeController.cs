@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonNighttimeController : MonoBehaviour
@@ -24,10 +25,13 @@ public class ButtonNighttimeController : MonoBehaviour
     public GameObject breastButton;
     public GameObject legsButton;
 
+    [Header("Text")]
+    public TextMeshProUGUI textSelectLayerName;
+
     private int shirtLevel;
     private int shortsLevel;
     private string currentLayerName;
-    private string highlightLayerName;
+    private string currentSelectLayerName;
 
     private int beforeStatus; // 1 = standard
     private int currentStatus;
@@ -36,6 +40,8 @@ public class ButtonNighttimeController : MonoBehaviour
     {
         HandleMouseInput();
         CheckClothingLevels();
+
+        textSelectLayerName.text = currentSelectLayerName;
     }
 
     #region Interaction Methods
@@ -77,21 +83,46 @@ public class ButtonNighttimeController : MonoBehaviour
         switch (currentLayerName)
         {
             case "Body Upper":
+
                 bodyUpperButton.SetActive(true);
+
+                if (shirtLevel != 3)
+                {
+                    currentSelectLayerName = "เสื้อ";
+                }
                 break;
 
             case "Body Under":
+
                 bodyUnderButton.SetActive(true);
+
+                if (shortsLevel < 3)
+                {
+                    currentSelectLayerName = "กางเกง";
+                }
+                else
+                {
+                    currentSelectLayerName = "กางเกงใน";
+                }
                 break;
 
             case "Breast":
+                
                 breastButton.SetActive(true);
+
+                currentSelectLayerName = "หน้าอก";
                 break;
 
             case "Legs":
+                
                 legsButton.SetActive(true);
+
+                currentSelectLayerName = "ขา";
                 break;
             case "cancel":
+
+                currentSelectLayerName = "เลือก";
+
                 bodyUpperButton.SetActive(false);
                 bodyUnderButton.SetActive(false);
                 breastButton.SetActive(false);
@@ -157,6 +188,8 @@ public class ButtonNighttimeController : MonoBehaviour
         //เสื้อ
         if (shirtLevel == 3)
         {
+            //ถอดเสื้อ
+
             shirt.SetActive(false);
 
             bodyUpperWearShirtCollider.SetActive(false);
@@ -166,6 +199,7 @@ public class ButtonNighttimeController : MonoBehaviour
         }
         else
         {
+            //ไม่ถอดเสื้อ
             shirt.SetActive(true);
 
             bodyUpperWearShirtCollider.SetActive(true);
@@ -177,6 +211,7 @@ public class ButtonNighttimeController : MonoBehaviour
         //กางเกง และ กางเกงใน
         if (shortsLevel >= 6)
         {
+            //ถอดกางเกงใน
             bodyUnderWearShortsCollider.SetActive(false);
             bodyUnderNotWearShortsCollider.SetActive(true);         
             legsCollider.SetActive(true);
@@ -186,6 +221,7 @@ public class ButtonNighttimeController : MonoBehaviour
         }
         else if (shortsLevel >= 3)
         {
+            //ถอดกางเกง
             bodyUnderWearShortsCollider.SetActive(true);
             bodyUnderNotWearShortsCollider.SetActive(false);
             legsCollider.SetActive(false);
@@ -195,6 +231,7 @@ public class ButtonNighttimeController : MonoBehaviour
         }
         else
         {
+            //ไม่ถอดส่วนล่าง
             bodyUnderWearShortsCollider.SetActive(true);
             bodyUnderNotWearShortsCollider.SetActive(false);
             legsCollider.SetActive(false);
