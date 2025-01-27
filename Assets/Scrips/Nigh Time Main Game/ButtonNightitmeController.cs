@@ -17,13 +17,16 @@ public class ButtonNighttimeController : MonoBehaviour
     public GameObject bodyUnderWearShortsCollider;
     public GameObject bodyUnderNotWearShortsCollider;
     public GameObject breastCollider;
-    public GameObject legsCollider;
+    public GameObject leg1Collider, leg2Collider;
+    public GameObject pussy1Collider, pussy2Collider;
+
 
     [Header("UI Button")]
     public GameObject bodyUpperButton;
     public GameObject bodyUnderButton;
     public GameObject breastButton;
     public GameObject legsButton;
+    public GameObject pussy1Button, pussy2Button;
 
     [Header("Text")]
     public TextMeshProUGUI textSelectLayerName;
@@ -32,6 +35,7 @@ public class ButtonNighttimeController : MonoBehaviour
     private int shortsLevel;
     private string currentLayerName;
     private string currentSelectLayerName;
+    private bool IsSpreadlegs;
 
     private int beforeStatus; // 1 = standard
     private int currentStatus;
@@ -78,6 +82,8 @@ public class ButtonNighttimeController : MonoBehaviour
         bodyUnderButton.SetActive(false);
         breastButton.SetActive(false);
         legsButton.SetActive(false);
+        pussy1Button.SetActive(false);
+        pussy2Button.SetActive(false);
 
         // Activate the appropriate button based on the current layer
         switch (currentLayerName)
@@ -86,10 +92,7 @@ public class ButtonNighttimeController : MonoBehaviour
 
                 bodyUpperButton.SetActive(true);
 
-                if (shirtLevel != 3)
-                {
-                    currentSelectLayerName = "เสื้อ";
-                }
+                currentSelectLayerName = "เสื้อ";
                 break;
 
             case "Body Under":
@@ -119,6 +122,20 @@ public class ButtonNighttimeController : MonoBehaviour
 
                 currentSelectLayerName = "ขา";
                 break;
+
+            case "Pussy":
+
+                if (!IsSpreadlegs)
+                {
+                    pussy1Button.SetActive(true);
+                }
+                else
+                {
+                    pussy2Button.SetActive(true);
+                }
+
+                currentSelectLayerName = "จิ๋ม";
+                break;
             case "cancel":
 
                 currentSelectLayerName = "เลือก";
@@ -127,6 +144,8 @@ public class ButtonNighttimeController : MonoBehaviour
                 bodyUnderButton.SetActive(false);
                 breastButton.SetActive(false);
                 legsButton.SetActive(false);
+                pussy1Button.SetActive(false);
+                pussy2Button.SetActive(false);
                 break;
 
             default:
@@ -163,20 +182,30 @@ public class ButtonNighttimeController : MonoBehaviour
 
     public void SpreadLegs()
     {
+        IsSpreadlegs = true;
+
         hip1.SetActive(false);
         hip2.SetActive(true);
 
         leg1.SetActive(false);
         leg2.SetActive(true);
+
+        leg1Collider.SetActive(false);
+        leg2Collider.SetActive(true);
     }
     
     public void FoldLegsBack() 
     {
+        IsSpreadlegs = false;
+
         hip1.SetActive(true);
         hip2.SetActive(false);
 
         leg1.SetActive(true);
         leg2.SetActive(false);
+
+        leg1Collider.SetActive(true);
+        leg2Collider.SetActive(false);
     }
     #endregion
 
@@ -190,21 +219,23 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             //ถอดเสื้อ
 
+            //ส่วนเสื้อผ้า
             shirt.SetActive(false);
-
+            //ส่วนร่างกาย
             bodyUpperWearShirtCollider.SetActive(false);
-            bodyUpperNotWearShirtCollider.SetActive(true);
-            
+            bodyUpperNotWearShirtCollider.SetActive(true);          
             breastCollider.SetActive(true);
         }
         else
         {
             //ไม่ถอดเสื้อ
+
+            //ส่วนเสื้อผ้า
             shirt.SetActive(true);
 
+            //ส่วนร่างกาย
             bodyUpperWearShirtCollider.SetActive(true);
-            bodyUpperNotWearShirtCollider.SetActive(false);
-            
+            bodyUpperNotWearShirtCollider.SetActive(false);        
             breastCollider.SetActive(false);
         }
 
@@ -212,20 +243,36 @@ public class ButtonNighttimeController : MonoBehaviour
         if (shortsLevel >= 6)
         {
             //ถอดกางเกงใน
+
+            //ส่วนร่างกาย
             bodyUnderWearShortsCollider.SetActive(false);
             bodyUnderNotWearShortsCollider.SetActive(true);         
-            legsCollider.SetActive(true);
+            leg1Collider.SetActive(true);
+            if (!IsSpreadlegs)
+            {
+                pussy1Collider.SetActive(true);
+            }
+            else
+            {
+                pussy2Collider.SetActive(true);
+            }        
 
+            //ส่วนเสื้อผ้า
             shorts.SetActive(false);
             underwear.SetActive(false);
         }
         else if (shortsLevel >= 3)
         {
             //ถอดกางเกง
+
+            //ส่วนร่างกาย
             bodyUnderWearShortsCollider.SetActive(true);
             bodyUnderNotWearShortsCollider.SetActive(false);
-            legsCollider.SetActive(false);
+            leg1Collider.SetActive(false);
+            pussy1Collider.SetActive(false);
+            pussy2Collider.SetActive(false);
 
+            //ส่วนเสื้อผ้า
             shorts.SetActive(false);
             underwear.SetActive(true);
         }
@@ -234,8 +281,12 @@ public class ButtonNighttimeController : MonoBehaviour
             //ไม่ถอดส่วนล่าง
             bodyUnderWearShortsCollider.SetActive(true);
             bodyUnderNotWearShortsCollider.SetActive(false);
-            legsCollider.SetActive(false);
+            leg1Collider.SetActive(false);
+            pussy1Collider.SetActive(false);
+            pussy2Collider.SetActive(false);
 
+
+            //ส่วนเสื้อผ้า
             shorts.SetActive(true);
             underwear.SetActive(true);
         }
