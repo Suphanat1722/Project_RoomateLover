@@ -196,8 +196,8 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyOpenedCollider.SetActive(spread);
     }
 
-    public void SpreadLegs() => SetLegsState(true);
-    public void FoldLegsBack() => SetLegsState(false);
+    public void OpenLegs() => SetLegsState(true);
+    public void ClosedLegs() => SetLegsState(false);
 
     #endregion
 

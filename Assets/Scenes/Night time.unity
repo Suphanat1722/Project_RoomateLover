@@ -3008,7 +3008,7 @@ GameObject:
   - component: {fileID: 264140376}
   - component: {fileID: 264140375}
   m_Layer: 0
-  m_Name: spread legs
+  m_Name: Open Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3080,7 +3080,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 217343343}
         m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
-        m_MethodName: SpreadLegs
+        m_MethodName: OpenLegs
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14948,7 +14948,7 @@ GameObject:
   - component: {fileID: 1553350895}
   - component: {fileID: 1553350894}
   m_Layer: 0
-  m_Name: Fold the legs back
+  m_Name: Closed Legs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15020,7 +15020,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 217343343}
         m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
-        m_MethodName: FoldLegsBack
+        m_MethodName: ClosedLegs
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
