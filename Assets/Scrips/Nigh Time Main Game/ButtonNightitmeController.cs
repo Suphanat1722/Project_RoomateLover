@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -87,19 +88,8 @@ public class ButtonNighttimeController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (IsLayerValid(hit.collider.gameObject.layer))
-            {
-                currentLayerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
-                Debug.Log("Current Layer Name: " + currentLayerName);
-            }
+            currentLayerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
         }
-    }
-
-    private bool IsLayerValid(int layer)
-    {
-        string[] validLayers = { "Body Upper", "Body Under", "Breast L", "Breast R", "Legs", "Pussy" };
-        string layerName = LayerMask.LayerToName(layer);
-        return System.Array.IndexOf(validLayers, layerName) != -1;
     }
 
     private void ShowUiButtons()
@@ -171,17 +161,22 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
+                currentLayerName = null; // รีเซ็ต currentLayerName
+                StartCoroutine(performAction(0.5f));
                 break;
             case "Body Under":
                 // เพิ่มการตรวจสอบว่ากางเกงถูกถอดหมดแล้วหรือยังก่อนจะถอดกางเกงใน
                 if (shorts.currentLevel >= shorts.maxLevel)
                 {
                     underwear.currentLevel = Mathf.Clamp(underwear.currentLevel + 1, 0, underwear.maxLevel);
+                    currentLayerName = null;
                 }
                 else
                 {
                     shorts.currentLevel = Mathf.Clamp(shorts.currentLevel + 1, 0, shorts.maxLevel);
                 }
+                currentLayerName = null; // รีเซ็ต currentLayerName
+                StartCoroutine(performAction(0));
                 break;
         }
     }
@@ -192,16 +187,22 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel - 1, 0, shirt.maxLevel);
+                currentLayerName = null;
+                StartCoroutine(performAction(0));
                 break;
             case "Body Under":
                 // เพิ่มการตรวจสอบว่ากางเกงในถูกถอดแล้วหรือยังก่อนจะใส่กลับ
                 if (underwear.currentLevel > 0)
                 {
                     underwear.currentLevel = Mathf.Clamp(underwear.currentLevel - 1, 0, underwear.maxLevel);
+                    currentLayerName = null;
+                    StartCoroutine(performAction(0));
                 }
                 else if (shorts.currentLevel > 0)
                 {
                     shorts.currentLevel = Mathf.Clamp(shorts.currentLevel - 1, 0, shorts.maxLevel);
+                    currentLayerName = null;
+                    StartCoroutine(performAction(0));
                 }
                 break;
         }
@@ -224,8 +225,19 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyOpenedCollider.SetActive(spread);
     }
 
-    public void OpenLegs() => SetLegsState(true);
-    public void ClosedLegs() => SetLegsState(false);
+    public void OpenLegs()
+    {
+        SetLegsState(true);
+        currentLayerName = null;
+        StartCoroutine(performAction(0)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
+    }
+
+    public void ClosedLegs()
+    {
+        SetLegsState(false);
+        currentLayerName = null;
+        StartCoroutine(performAction(0)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
+    }
 
     #endregion
 
@@ -246,5 +258,18 @@ public class ButtonNighttimeController : MonoBehaviour
 
         pussyClosedCollider.SetActive(!isSpreadLegs && isUnderwearRemoved);
         pussyOpenedCollider.SetActive(isSpreadLegs && isUnderwearRemoved);
+    }
+
+
+    private IEnumerator performAction(float duration)
+    {
+        // ปิดปุ่มที่กำลังเปิดอยู่ทั้งหมด
+        ResetAllButtons();
+
+        // รอเวลาที่กำหนด
+        yield return new WaitForSeconds(duration);
+
+        // หลังจากเวลาผ่านไปแล้ว, สามารถเปิดปุ่มกลับมาได้หรือทำอย่างอื่นตามที่ต้องการ
+        // ตรงนี้คุณอาจต้องการเรียก ShowUiButtons() หรือทำการอัปเดต UI อื่นๆ
     }
 }
