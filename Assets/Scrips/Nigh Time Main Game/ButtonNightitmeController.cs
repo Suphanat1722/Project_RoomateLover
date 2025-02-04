@@ -1,46 +1,56 @@
 ﻿using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonNighttimeController : MonoBehaviour
 {
-    [Header("Cloth")]
-    public GameObject shirt;
-    public GameObject shorts;
-    public GameObject underwear;
+    [System.Serializable]
+    public class ClothingItem
+    {
+        public GameObject clothing;
+        public GameObject colliderWorn;
+        public GameObject colliderNotWorn;
+        public int maxLevel;
+        public int currentLevel = 0;
+
+        public void UpdateState()
+        {
+            clothing.SetActive(currentLevel < maxLevel);
+            colliderWorn.SetActive(currentLevel < maxLevel);
+            colliderNotWorn.SetActive(currentLevel >= maxLevel);
+        }
+    }
+
+    [Header("Clothing")]
+    public ClothingItem shirt;
+    public ClothingItem shorts;
+    public ClothingItem underwear;
+
+    [Header("Legs State")]
     public GameObject hipClosed, hipOpened;
     public GameObject legClosed, legOpened;
-
-    [Header("Part Collider")]
-    public GameObject bodyUpperWearShirtCollider;
-    public GameObject bodyUpperNotWearShirtCollider;
-    public GameObject bodyUnderWearShortsCollider;
-    public GameObject bodyUnderNotWearShortsCollider;
-    public GameObject breastRightCollider, breastLeftCollider;
     public GameObject legClosedCollider, legOpenedCollider;
     public GameObject pussyClosedCollider, pussyOpenedCollider;
+
+    [Header("Part Collider")]
+    public GameObject breastRightCollider, breastLeftCollider;
 
     [Header("UI Button")]
     public GameObject bodyUpperButton;
     public GameObject bodyUnderButton;
     public GameObject breastLbutton, breastRbutton;
     public GameObject legsButton;
-    public GameObject closedLegsPussyLeftButton;
-    public GameObject closedLegsPussyRightButton;
-    public GameObject openLegsPussyLeftButton;
-    public GameObject openLegsPussyRightButton;
+    public GameObject closedLegsPussyLeftButton, closedLegsPussyRightButton;
+    public GameObject openLegsPussyLeftButton, openLegsPussyRightButton;
 
     [Header("Text")]
     public TextMeshProUGUI textLeftHand;
     public TextMeshProUGUI textRightHand;
 
-    private int shirtLevel;
-    private int shortsLevel;
     private string currentLayerName;
     private string selectedLayerLeft = "Left Hand";
     private string selectedLayerRight = "Right Hand";
-    private bool isSpreadLegs;
+    private bool isSpreadLegs = false;
 
     private void Update()
     {
@@ -112,7 +122,7 @@ public class ButtonNighttimeController : MonoBehaviour
                 break;
             case "Body Under":
                 bodyUnderButton.SetActive(true);
-                selectedLayerRight = shortsLevel < 3 ? "กางเกง" : "กางเกงใน";
+                selectedLayerRight = shorts.currentLevel < shorts.maxLevel ? "กางเกง" : "กางเกงใน";
                 break;
             case "Legs":
                 legsButton.SetActive(true);
@@ -157,25 +167,43 @@ public class ButtonNighttimeController : MonoBehaviour
 
     public void TakeOffClothes()
     {
-        if (currentLayerName == "Body Upper")
+        switch (currentLayerName)
         {
-            shirtLevel = Mathf.Clamp(shirtLevel + 1, 0, 3);
-        }
-        else if (currentLayerName == "Body Under")
-        {
-            shortsLevel = Mathf.Clamp(shortsLevel + 1, 0, 6);
+            case "Body Upper":
+                shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
+                break;
+            case "Body Under":
+                // เพิ่มการตรวจสอบว่ากางเกงถูกถอดหมดแล้วหรือยังก่อนจะถอดกางเกงใน
+                if (shorts.currentLevel >= shorts.maxLevel)
+                {
+                    underwear.currentLevel = Mathf.Clamp(underwear.currentLevel + 1, 0, underwear.maxLevel);
+                }
+                else
+                {
+                    shorts.currentLevel = Mathf.Clamp(shorts.currentLevel + 1, 0, shorts.maxLevel);
+                }
+                break;
         }
     }
 
     public void DressClothes()
     {
-        if (currentLayerName == "Body Upper")
+        switch (currentLayerName)
         {
-            shirtLevel = Mathf.Clamp(shirtLevel - 1, 0, 3);
-        }
-        else if (currentLayerName == "Body Under")
-        {
-            shortsLevel = Mathf.Clamp(shortsLevel - 1, 0, 6);
+            case "Body Upper":
+                shirt.currentLevel = Mathf.Clamp(shirt.currentLevel - 1, 0, shirt.maxLevel);
+                break;
+            case "Body Under":
+                // เพิ่มการตรวจสอบว่ากางเกงในถูกถอดแล้วหรือยังก่อนจะใส่กลับ
+                if (underwear.currentLevel > 0)
+                {
+                    underwear.currentLevel = Mathf.Clamp(underwear.currentLevel - 1, 0, underwear.maxLevel);
+                }
+                else if (shorts.currentLevel > 0)
+                {
+                    shorts.currentLevel = Mathf.Clamp(shorts.currentLevel - 1, 0, shorts.maxLevel);
+                }
+                break;
         }
     }
 
@@ -203,25 +231,20 @@ public class ButtonNighttimeController : MonoBehaviour
 
     private void CheckClothingLevels()
     {
-        shirt.SetActive(shirtLevel != 3);
-        bodyUpperWearShirtCollider.SetActive(shirtLevel != 3);
-        bodyUpperNotWearShirtCollider.SetActive(shirtLevel == 3);
-        breastLeftCollider.SetActive(shirtLevel == 3);
-        breastRightCollider.SetActive(shirtLevel == 3);
+        shirt.UpdateState();
+        shorts.UpdateState();
+        underwear.UpdateState();
 
-        bool isUnderwearRemoved = shortsLevel >= 6;
-        bool isShortsRemoved = shortsLevel >= 3;
+        bool isUnderwearRemoved = underwear.currentLevel >= underwear.maxLevel;
+        bool isShortsRemoved = shorts.currentLevel >= shorts.maxLevel;
 
-        bodyUnderWearShortsCollider.SetActive(!isUnderwearRemoved);
-        bodyUnderNotWearShortsCollider.SetActive(isUnderwearRemoved);
+        breastLeftCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
+        breastRightCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
 
         legClosedCollider.SetActive(!isShortsRemoved);
         legOpenedCollider.SetActive(isUnderwearRemoved);
 
         pussyClosedCollider.SetActive(!isSpreadLegs && isUnderwearRemoved);
         pussyOpenedCollider.SetActive(isSpreadLegs && isUnderwearRemoved);
-
-        shorts.SetActive(!isShortsRemoved);
-        underwear.SetActive(isShortsRemoved && !isUnderwearRemoved);
     }
 }

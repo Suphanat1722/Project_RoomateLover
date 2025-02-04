@@ -2254,23 +2254,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f73c57422f8db4791c1ce1cead9db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shirt: {fileID: 673172744}
-  shorts: {fileID: 423289501}
-  underwear: {fileID: 837149429}
+  shirt:
+    clothing: {fileID: 673172744}
+    colliderWorn: {fileID: 1946817558}
+    colliderNotWorn: {fileID: 865475457}
+    maxLevel: 3
+    currentLevel: 0
+  shorts:
+    clothing: {fileID: 423289501}
+    colliderWorn: {fileID: 1551423141}
+    colliderNotWorn: {fileID: 23645760}
+    maxLevel: 3
+    currentLevel: 0
+  underwear:
+    clothing: {fileID: 837149429}
+    colliderWorn: {fileID: 577460367}
+    colliderNotWorn: {fileID: 1458633178}
+    maxLevel: 3
+    currentLevel: 0
   hipClosed: {fileID: 877230173}
   hipOpened: {fileID: 1398213742}
   legClosed: {fileID: 502755710}
   legOpened: {fileID: 375220253}
-  bodyUpperWearShirtCollider: {fileID: 1946817558}
-  bodyUpperNotWearShirtCollider: {fileID: 865475457}
-  bodyUnderWearShortsCollider: {fileID: 1551423141}
-  bodyUnderNotWearShortsCollider: {fileID: 23645760}
-  breastRightCollider: {fileID: 12801677}
-  breastLeftCollider: {fileID: 545607315}
   legClosedCollider: {fileID: 970925387}
   legOpenedCollider: {fileID: 11029505}
   pussyClosedCollider: {fileID: 577460367}
   pussyOpenedCollider: {fileID: 1458633178}
+  breastRightCollider: {fileID: 12801677}
+  breastLeftCollider: {fileID: 545607315}
   bodyUpperButton: {fileID: 8121362}
   bodyUnderButton: {fileID: 202120171}
   breastLbutton: {fileID: 648490000}
