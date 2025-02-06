@@ -2307,6 +2307,8 @@ MonoBehaviour:
   textLeftHand: {fileID: 257810673}
   textRightHand: {fileID: 377012235}
   feelingSystem: {fileID: 217343344}
+  feelGoodSlider: {fileID: 994874282}
+  feelBadSlider: {fileID: 267716484}
 --- !u!114 &217343344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3190,7 +3192,7 @@ GameObject:
   - component: {fileID: 267716483}
   - component: {fileID: 267716484}
   m_Layer: 0
-  m_Name: Slider (1)
+  m_Name: Slider  Feel Bad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10020,7 +10022,7 @@ GameObject:
   - component: {fileID: 994874281}
   - component: {fileID: 994874282}
   m_Layer: 0
-  m_Name: Slider
+  m_Name: Slider Feel Good
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

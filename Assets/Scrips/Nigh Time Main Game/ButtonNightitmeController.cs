@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonNighttimeController : MonoBehaviour
 {
@@ -56,6 +57,10 @@ public class ButtonNighttimeController : MonoBehaviour
     private string selectedLayerRight = "Right Hand";
     private bool isSpreadLegs = false;
 
+    [Header("UI Elements for Feelings")]
+    public Slider feelGoodSlider;
+    public Slider feelBadSlider;
+
     private void Update()
     {
         HandleMouseInput();
@@ -63,6 +68,18 @@ public class ButtonNighttimeController : MonoBehaviour
 
         textLeftHand.text = selectedLayerLeft;
         textRightHand.text = selectedLayerRight;
+
+        // อัปเดตค่าของ Slider ตามค่าความรู้สึกดี
+        if (feelGoodSlider != null)
+        {
+            feelGoodSlider.value = feelingSystem.GetFeelGoodValue() / feelingSystem.feelGood.maxValue;
+        }
+
+        // อัปเดตค่าของ Slider สำหรับความรู้สึกแย่
+        if (feelBadSlider != null)
+        {
+            feelBadSlider.value = feelingSystem.GetFeelBadValue() / feelingSystem.feelBad.maxValue;
+        }
     }
 
     #region Interaction Methods
