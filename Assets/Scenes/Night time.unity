@@ -2227,6 +2227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 217343341}
   - component: {fileID: 217343343}
+  - component: {fileID: 217343344}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -2305,6 +2306,33 @@ MonoBehaviour:
   openLegsPussyRightButton: {fileID: 2981768}
   textLeftHand: {fileID: 257810673}
   textRightHand: {fileID: 377012235}
+  feelingSystem: {fileID: 217343344}
+--- !u!114 &217343344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217343340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5d485c1fb192940806db2410d4eebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feelGood:
+    currentValue: 0
+    maxValue: 100
+  feelBad:
+    currentValue: 0
+    maxValue: 100
+  playerArousal:
+    currentValue: 0
+    maxValue: 100
+  trustValue: 50
+  sexualInterest: 50
+  mood: 50
+  baseGoodIncrease: 10
+  baseBadIncrease: 15
 --- !u!1 &223926899
 GameObject:
   m_ObjectHideFlags: 0
@@ -6592,9 +6620,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
-        m_MethodName: Touch
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
+        m_MethodName: OnLickBreastButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6926,9 +6954,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
-        m_MethodName: Touch
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
+        m_MethodName: OnGrabBreastButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9574,9 +9602,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
-        m_MethodName: Touch
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
+        m_MethodName: OnGrabBreastButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11955,9 +11983,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: NighTimeMainGame, Assembly-CSharp
-        m_MethodName: Touch
+      - m_Target: {fileID: 217343343}
+        m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
+        m_MethodName: OnLickBreastButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

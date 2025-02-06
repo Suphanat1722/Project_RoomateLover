@@ -48,6 +48,9 @@ public class ButtonNighttimeController : MonoBehaviour
     public TextMeshProUGUI textLeftHand;
     public TextMeshProUGUI textRightHand;
 
+    [Header("Feeling System")]
+    public FeelingSystem feelingSystem;
+
     private string currentLayerName;
     private string selectedLayerLeft = "Left Hand";
     private string selectedLayerRight = "Right Hand";
@@ -154,7 +157,6 @@ public class ButtonNighttimeController : MonoBehaviour
     #endregion
 
     #region Button Methods
-
     public void TakeOffClothes()
     {
         switch (currentLayerName)
@@ -239,6 +241,19 @@ public class ButtonNighttimeController : MonoBehaviour
         StartCoroutine(performAction(0)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
     }
 
+    public void OnGrabBreastButtonClick()
+    {
+        // เพิ่มค่าความรู้สึกดีและแย่เมื่อจับนม
+        feelingSystem.CalculateFeelings();      
+        StartCoroutine(performAction(3f)); // ตัวอย่างการใช้งาน Coroutine
+    }
+
+    public void OnLickBreastButtonClick()
+    {
+        // เพิ่มค่าความรู้สึกดีและแย่เมื่อเลียนม
+        feelingSystem.CalculateFeelings();
+        StartCoroutine(performAction(3f));
+    }
     #endregion
 
     private void CheckClothingLevels()
@@ -260,7 +275,6 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyOpenedCollider.SetActive(isSpreadLegs && isUnderwearRemoved);
     }
 
-
     private IEnumerator performAction(float duration)
     {
         // ปิดปุ่มที่กำลังเปิดอยู่ทั้งหมด
@@ -272,4 +286,6 @@ public class ButtonNighttimeController : MonoBehaviour
         // หลังจากเวลาผ่านไปแล้ว, สามารถเปิดปุ่มกลับมาได้หรือทำอย่างอื่นตามที่ต้องการ
         // ตรงนี้คุณอาจต้องการเรียก ShowUiButtons() หรือทำการอัปเดต UI อื่นๆ
     }
+
+
 }
