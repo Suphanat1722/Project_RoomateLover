@@ -19,23 +19,15 @@ public class FeelingSystem : MonoBehaviour
     public float sexualInterest = 50f;
     public float mood = 50f;
 
-    // เพิ่มตัวแปรสำหรับการปรับค่า baseGoodIncrease และ baseBadIncrease ใน Inspector
-    [Header("Base Increase Values")]
-    [SerializeField] private float baseGoodIncrease = 10f;
-    [SerializeField] private float baseBadIncrease = 2f;
-
     // ฟังก์ชันสำหรับการคำนวณค่าความรู้สึก
-    public void CalculateFeelings()
+    public void CalculateFeelings(float baseGoodIncrease, float baseBadIncrease)
     {
         // คำนวณค่าความรู้สึกดี
-        // ค่า multiplier จะเพิ่มขึ้นเมื่อ trustValue, sexualInterest, และ mood สูงขึ้น
         float goodMultiplier = (trustValue / 100f) * (sexualInterest / 100f) * (mood / 100f);
         feelGood.currentValue += baseGoodIncrease * goodMultiplier;
         feelGood.currentValue = Mathf.Clamp(feelGood.currentValue, 0f, feelGood.maxValue);
 
         // คำนวณค่าความรู้สึกแย่
-        // ค่า multiplier จะเพิ่มขึ้นเมื่อ trustValue, sexualInterest, และ mood ต่ำลง
-        // ใช้สูตร 1 - goodMultiplier เพื่อให้ค่าความรู้สึกแย่สูงขึ้นเมื่อค่าอื่นๆ ต่ำลง
         float badMultiplier = 1f - goodMultiplier;
         feelBad.currentValue += baseBadIncrease * badMultiplier;
         feelBad.currentValue = Mathf.Clamp(feelBad.currentValue, 0f, feelBad.maxValue);
@@ -44,7 +36,6 @@ public class FeelingSystem : MonoBehaviour
         CheckFeelingsResult();
     }
 
-
     // ตรวจสอบผลลัพธ์ของค่าความรู้สึก
     private void CheckFeelingsResult()
     {
@@ -52,7 +43,7 @@ public class FeelingSystem : MonoBehaviour
         {
             Debug.Log("The girl has an orgasm!");
             ResetFeelingValues();
-            // ที่นี่คุณ
+            // ที่นี่คุณสามารถเพิ่มการทำงานเพิ่มเติมเมื่อเกิดเหตุการณ์นี้
         }
         else if (feelBad.currentValue >= feelBad.maxValue)
         {
@@ -94,5 +85,4 @@ public class FeelingSystem : MonoBehaviour
     public void SetFeelGoodValue(float value) => feelGood.currentValue = Mathf.Clamp(value, 0f, feelGood.maxValue);
     public void SetFeelBadValue(float value) => feelBad.currentValue = Mathf.Clamp(value, 0f, feelBad.maxValue);
     public void SetPlayerArousalValue(float value) => playerArousal.currentValue = Mathf.Clamp(value, 0f, playerArousal.maxValue);
-
 }

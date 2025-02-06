@@ -34,8 +34,9 @@ public class ButtonNighttimeController : MonoBehaviour
     public GameObject legClosedCollider, legOpenedCollider;
     public GameObject pussyClosedCollider, pussyOpenedCollider;
 
-    [Header("Part Collider")]
-    public GameObject breastRightCollider, breastLeftCollider;
+    [Header("Other body Collider")]
+    public GameObject breastRightCollider;
+    public GameObject breastLeftCollider;
 
     [Header("UI Button")]
     public GameObject bodyUpperButton;
@@ -44,6 +45,8 @@ public class ButtonNighttimeController : MonoBehaviour
     public GameObject legsButton;
     public GameObject closedLegsPussyLeftButton, closedLegsPussyRightButton;
     public GameObject openLegsPussyLeftButton, openLegsPussyRightButton;
+    public GameObject headRubLeftButton;
+    public GameObject headRubRightButton;
 
     [Header("Text")]
     public TextMeshProUGUI textLeftHand;
@@ -118,6 +121,11 @@ public class ButtonNighttimeController : MonoBehaviour
 
         switch (currentLayerName)
         {
+            case "Head":
+                headRubLeftButton.SetActive(true);
+                headRubRightButton.SetActive(true);
+                selectedLayerLeft = "Left Breast";
+                break;
             case "Breast L":
                 breastLbutton.SetActive(true);
                 selectedLayerLeft = "Left Breast";
@@ -160,6 +168,8 @@ public class ButtonNighttimeController : MonoBehaviour
 
     private void ResetAllButtons()
     {
+        headRubLeftButton.SetActive(false);
+        headRubRightButton.SetActive(false);
         bodyUpperButton.SetActive(false);
         bodyUnderButton.SetActive(false);
         breastLbutton.SetActive(false);
@@ -258,19 +268,67 @@ public class ButtonNighttimeController : MonoBehaviour
         StartCoroutine(performAction(0)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
     }
 
+    public void OnHeadRubButtonClick()
+    {
+        // ลดค่าความรู้สึกแย่
+        feelingSystem.CalculateFeelings(0f, -5f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม ที่นี่ใช้ 0 เพื่อไม่เพิ่มค่าความรู้สึกดี
+                                                  // เพิ่มค่าความรู้สึกดีเล็กน้อยถ้าต้องการ
+                                                  // feelingSystem.CalculateFeelings(2f, -5f);
+        feelingSystem.IncreasePlayerArousal(2f); // เพิ่มค่าความเสียวของผู้เล่นเล็กน้อย
+        StartCoroutine(performAction(3f)); // ตัวอย่างการใช้งาน Coroutine
+    }
+
     public void OnGrabBreastButtonClick()
     {
-        // เพิ่มค่าความรู้สึกดีและแย่เมื่อจับนม
-        feelingSystem.CalculateFeelings();      
+        feelingSystem.CalculateFeelings(10f, 2f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม
+        feelingSystem.IncreasePlayerArousal(5f); // เพิ่มค่าความเสียวของผู้เล่น
         StartCoroutine(performAction(3f)); // ตัวอย่างการใช้งาน Coroutine
     }
 
     public void OnLickBreastButtonClick()
     {
-        // เพิ่มค่าความรู้สึกดีและแย่เมื่อเลียนม
-        feelingSystem.CalculateFeelings();
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f); 
+        StartCoroutine(performAction(3f)); 
+    }
+    
+    public void OnRubPussy()
+    {
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f);
         StartCoroutine(performAction(3f));
     }
+    public void OnJerkOff()
+    {
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f);
+        StartCoroutine(performAction(3f));
+    }
+    public void OnFingerInsidePussy()
+    {
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f);
+        StartCoroutine(performAction(3f));
+    }
+    public void OnLickPussy()
+    {
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f);
+        StartCoroutine(performAction(3f));
+    }
+    public void OnInsertDickInSidePussy()
+    {
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f);
+        StartCoroutine(performAction(3f));
+    }
+    public void OnUseToy()
+    {
+        feelingSystem.CalculateFeelings(10f, 2f);
+        feelingSystem.IncreasePlayerArousal(5f);
+        StartCoroutine(performAction(3f));
+    }
+    
     #endregion
 
     private void CheckClothingLevels()
