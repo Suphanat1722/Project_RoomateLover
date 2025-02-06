@@ -55,14 +55,14 @@ public class ButtonNighttimeController : MonoBehaviour
     [Header("Feeling System")]
     public FeelingSystem feelingSystem;
 
+    [Header("UI Elements for Feelings")]
+    public Slider feelGoodSlider;
+    public Slider feelBadSlider;
+
     private string currentLayerName;
     private string selectedLayerLeft = "Left Hand";
     private string selectedLayerRight = "Right Hand";
     private bool isSpreadLegs = false;
-
-    [Header("UI Elements for Feelings")]
-    public Slider feelGoodSlider;
-    public Slider feelBadSlider;
 
     private void Update()
     {
@@ -90,17 +90,17 @@ public class ButtonNighttimeController : MonoBehaviour
     private void HandleMouseInput()
     {
         if (Input.GetMouseButtonUp(0))
-        {
-            selectedLayerLeft = "Left Hand";
-            selectedLayerRight = "Right Hand";
-
+        { 
             DetectHoveredLayer();
-            ShowUiButtons();
+            ShowUiButtonLeft();
+            ShowUiButtonRight();
+                   
         }
         if (Input.GetMouseButtonDown(1))
         {
-            currentLayerName = "cancel";
-            ShowUiButtons();
+            selectedLayerLeft = "Left Hand";
+            selectedLayerRight = "Right Hand";
+            ResetAllButtons(0);
         }
     }
 
@@ -115,20 +115,51 @@ public class ButtonNighttimeController : MonoBehaviour
         }
     }
 
-    private void ShowUiButtons()
+    private void ShowUiButtonLeft()
     {
-        ResetAllButtons();
-
+        if (currentLayerName == "Head"|| currentLayerName == "Breast L" || currentLayerName == "Pussy")
+        {
+            ResetAllButtons(1);
+        }
         switch (currentLayerName)
         {
             case "Head":
                 headRubLeftButton.SetActive(true);
-                headRubRightButton.SetActive(true);
-                selectedLayerLeft = "Left Breast";
+                selectedLayerLeft = "Head";
                 break;
             case "Breast L":
                 breastLbutton.SetActive(true);
                 selectedLayerLeft = "Left Breast";
+                break;
+            case "Pussy":
+                if (isSpreadLegs)
+                {
+                    openLegsPussyLeftButton.SetActive(true);
+                }
+                else
+                {
+                    closedLegsPussyLeftButton.SetActive(true);
+                }
+                selectedLayerLeft = "Pussy";
+                break;
+            case "cancel":
+                ResetAllButtons(0);
+                selectedLayerLeft = "Left Hand";
+                break;
+        }
+    }
+    private void ShowUiButtonRight()
+    {
+        if (currentLayerName == "Head" || currentLayerName == "Breast R" || currentLayerName == "Body Upper" || 
+            currentLayerName == "Body Under" || currentLayerName == "Legs" || currentLayerName == "Pussy")
+        {
+            ResetAllButtons(2);
+        }
+        switch (currentLayerName)
+        {
+            case "Head":
+                headRubRightButton.SetActive(true);
+                selectedLayerLeft = "Head";
                 break;
             case "Breast R":
                 breastRbutton.SetActive(true);
@@ -149,36 +180,55 @@ public class ButtonNighttimeController : MonoBehaviour
             case "Pussy":
                 if (isSpreadLegs)
                 {
-                    openLegsPussyLeftButton.SetActive(true);
                     openLegsPussyRightButton.SetActive(true);
                 }
                 else
                 {
-                    closedLegsPussyLeftButton.SetActive(true);
                     closedLegsPussyRightButton.SetActive(true);
                 }
-                selectedLayerLeft = selectedLayerRight = "Pussy";
+                selectedLayerRight = "Pussy";
                 break;
             case "cancel":
-                selectedLayerLeft = "Left Hand";
+                ResetAllButtons(0);
                 selectedLayerRight = "Right Hand";
                 break;
         }
     }
 
-    private void ResetAllButtons()
+    private void ResetAllButtons(int index)
     {
-        headRubLeftButton.SetActive(false);
-        headRubRightButton.SetActive(false);
-        bodyUpperButton.SetActive(false);
-        bodyUnderButton.SetActive(false);
-        breastLbutton.SetActive(false);
-        breastRbutton.SetActive(false);
-        legsButton.SetActive(false);
-        closedLegsPussyLeftButton.SetActive(false);
-        closedLegsPussyRightButton.SetActive(false);
-        openLegsPussyLeftButton.SetActive(false);
-        openLegsPussyRightButton.SetActive(false);
+        //0 = All, 1 = Left, 2 = Right
+        if (index == 0)
+        {
+            headRubLeftButton.SetActive(false);
+            headRubRightButton.SetActive(false);
+            bodyUpperButton.SetActive(false);
+            bodyUnderButton.SetActive(false);
+            breastLbutton.SetActive(false);
+            breastRbutton.SetActive(false);
+            legsButton.SetActive(false);
+            closedLegsPussyLeftButton.SetActive(false);
+            closedLegsPussyRightButton.SetActive(false);
+            openLegsPussyLeftButton.SetActive(false);
+            openLegsPussyRightButton.SetActive(false);
+        }else if (index == 1)
+        {
+            headRubLeftButton.SetActive(false);
+            breastLbutton.SetActive(false);
+            closedLegsPussyLeftButton.SetActive(false);
+            openLegsPussyLeftButton.SetActive(false);
+        }
+        else if (index == 2)
+        {
+            headRubRightButton.SetActive(false);
+            bodyUpperButton.SetActive(false);
+            bodyUnderButton.SetActive(false);
+            breastRbutton.SetActive(false);
+            legsButton.SetActive(false);
+            closedLegsPussyRightButton.SetActive(false);
+            openLegsPussyRightButton.SetActive(false);
+        }
+        
     }
 
     #endregion
@@ -191,7 +241,7 @@ public class ButtonNighttimeController : MonoBehaviour
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
                 currentLayerName = null; // รีเซ็ต currentLayerName
-                StartCoroutine(performAction(0.5f));
+                StartCoroutine(performAction(0.5f,2));
                 break;
             case "Body Under":
                 // เพิ่มการตรวจสอบว่ากางเกงถูกถอดหมดแล้วหรือยังก่อนจะถอดกางเกงใน
@@ -205,7 +255,7 @@ public class ButtonNighttimeController : MonoBehaviour
                     shorts.currentLevel = Mathf.Clamp(shorts.currentLevel + 1, 0, shorts.maxLevel);
                 }
                 currentLayerName = null; // รีเซ็ต currentLayerName
-                StartCoroutine(performAction(0));
+                StartCoroutine(performAction(0,2));
                 break;
         }
     }
@@ -217,7 +267,7 @@ public class ButtonNighttimeController : MonoBehaviour
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel - 1, 0, shirt.maxLevel);
                 currentLayerName = null;
-                StartCoroutine(performAction(0));
+                StartCoroutine(performAction(0,2));
                 break;
             case "Body Under":
                 // เพิ่มการตรวจสอบว่ากางเกงในถูกถอดแล้วหรือยังก่อนจะใส่กลับ
@@ -225,13 +275,13 @@ public class ButtonNighttimeController : MonoBehaviour
                 {
                     underwear.currentLevel = Mathf.Clamp(underwear.currentLevel - 1, 0, underwear.maxLevel);
                     currentLayerName = null;
-                    StartCoroutine(performAction(0));
+                    StartCoroutine(performAction(0, 2));
                 }
                 else if (shorts.currentLevel > 0)
                 {
                     shorts.currentLevel = Mathf.Clamp(shorts.currentLevel - 1, 0, shorts.maxLevel);
                     currentLayerName = null;
-                    StartCoroutine(performAction(0));
+                    StartCoroutine(performAction(0, 2));
                 }
                 break;
         }
@@ -258,14 +308,14 @@ public class ButtonNighttimeController : MonoBehaviour
     {
         SetLegsState(true);
         currentLayerName = null;
-        StartCoroutine(performAction(0)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
+        StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
     }
 
     public void ClosedLegs()
     {
         SetLegsState(false);
         currentLayerName = null;
-        StartCoroutine(performAction(0)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
+        StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
     }
 
     public void OnHeadRubButtonClick()
@@ -275,58 +325,58 @@ public class ButtonNighttimeController : MonoBehaviour
                                                   // เพิ่มค่าความรู้สึกดีเล็กน้อยถ้าต้องการ
                                                   // feelingSystem.CalculateFeelings(2f, -5f);
         feelingSystem.IncreasePlayerArousal(2f); // เพิ่มค่าความเสียวของผู้เล่นเล็กน้อย
-        StartCoroutine(performAction(3f)); // ตัวอย่างการใช้งาน Coroutine
+       
     }
 
     public void OnGrabBreastButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม
         feelingSystem.IncreasePlayerArousal(5f); // เพิ่มค่าความเสียวของผู้เล่น
-        StartCoroutine(performAction(3f)); // ตัวอย่างการใช้งาน Coroutine
+        
     }
 
     public void OnLickBreastButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f); 
-        StartCoroutine(performAction(3f)); 
+        
     }
     
-    public void OnRubPussy()
+    public void OnRubPussyButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f);
-        StartCoroutine(performAction(3f));
+       
     }
-    public void OnJerkOff()
+    public void OnJerkOffButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f);
-        StartCoroutine(performAction(3f));
+        
     }
-    public void OnFingerInsidePussy()
+    public void OnFingerInsidePussyButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f);
-        StartCoroutine(performAction(3f));
+       
     }
-    public void OnLickPussy()
+    public void OnLickPussyButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f);
-        StartCoroutine(performAction(3f));
+      
     }
-    public void OnInsertDickInSidePussy()
+    public void OnInsertDickInSidePussyButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f);
-        StartCoroutine(performAction(3f));
+       
     }
-    public void OnUseToy()
+    public void OnUseToyButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
         feelingSystem.IncreasePlayerArousal(5f);
-        StartCoroutine(performAction(3f));
+      
     }
     
     #endregion
@@ -350,10 +400,10 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyOpenedCollider.SetActive(isSpreadLegs && isUnderwearRemoved);
     }
 
-    private IEnumerator performAction(float duration)
+    private IEnumerator performAction(float duration,int index)
     {
         // ปิดปุ่มที่กำลังเปิดอยู่ทั้งหมด
-        ResetAllButtons();
+        ResetAllButtons(index);
 
         // รอเวลาที่กำหนด
         yield return new WaitForSeconds(duration);

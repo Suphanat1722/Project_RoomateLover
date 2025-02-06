@@ -2300,10 +2300,10 @@ MonoBehaviour:
   breastLbutton: {fileID: 648490000}
   breastRbutton: {fileID: 1414841647}
   legsButton: {fileID: 1149157011}
-  closedLegsPussyLeftButton: {fileID: 123825533}
-  closedLegsPussyRightButton: {fileID: 420219252}
-  openLegsPussyLeftButton: {fileID: 402736934}
-  openLegsPussyRightButton: {fileID: 2981768}
+  closedLegsPussyLeftButton: {fileID: 420219252}
+  closedLegsPussyRightButton: {fileID: 123825533}
+  openLegsPussyLeftButton: {fileID: 2981768}
+  openLegsPussyRightButton: {fileID: 402736934}
   headRubLeftButton: {fileID: 1835113772}
   headRubRightButton: {fileID: 2049385547}
   textLeftHand: {fileID: 257810673}
@@ -6626,7 +6626,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 217343343}
         m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
-        m_MethodName: TakeOffClothes
+        m_MethodName: OnHeadRubButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18032,7 +18032,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 217343343}
         m_TargetAssemblyTypeName: ButtonNighttimeController, Assembly-CSharp
-        m_MethodName: TakeOffClothes
+        m_MethodName: OnHeadRubButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
