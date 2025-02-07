@@ -39,14 +39,17 @@ public class ButtonNighttimeController : MonoBehaviour
     public GameObject breastLeftCollider;
 
     [Header("UI Button")]
+    public GameObject headRubLeftButton;
+    public GameObject headRubRightButton;
     public GameObject bodyUpperButton;
     public GameObject bodyUnderButton;
     public GameObject breastLbutton, breastRbutton;
     public GameObject legsButton;
     public GameObject closedLegsPussyLeftButton, closedLegsPussyRightButton;
     public GameObject openLegsPussyLeftButton, openLegsPussyRightButton;
-    public GameObject headRubLeftButton;
-    public GameObject headRubRightButton;
+    public GameObject useToyButton;
+    public GameObject fuckButton;
+    public GameObject cumButton;
 
     [Header("Text")]
     public TextMeshProUGUI textLeftHand;
@@ -62,7 +65,11 @@ public class ButtonNighttimeController : MonoBehaviour
     private string currentLayerName;
     private string selectedLayerLeft = "Left Hand";
     private string selectedLayerRight = "Right Hand";
-    private bool isSpreadLegs = false;
+    private bool isOpenLegs = false;
+    private bool isMoveMoveFast = false;
+    private bool isPushPushDeep = false;
+    private bool isInsertDickInPussy;
+    private bool isTakeClothes;
 
     private void Update()
     {
@@ -83,10 +90,20 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             feelBadSlider.value = feelingSystem.GetFeelBadValue() / feelingSystem.feelBad.maxValue;
         }
+
+        //ค่าสถาณะต่างๆ ในทุกๆ 1 วิ
+        if (shirt.currentLevel > 0)
+        {
+            isTakeClothes = true;
+        }
+        else
+        {
+            isTakeClothes = false;
+        }
+ 
     }
 
     #region Interaction Methods
-
     private void HandleMouseInput()
     {
         if (Input.GetMouseButtonUp(0))
@@ -132,7 +149,7 @@ public class ButtonNighttimeController : MonoBehaviour
                 selectedLayerLeft = "Left Breast";
                 break;
             case "Pussy":
-                if (isSpreadLegs)
+                if (isOpenLegs)
                 {
                     openLegsPussyLeftButton.SetActive(true);
                 }
@@ -148,10 +165,12 @@ public class ButtonNighttimeController : MonoBehaviour
                 break;
         }
     }
+
     private void ShowUiButtonRight()
     {
         if (currentLayerName == "Head" || currentLayerName == "Breast R" || currentLayerName == "Body Upper" || 
-            currentLayerName == "Body Under" || currentLayerName == "Legs" || currentLayerName == "Pussy")
+            currentLayerName == "Body Under" || currentLayerName == "Legs" || currentLayerName == "Pussy" ||
+            currentLayerName == "Fuck" || currentLayerName == "Toy" || currentLayerName == "Cum")
         {
             ResetAllButtons(2);
         }
@@ -178,7 +197,7 @@ public class ButtonNighttimeController : MonoBehaviour
                 selectedLayerRight = "Legs";
                 break;
             case "Pussy":
-                if (isSpreadLegs)
+                if (isOpenLegs)
                 {
                     openLegsPussyRightButton.SetActive(true);
                 }
@@ -187,6 +206,18 @@ public class ButtonNighttimeController : MonoBehaviour
                     closedLegsPussyRightButton.SetActive(true);
                 }
                 selectedLayerRight = "Pussy";
+                break;
+            case "Fuck":
+                fuckButton.SetActive(true);
+                selectedLayerRight = "Pussy";
+                break;
+            case "Toy":
+                useToyButton.SetActive(true);
+                selectedLayerRight = "Toy";
+                break;
+            case "Cum":
+                cumButton.SetActive(true);
+                selectedLayerRight = "Select Cum";
                 break;
             case "cancel":
                 ResetAllButtons(0);
@@ -211,7 +242,10 @@ public class ButtonNighttimeController : MonoBehaviour
             closedLegsPussyRightButton.SetActive(false);
             openLegsPussyLeftButton.SetActive(false);
             openLegsPussyRightButton.SetActive(false);
-        }else if (index == 1)
+            useToyButton.SetActive(false);
+            fuckButton.SetActive(false);
+        }
+        else if (index == 1)
         {
             headRubLeftButton.SetActive(false);
             breastLbutton.SetActive(false);
@@ -227,15 +261,17 @@ public class ButtonNighttimeController : MonoBehaviour
             legsButton.SetActive(false);
             closedLegsPussyRightButton.SetActive(false);
             openLegsPussyRightButton.SetActive(false);
+            useToyButton.SetActive(false);
+            fuckButton.SetActive(false);
         }
         
     }
-
     #endregion
 
     #region Button Methods
     public void TakeOffClothes()
     {
+        StartCoroutine(ContinuousActionWhileTakeClothes());
         switch (currentLayerName)
         {
             case "Body Upper":
@@ -261,7 +297,7 @@ public class ButtonNighttimeController : MonoBehaviour
     }
 
     public void DressClothes()
-    {
+    {       
         switch (currentLayerName)
         {
             case "Body Upper":
@@ -288,8 +324,8 @@ public class ButtonNighttimeController : MonoBehaviour
     }
 
     private void SetLegsState(bool spread)
-    {
-        isSpreadLegs = spread;
+    {       
+        isOpenLegs = spread;
 
         hipClosed.SetActive(!spread);
         hipOpened.SetActive(spread);
@@ -306,6 +342,7 @@ public class ButtonNighttimeController : MonoBehaviour
 
     public void OpenLegs()
     {
+        StartCoroutine(ContinuousActionWhileInserted());
         SetLegsState(true);
         currentLayerName = null;
         StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
@@ -331,8 +368,7 @@ public class ButtonNighttimeController : MonoBehaviour
     public void OnGrabBreastButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม
-        feelingSystem.IncreasePlayerArousal(5f); // เพิ่มค่าความเสียวของผู้เล่น
-        
+        feelingSystem.IncreasePlayerArousal(5f); // เพิ่มค่าความเสียวของผู้เล่น        
     }
 
     public void OnLickBreastButtonClick()
@@ -366,19 +402,80 @@ public class ButtonNighttimeController : MonoBehaviour
         feelingSystem.IncreasePlayerArousal(5f);
       
     }
-    public void OnInsertDickInSidePussyButtonClick()
+    public void OnInsertDickInPussyButtonClick()
     {
-        feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f);
-       
+        currentLayerName = "Fuck";
+        isInsertDickInPussy = true;
     }
     public void OnUseToyButtonClick()
     {
-        feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f);
-      
+        currentLayerName = "Toy";
     }
-    
+
+    public void OnMoveSlowlyButtonClick()
+    {
+        isMoveMoveFast = false;
+        // การทำงานเมื่อกดปุ่มขยับเบาๆ
+        StartCoroutine(ContinuousActionWhileInserted()); // เริ่ม Coroutine      
+    }
+
+    public void OnMoveFastButtonClick()
+    {
+        isMoveMoveFast = true;
+        // การทำงานเมื่อกดปุ่มขยับเร็วๆ
+        StartCoroutine(ContinuousActionWhileInserted()); // เริ่ม Coroutine
+    }
+
+    public void OnPushShallowButtonClick()
+    {
+        isPushPushDeep = false;
+        feelingSystem.CalculateFeelings(8f, 1.5f);
+        feelingSystem.IncreasePlayerArousal(3f);
+    }
+
+    public void OnPushDeepButtonClick()
+    {
+        isPushPushDeep = true;      
+        feelingSystem.CalculateFeelings(20f, 4f);
+        feelingSystem.IncreasePlayerArousal(15f);
+    }
+
+    public void OnPullOutButtonClick()
+    {
+        isInsertDickInPussy = false;
+        StartCoroutine(performAction(0f, 2));
+    }
+
+    public void OnCumOutsideButtonClick()
+    {
+        //แตกนอก
+        isInsertDickInPussy = false;
+        StartCoroutine(performAction(0f, 0));
+        Debug.Log("แตกนอก");
+    }
+
+    public void OnCumInsideButtonClick()
+    {
+        //แตกใน
+        isInsertDickInPussy = false;
+        StartCoroutine(performAction(0f, 0));
+        Debug.Log("แตกใน");
+    }
+
+    public void OnUseVibratorButtonClick()
+    {
+        feelingSystem.CalculateFeelings(15f, 3f); // ค่าความรู้สึกดีสูงกว่าเล็กน้อย
+        feelingSystem.IncreasePlayerArousal(7f);
+        StartCoroutine(performAction(0f, 2));
+    }
+
+    public void OnUseEggVibratorButtonClick()
+    {
+        feelingSystem.CalculateFeelings(12f, 2.5f); // ค่าความรู้สึกดีน้อยกว่าเล็กน้อย
+        feelingSystem.IncreasePlayerArousal(6f);
+        StartCoroutine(performAction(0f, 2));
+    }
+
     #endregion
 
     private void CheckClothingLevels()
@@ -396,8 +493,8 @@ public class ButtonNighttimeController : MonoBehaviour
         legClosedCollider.SetActive(!isShortsRemoved);
         legOpenedCollider.SetActive(isUnderwearRemoved);
 
-        pussyClosedCollider.SetActive(!isSpreadLegs && isUnderwearRemoved);
-        pussyOpenedCollider.SetActive(isSpreadLegs && isUnderwearRemoved);
+        pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
+        pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
     }
 
     private IEnumerator performAction(float duration,int index)
@@ -412,5 +509,58 @@ public class ButtonNighttimeController : MonoBehaviour
         // ตรงนี้คุณอาจต้องการเรียก ShowUiButtons() หรือทำการอัปเดต UI อื่นๆ
     }
 
+    private IEnumerator ContinuousActionWhileTakeClothes()
+    {
+        while (isTakeClothes)
+        {
+            feelingSystem.CalculateFeelings(2f, 5f);
+            feelingSystem.IncreasePlayerArousal(0.5f);
 
+            if (isTakeClothes)
+            {
+                yield break;
+            }
+
+            yield return new WaitForSeconds(1f);
+        }      
+    }
+    private IEnumerator ContinuousActionWhileInserted()
+    {
+        if (isInsertDickInPussy)
+        {         
+            int countDown = 5; // รีเซ็ตค่านับถอยหลัง
+            while (!isMoveMoveFast)
+            {
+                feelingSystem.CalculateFeelings(10f, 2f);
+                feelingSystem.IncreasePlayerArousal(5f);
+
+                // ตรวจสอบว่าค่าความรู้สึกดีถึงขีดสูงสุดหรือยัง
+                if (feelingSystem.GetFeelGoodValue() >= feelingSystem.feelGood.maxValue)
+                {
+                    selectedLayerRight = "Cum";
+                    countDown--;
+                    if (countDown <= 0 && selectedLayerRight == "Cum")
+                    {
+                        OnCumInsideButtonClick();
+                        yield break; // ออกจาก Coroutine เมื่อน้ำแตก
+                    }
+                }
+
+                yield return new WaitForSeconds(1f);
+            }
+            while (isMoveMoveFast)
+            {
+                feelingSystem.CalculateFeelings(15f, 10f);
+                feelingSystem.IncreasePlayerArousal(10f);
+
+                if (feelingSystem.GetFeelGoodValue() >= feelingSystem.feelGood.maxValue)
+                {
+                    OnCumInsideButtonClick();
+                    yield break; // ออกจาก Coroutine เมื่อน้ำแตก
+                }
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+    }
 }
