@@ -266,9 +266,28 @@ public class ButtonNighttimeController : MonoBehaviour
         }
         
     }
+
+    private void SetLegsState(bool spread)
+    {
+        isOpenLegs = spread;
+
+        hipClosed.SetActive(!spread);
+        hipOpened.SetActive(spread);
+
+        legClosed.SetActive(!spread);
+        legOpened.SetActive(spread);
+
+        legClosedCollider.SetActive(!spread);
+        legOpenedCollider.SetActive(spread);
+
+        pussyClosedCollider.SetActive(!spread);
+        pussyOpenedCollider.SetActive(spread);
+    }
     #endregion
 
+
     #region Button Methods
+    // ถอดเสื้อ
     public void TakeOffClothes()
     {
         StartCoroutine(ContinuousActionWhileTakeClothes());
@@ -295,7 +314,7 @@ public class ButtonNighttimeController : MonoBehaviour
                 break;
         }
     }
-
+    // สวมเสื้อ
     public void DressClothes()
     {       
         switch (currentLayerName)
@@ -322,24 +341,7 @@ public class ButtonNighttimeController : MonoBehaviour
                 break;
         }
     }
-
-    private void SetLegsState(bool spread)
-    {       
-        isOpenLegs = spread;
-
-        hipClosed.SetActive(!spread);
-        hipOpened.SetActive(spread);
-
-        legClosed.SetActive(!spread);
-        legOpened.SetActive(spread);
-
-        legClosedCollider.SetActive(!spread);
-        legOpenedCollider.SetActive(spread);
-
-        pussyClosedCollider.SetActive(!spread);
-        pussyOpenedCollider.SetActive(spread);
-    }
-
+    //ถ่างขา
     public void OpenLegs()
     {
         StartCoroutine(ContinuousActionWhileInserted());
@@ -347,14 +349,14 @@ public class ButtonNighttimeController : MonoBehaviour
         currentLayerName = null;
         StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
     }
-
+    // หุบขา
     public void ClosedLegs()
     {
         SetLegsState(false);
         currentLayerName = null;
         StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
     }
-
+    // ลูบหัว
     public void OnHeadRubButtonClick()
     {
         // ลดค่าความรู้สึกแย่
@@ -364,118 +366,114 @@ public class ButtonNighttimeController : MonoBehaviour
         feelingSystem.IncreasePlayerArousal(2f); // เพิ่มค่าความเสียวของผู้เล่นเล็กน้อย
        
     }
-
+    // บีบ นม
     public void OnGrabBreastButtonClick()
-    {
+    {     
         feelingSystem.CalculateFeelings(10f, 2f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม
         feelingSystem.IncreasePlayerArousal(5f); // เพิ่มค่าความเสียวของผู้เล่น        
     }
-
+    //เลีย หัวนม
     public void OnLickBreastButtonClick()
-    {
+    {    
         feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f); 
-        
+        feelingSystem.IncreasePlayerArousal(5f);        
     }
-    
+    // ถูๆจิมิ
     public void OnRubPussyButtonClick()
     {
         feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f);
-       
+        feelingSystem.IncreasePlayerArousal(5f);    
     }
+    // ชักว่าว
     public void OnJerkOffButtonClick()
-    {
+    {      
         feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f);
-        
+        feelingSystem.IncreasePlayerArousal(5f);       
     }
+    // สอดนิ้วเข้าไป
     public void OnFingerInsidePussyButtonClick()
-    {
+    {        
         feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f);
-       
+        feelingSystem.IncreasePlayerArousal(5f);      
     }
+    // เลีย จิมิ
     public void OnLickPussyButtonClick()
-    {
+    {       
         feelingSystem.CalculateFeelings(10f, 2f);
-        feelingSystem.IncreasePlayerArousal(5f);
-      
+        feelingSystem.IncreasePlayerArousal(5f);      
     }
+    // เอา ควย สอดใส่
     public void OnInsertDickInPussyButtonClick()
-    {
+    {      
         currentLayerName = "Fuck";
         isInsertDickInPussy = true;
     }
+    // เลือก ของเล่น
     public void OnUseToyButtonClick()
-    {
+    {       
         currentLayerName = "Toy";
     }
-
+    // ขยับ ควย ช้าๆ
     public void OnMoveSlowlyButtonClick()
-    {
-        isMoveMoveFast = false;
-        // การทำงานเมื่อกดปุ่มขยับเบาๆ
+    {       
+        isMoveMoveFast = false;      
         StartCoroutine(ContinuousActionWhileInserted()); // เริ่ม Coroutine      
     }
-
+    //ขยับ ควย ไวๆ
     public void OnMoveFastButtonClick()
-    {
-        isMoveMoveFast = true;
-        // การทำงานเมื่อกดปุ่มขยับเร็วๆ
+    {       
+        isMoveMoveFast = true;       
         StartCoroutine(ContinuousActionWhileInserted()); // เริ่ม Coroutine
     }
-
+    //ดัน ควย เข้าแค่หัว
     public void OnPushShallowButtonClick()
-    {
+    {   
         isPushPushDeep = false;
         feelingSystem.CalculateFeelings(8f, 1.5f);
         feelingSystem.IncreasePlayerArousal(3f);
     }
-
+    //ดัน ควย เข้าลึกๆ
     public void OnPushDeepButtonClick()
     {
         isPushPushDeep = true;      
         feelingSystem.CalculateFeelings(20f, 4f);
         feelingSystem.IncreasePlayerArousal(15f);
     }
-
+    //เอาควยออก
     public void OnPullOutButtonClick()
-    {
+    {       
+        currentLayerName = "Cancel";
         isInsertDickInPussy = false;
         StartCoroutine(performAction(0f, 2));
     }
-
+    //แตกนอก
     public void OnCumOutsideButtonClick()
-    {
-        //แตกนอก
+    {        
         isInsertDickInPussy = false;
         StartCoroutine(performAction(0f, 0));
         Debug.Log("แตกนอก");
     }
-
+    //แตกใน
     public void OnCumInsideButtonClick()
-    {
-        //แตกใน
+    {      
         isInsertDickInPussy = false;
         StartCoroutine(performAction(0f, 0));
         Debug.Log("แตกใน");
     }
-
+    // เลือกใช้ Vibrator
     public void OnUseVibratorButtonClick()
     {
-        feelingSystem.CalculateFeelings(15f, 3f); // ค่าความรู้สึกดีสูงกว่าเล็กน้อย
+        feelingSystem.CalculateFeelings(15f, 3f); 
         feelingSystem.IncreasePlayerArousal(7f);
         StartCoroutine(performAction(0f, 2));
     }
-
+    // เลือกใช้ Egg Vibrator
     public void OnUseEggVibratorButtonClick()
     {
-        feelingSystem.CalculateFeelings(12f, 2.5f); // ค่าความรู้สึกดีน้อยกว่าเล็กน้อย
+        feelingSystem.CalculateFeelings(12f, 2.5f); 
         feelingSystem.IncreasePlayerArousal(6f);
         StartCoroutine(performAction(0f, 2));
     }
-
     #endregion
 
     private void CheckClothingLevels()
