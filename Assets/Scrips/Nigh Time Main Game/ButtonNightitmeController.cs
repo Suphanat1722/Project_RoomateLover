@@ -100,7 +100,6 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             isTakeClothes = false;
         }
- 
     }
 
     #region Interaction Methods
@@ -283,8 +282,26 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyClosedCollider.SetActive(!spread);
         pussyOpenedCollider.SetActive(spread);
     }
-    #endregion
 
+    private void CheckClothingLevels()
+    {
+        shirt.UpdateState();
+        shorts.UpdateState();
+        underwear.UpdateState();
+
+        bool isUnderwearRemoved = underwear.currentLevel >= underwear.maxLevel;
+        bool isShortsRemoved = shorts.currentLevel >= shorts.maxLevel;
+
+        breastLeftCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
+        breastRightCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
+
+        legClosedCollider.SetActive(!isShortsRemoved);
+        legOpenedCollider.SetActive(isUnderwearRemoved);
+
+        pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
+        pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
+    }
+    #endregion
 
     #region Button Methods
     // ถอดเสื้อ
@@ -295,22 +312,30 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
-                currentLayerName = null; // รีเซ็ต currentLayerName
-                StartCoroutine(performAction(0.5f,2));
+                currentLayerName = null;
+                StartCoroutine(ContinueusResetButtons(0,2));
                 break;
             case "Body Under":
-                // เพิ่มการตรวจสอบว่ากางเกงถูกถอดหมดแล้วหรือยังก่อนจะถอดกางเกงใน
-                if (shorts.currentLevel >= shorts.maxLevel)
+                // กำหนดให้ เมื่อค่าความรู้สึกดีเกิด 30 จะถอดกางเกงได้ในครั้งวเดียว
+                if (feelingSystem.feelGood.currentValue >= 30)
                 {
-                    underwear.currentLevel = Mathf.Clamp(underwear.currentLevel + 1, 0, underwear.maxLevel);
+                    underwear.currentLevel = Mathf.Clamp(underwear.currentLevel + 3, 0, underwear.maxLevel);
                     currentLayerName = null;
                 }
                 else
                 {
-                    shorts.currentLevel = Mathf.Clamp(shorts.currentLevel + 1, 0, shorts.maxLevel);
-                }
-                currentLayerName = null; // รีเซ็ต currentLayerName
-                StartCoroutine(performAction(0,2));
+                    if (shorts.currentLevel >= shorts.maxLevel)
+                    {
+                        underwear.currentLevel = Mathf.Clamp(underwear.currentLevel + 1, 0, underwear.maxLevel);
+                        currentLayerName = null;
+                    }
+                    else
+                    {
+                        shorts.currentLevel = Mathf.Clamp(shorts.currentLevel + 1, 0, shorts.maxLevel);
+                    }
+                }               
+                currentLayerName = null;
+                StartCoroutine(ContinueusResetButtons(0,2));
                 break;
         }
     }
@@ -322,7 +347,7 @@ public class ButtonNighttimeController : MonoBehaviour
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel - 1, 0, shirt.maxLevel);
                 currentLayerName = null;
-                StartCoroutine(performAction(0,2));
+                StartCoroutine(ContinueusResetButtons(0,2));
                 break;
             case "Body Under":
                 // เพิ่มการตรวจสอบว่ากางเกงในถูกถอดแล้วหรือยังก่อนจะใส่กลับ
@@ -330,13 +355,13 @@ public class ButtonNighttimeController : MonoBehaviour
                 {
                     underwear.currentLevel = Mathf.Clamp(underwear.currentLevel - 1, 0, underwear.maxLevel);
                     currentLayerName = null;
-                    StartCoroutine(performAction(0, 2));
+                    StartCoroutine(ContinueusResetButtons(0, 2));
                 }
                 else if (shorts.currentLevel > 0)
                 {
                     shorts.currentLevel = Mathf.Clamp(shorts.currentLevel - 1, 0, shorts.maxLevel);
                     currentLayerName = null;
-                    StartCoroutine(performAction(0, 2));
+                    StartCoroutine(ContinueusResetButtons(0, 2));
                 }
                 break;
         }
@@ -347,14 +372,14 @@ public class ButtonNighttimeController : MonoBehaviour
         StartCoroutine(ContinuousActionWhileInserted());
         SetLegsState(true);
         currentLayerName = null;
-        StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
+        StartCoroutine(ContinueusResetButtons(0, 2)); // เปลี่ยนสถานะขาเป็นกาง และจับเวลา 3 วินาที
     }
     // หุบขา
     public void ClosedLegs()
     {
         SetLegsState(false);
         currentLayerName = null;
-        StartCoroutine(performAction(0, 2)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
+        StartCoroutine(ContinueusResetButtons(0, 2)); // เปลี่ยนสถานะขาเป็นหุบ และจับเวลา 3 วินาที
     }
     // ลูบหัว
     public void OnHeadRubButtonClick()
@@ -444,20 +469,20 @@ public class ButtonNighttimeController : MonoBehaviour
     {       
         currentLayerName = "Cancel";
         isInsertDickInPussy = false;
-        StartCoroutine(performAction(0f, 2));
+        StartCoroutine(ContinueusResetButtons(0f, 2));
     }
     //แตกนอก
     public void OnCumOutsideButtonClick()
     {        
         isInsertDickInPussy = false;
-        StartCoroutine(performAction(0f, 0));
+        StartCoroutine(ContinueusResetButtons(0f, 0));
         Debug.Log("แตกนอก");
     }
     //แตกใน
     public void OnCumInsideButtonClick()
     {      
         isInsertDickInPussy = false;
-        StartCoroutine(performAction(0f, 0));
+        StartCoroutine(ContinueusResetButtons(0f, 0));
         Debug.Log("แตกใน");
     }
     // เลือกใช้ Vibrator
@@ -465,40 +490,21 @@ public class ButtonNighttimeController : MonoBehaviour
     {
         feelingSystem.CalculateFeelings(15f, 3f); 
         feelingSystem.IncreasePlayerArousal(7f);
-        StartCoroutine(performAction(0f, 2));
+        StartCoroutine(ContinueusResetButtons(0f, 2));
     }
     // เลือกใช้ Egg Vibrator
     public void OnUseEggVibratorButtonClick()
     {
         feelingSystem.CalculateFeelings(12f, 2.5f); 
         feelingSystem.IncreasePlayerArousal(6f);
-        StartCoroutine(performAction(0f, 2));
+        StartCoroutine(ContinueusResetButtons(0f, 2));
     }
     #endregion
 
-    private void CheckClothingLevels()
-    {
-        shirt.UpdateState();
-        shorts.UpdateState();
-        underwear.UpdateState();
-
-        bool isUnderwearRemoved = underwear.currentLevel >= underwear.maxLevel;
-        bool isShortsRemoved = shorts.currentLevel >= shorts.maxLevel;
-
-        breastLeftCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
-        breastRightCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
-
-        legClosedCollider.SetActive(!isShortsRemoved);
-        legOpenedCollider.SetActive(isUnderwearRemoved);
-
-        pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
-        pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
-    }
-
-    private IEnumerator performAction(float duration,int index)
+    private IEnumerator ContinueusResetButtons(float duration,int indexReset)
     {
         // ปิดปุ่มที่กำลังเปิดอยู่ทั้งหมด
-        ResetAllButtons(index);
+        ResetAllButtons(indexReset);
 
         // รอเวลาที่กำหนด
         yield return new WaitForSeconds(duration);
@@ -537,7 +543,7 @@ public class ButtonNighttimeController : MonoBehaviour
                 {
                     selectedLayerRight = "Cum";
                     countDown--;
-                    if (countDown <= 0 && selectedLayerRight == "Cum")
+                    if (countDown <= 0 && selectedLayerRight == "Cum" || !isInsertDickInPussy)
                     {
                         OnCumInsideButtonClick();
                         yield break; // ออกจาก Coroutine เมื่อน้ำแตก
