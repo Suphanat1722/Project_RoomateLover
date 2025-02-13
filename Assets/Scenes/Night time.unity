@@ -2487,6 +2487,8 @@ GameObject:
   - component: {fileID: 217343341}
   - component: {fileID: 217343343}
   - component: {fileID: 217343344}
+  - component: {fileID: 217343345}
+  - component: {fileID: 217343346}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -2571,6 +2573,8 @@ MonoBehaviour:
   textLeftHand: {fileID: 257810673}
   textRightHand: {fileID: 377012235}
   feelingSystem: {fileID: 217343344}
+  gameTime: {fileID: 217343346}
+  sceneController: {fileID: 217343345}
   feelGoodSlider: {fileID: 994874282}
   feelBadSlider: {fileID: 267716484}
 --- !u!114 &217343344
@@ -2597,6 +2601,34 @@ MonoBehaviour:
   trustValue: 100
   sexualInterest: 100
   mood: 100
+  playerEnergy: 50
+  playerSexEnergy: 1
+  playerMoney: 1500
+--- !u!114 &217343345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217343340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16512e144b12a444d93aad88f4ce21f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &217343346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217343340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594c8b1ad9574d24cb4c20ddbb89d0de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 0}
 --- !u!1 &223926899
 GameObject:
   m_ObjectHideFlags: 0

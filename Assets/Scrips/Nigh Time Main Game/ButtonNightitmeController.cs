@@ -57,6 +57,8 @@ public class ButtonNighttimeController : MonoBehaviour
 
     [Header("Feeling System")]
     public FeelingSystem feelingSystem;
+    public GameTime gameTime;
+    public SceneController sceneController;
 
     [Header("UI Elements for Feelings")]
     public Slider feelGoodSlider;

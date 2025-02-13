@@ -7,6 +7,17 @@ public class GameTime : MonoBehaviour
     public int Hour { get; private set; }
     public int Minute { get; private set; }
 
+    public TextMeshProUGUI timeText;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
+        }
+        UpdateTimeUI();
+    }
+
     public GameTime(int hour, int minute)
     {
         Hour = hour;
@@ -25,34 +36,8 @@ public class GameTime : MonoBehaviour
         }
     }
 
-    // เพิ่มฟังก์ชัน AddTimeValue
-    public void AddTimeValue(int minutes)
-    {
-        AddTime(0, minutes); // เรียกใช้ฟังก์ชัน AddTime เพื่อเพิ่มเวลา
-        UpdateTimeUI(); // อัปเดต UI เพื่อแสดงเวลาที่เปลี่ยนแปลง
-    }
-
-    public TextMeshProUGUI timeText;
-
-    private void Start()
-    {
-        // ตั้งค่าเวลาเริ่มต้น
-        Hour = 19;
-        Minute = 0;     
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
-        }
-        UpdateTimeUI();
-    }
-    public bool IsAfterMidnight()
-    {
-        return Hour >= 0 && Hour <= 7;
-    }
+    public int GetHourCurrentTime() => Hour;
+    public int GetMinuteCurrentTime() => Minute;
 
     private void UpdateTimeUI()
     {
