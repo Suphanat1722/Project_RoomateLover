@@ -74,6 +74,7 @@ public class ButtonNighttimeController : MonoBehaviour
     private bool isTakeClothes;
     private bool isSelectCumInside;
     private bool isSelectCumOutside;
+    private string previousLayerNameWhenInserted = "Cancel";
 
     float selectCumCountDown = 5f;
 
@@ -108,63 +109,10 @@ public class ButtonNighttimeController : MonoBehaviour
         }
 
         // การการปุ่มเลือกน้ำแตก
-        if (isInsertDickInPussy)
-        {
-            if (!isMoveMoveFast)
-            {
-                feelingSystem.CalculatePlayerArousal(100);
-               
-                // เมื่อถึงจุดสุดยอด จะให้เวลา 5 วิในการเลือกจุดที่ต้องการเสร็จ
-                if (feelingSystem.playerArousal.currentValue >= feelingSystem.playerArousal.maxValue)
-                {
-                    if (!isSelectCumInside && !isSelectCumOutside)
-                    {
-                        currentLayerName = "Cum";
-                    }
-                    else
-                    {
-                        currentLayerName = "Cancel";
-                    }
-                    
-                    ShowUiButtonLeft();
-                    ShowUiButtonRight();
-                    feelingSystem.SetPlayerSexEnergy(1);
-
-                    selectCumCountDown -= Time.deltaTime;
-                    //เมื่อเลือกไม่ทันจะแตกใน
-                    if (selectCumCountDown <= 0 && !isSelectCumInside && !isSelectCumOutside)
-                    {
-                        Debug.Log("แตกใน เอาออกไม่ทัน");
-                        OnCumInsideButtonClick();
-                        currentLayerName = "Cancel";                        
-                        selectCumCountDown = 5;
-                        feelingSystem.ResetFeelingPlayerValues();
-                        isSelectCumInside = false;
-                        isSelectCumOutside = false;
-                    }
-                    else if(selectCumCountDown <= 0 && isSelectCumInside)
-                    {
-                        Debug.Log("แตกใน");
-                        selectCumCountDown = 5;
-                        feelingSystem.ResetFeelingPlayerValues();
-                        isSelectCumInside = false;
-                        isSelectCumOutside = false;
-                    }
-                    else if(selectCumCountDown <= 0 && isSelectCumOutside)
-                    {
-                        Debug.Log("แตกนอก");
-                        isInsertDickInPussy = false;
-                        selectCumCountDown = 5;
-                        feelingSystem.ResetFeelingPlayerValues();
-                        isSelectCumInside = false;
-                        isSelectCumOutside = false;
-                    }
-                }         
-            }
-        }
+        HandleCumSelection();
+        
     }
 
-    #region Interaction Methods
     private void HandleMouseInput()
     {
         if (Input.GetMouseButtonUp(0))
@@ -172,16 +120,26 @@ public class ButtonNighttimeController : MonoBehaviour
             DetectHoveredLayer();
             ShowUiButtonLeft();
             ShowUiButtonRight();
+
+            Debug.Log(currentLayerName);
                    
         }
         if (Input.GetMouseButtonDown(1))
         {
-            selectedLayerLeft = "Left Hand";
-            selectedLayerRight = "Right Hand";
-            ResetAllButtons(0);
+            if (!isInsertDickInPussy)
+            {
+                selectedLayerLeft = "Left Hand";
+                selectedLayerRight = "Right Hand";
+                ResetAllButtons(0);
+            }
+            else
+            {
+                selectedLayerLeft = "Left Hand";
+                ResetAllButtons(1);
+            }
+
         }
     }
-
     private void DetectHoveredLayer()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -192,10 +150,9 @@ public class ButtonNighttimeController : MonoBehaviour
             currentLayerName = LayerMask.LayerToName(hit.collider.gameObject.layer);
         }
     }
-
     private void ShowUiButtonLeft()
     {
-        if (currentLayerName == "Head"|| currentLayerName == "Breast L" || currentLayerName == "Pussy" || currentLayerName == "Cancel")
+        if (currentLayerName == "Head"|| currentLayerName == "Breast L" || currentLayerName == "Pussy" || currentLayerName == "Toy"  || currentLayerName == "Cancel")
         {
             ResetAllButtons(1);
         }
@@ -220,73 +177,107 @@ public class ButtonNighttimeController : MonoBehaviour
                 }
                 selectedLayerLeft = "Pussy";
                 break;
+            case "Toy":
+                useToyButton.SetActive(true);
+                selectedLayerRight = "Toy";
+                break;
             case "cancel":
                 ResetAllButtons(0);
                 selectedLayerLeft = "Left Hand";
                 break;
         }
     }
-
     private void ShowUiButtonRight()
     {
-        if (currentLayerName == "Head" || currentLayerName == "Breast R" || currentLayerName == "Body Upper" || 
-            currentLayerName == "Body Under" || currentLayerName == "Legs" || currentLayerName == "Pussy" ||
-            currentLayerName == "Fuck" || currentLayerName == "Toy" || currentLayerName == "Cum" || currentLayerName == "Cancel")
+        // ตรวจสอบว่า isInsertDickInPussy เป็นจริงหรือไม่
+        if (isInsertDickInPussy)
         {
+            if (currentLayerName != "Fuck" && currentLayerName != "Cum" && currentLayerName != "Cancel")
+            {
+                currentLayerName = previousLayerNameWhenInserted; // กลับไปใช้ค่าเดิม
+            }
+            else
+            {
+                previousLayerNameWhenInserted = currentLayerName; // อัปเดตค่า previousLayerNameWhenInserted ถ้าเป็นค่าที่อนุญาต
+            }
             ResetAllButtons(2);
+            // ถ้าเป็นจริง, เราจำกัดให้ currentLayerName เป็นเพียง "Fuck", "Cum", หรือ "Cancel" เท่านั้น
+            switch (currentLayerName)
+            {
+                case "Fuck":
+                    fuckButton.SetActive(true);
+                    selectedLayerRight = "Pussy";
+                    break;
+                case "Cum":
+                    cumButton.SetActive(true);
+                    selectedLayerRight = "Select Cum";
+                    break;
+                case "Cancel":
+                    ResetAllButtons(2);
+                    selectedLayerRight = "Right Hand";
+                    break;
+                // ถ้าไม่ใช่ "Fuck", "Cum", หรือ "Cancel", เราจะไม่ทำอะไรเลย
+                default:
+                    return; // หยุดการทำงานของฟังก์ชันทันที
+            }
         }
-        switch (currentLayerName)
+        else
         {
-            case "Head":
-                headRubRightButton.SetActive(true);
-                selectedLayerLeft = "Head";
-                break;
-            case "Breast R":
-                breastRbutton.SetActive(true);
-                selectedLayerRight = "Right Breast";
-                break;
-            case "Body Upper":
-                bodyUpperButton.SetActive(true);
-                selectedLayerRight = "เสื้อ";
-                break;
-            case "Body Under":
-                bodyUnderButton.SetActive(true);
-                selectedLayerRight = shorts.currentLevel < shorts.maxLevel ? "กางเกง" : "กางเกงใน";
-                break;
-            case "Legs":
-                legsButton.SetActive(true);
-                selectedLayerRight = "Legs";
-                break;
-            case "Pussy":
-                if (isOpenLegs)
-                {
-                    openLegsPussyRightButton.SetActive(true);
-                }
-                else
-                {
-                    closedLegsPussyRightButton.SetActive(true);
-                }
-                selectedLayerRight = "Pussy";
-                break;
-            case "Fuck":
-                fuckButton.SetActive(true);
-                selectedLayerRight = "Pussy";
-                break;
-            case "Toy":
-                useToyButton.SetActive(true);
-                selectedLayerRight = "Toy";
-                break;
-            case "Cum":
-                cumButton.SetActive(true);
-                selectedLayerRight = "Select Cum";
-                break;
-            case "Cancel":
-                ResetAllButtons(0);
-                selectedLayerRight = "Right Hand";
-                break;
+            // ถ้า isInsertDickInPussy เป็นเท็จ, ทำงานตามปกติ
+            if (currentLayerName == "Head" || currentLayerName == "Breast R" || currentLayerName == "Body Upper" ||
+                currentLayerName == "Body Under" || currentLayerName == "Legs" || currentLayerName == "Pussy" ||
+                currentLayerName == "Fuck" || currentLayerName == "Cum" || currentLayerName == "Cancel")
+            {
+                ResetAllButtons(2);
+            }
+            switch (currentLayerName)
+            {
+                case "Head":
+                    headRubRightButton.SetActive(true);
+                    selectedLayerRight = "Head";
+                    break;
+                case "Breast R":
+                    breastRbutton.SetActive(true);
+                    selectedLayerRight = "Right Breast";
+                    break;
+                case "Body Upper":
+                    bodyUpperButton.SetActive(true);
+                    selectedLayerRight = "เสื้อ";
+                    break;
+                case "Body Under":
+                    bodyUnderButton.SetActive(true);
+                    selectedLayerRight = shorts.currentLevel < shorts.maxLevel ? "กางเกง" : "กางเกงใน";
+                    break;
+                case "Legs":
+                    legsButton.SetActive(true);
+                    selectedLayerRight = "Legs";
+                    break;
+                case "Pussy":
+                    if (isOpenLegs)
+                    {
+                        openLegsPussyRightButton.SetActive(true);
+                    }
+                    else
+                    {
+                        closedLegsPussyRightButton.SetActive(true);
+                    }
+                    selectedLayerRight = "Pussy";
+                    break;
+                case "Fuck":
+                    fuckButton.SetActive(true);
+                    selectedLayerRight = "Pussy";
+                    break;
+                case "Cum":
+                    cumButton.SetActive(true);
+                    selectedLayerRight = "Select Cum";
+                    break;
+                case "Cancel":
+                    ResetAllButtons(2);
+                    selectedLayerRight = "Right Hand";
+                    break;
+            }
         }
     }
-
     private void ResetAllButtons(int index)
     {
         //0 = All, 1 = Left, 2 = Right
@@ -313,6 +304,7 @@ public class ButtonNighttimeController : MonoBehaviour
             breastLbutton.SetActive(false);
             closedLegsPussyLeftButton.SetActive(false);
             openLegsPussyLeftButton.SetActive(false);
+            useToyButton.SetActive(false);
         }
         else if (index == 2)
         {
@@ -322,14 +314,12 @@ public class ButtonNighttimeController : MonoBehaviour
             breastRbutton.SetActive(false);
             legsButton.SetActive(false);
             closedLegsPussyRightButton.SetActive(false);
-            openLegsPussyRightButton.SetActive(false);
-            useToyButton.SetActive(false);
+            openLegsPussyRightButton.SetActive(false);         
             fuckButton.SetActive(false);
             cumButton.SetActive(false);
         }
         
     }
-
     private void SetLegsState(bool spread)
     {
         isOpenLegs = spread;
@@ -346,7 +336,6 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyClosedCollider.SetActive(!spread);
         pussyOpenedCollider.SetActive(spread);
     }
-
     private void CheckClothingLevels()
     {
         shirt.UpdateState();
@@ -365,9 +354,65 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
         pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
     }
-    #endregion
+    private void HandleCumSelection()
+    {
+        if (isInsertDickInPussy && !isMoveMoveFast)
+        {
+            feelingSystem.CalculatePlayerArousal(100);
 
-    #region Button Methods
+            // เมื่อถึงจุดสุดยอด จะให้เวลา 5 วิในการเลือกจุดที่ต้องการเสร็จ
+            if (feelingSystem.playerArousal.currentValue >= feelingSystem.playerArousal.maxValue)
+            {
+                if (!isSelectCumInside && !isSelectCumOutside)
+                {
+                    currentLayerName = "Cum";
+                }
+                else if (isSelectCumInside && !isSelectCumOutside)
+                {
+                    currentLayerName = "Fuck";
+                }
+                else
+                {
+                    currentLayerName = "Cancel";
+                }
+
+                ShowUiButtonLeft();
+                ShowUiButtonRight();
+                feelingSystem.SetPlayerSexEnergy(1);
+
+                selectCumCountDown -= Time.deltaTime;
+                //เมื่อเลือกไม่ทันจะแตกใน
+                if (selectCumCountDown <= 0 && !isSelectCumInside && !isSelectCumOutside)
+                {
+                    Debug.Log("แตกใน เอาออกไม่ทัน");
+                    OnCumInsideButtonClick();
+                    currentLayerName = "Fuck";
+                    ResetCumSelection();
+                }
+                else if (selectCumCountDown <= 0 && isSelectCumInside)
+                {
+                    Debug.Log("แตกใน");
+                    ResetCumSelection();
+                }
+                else if (selectCumCountDown <= 0 && isSelectCumOutside)
+                {
+                    Debug.Log("แตกนอก");
+                    isInsertDickInPussy = false;
+                    ResetCumSelection();
+                }
+            }
+        }
+    }
+    private void ResetCumSelection()
+    {
+        selectCumCountDown = 5;
+        feelingSystem.ResetFeelingPlayerValues();
+        isSelectCumInside = false;
+        isSelectCumOutside = false;
+        ShowUiButtonLeft();
+        ShowUiButtonRight();
+    }
+
     // ถอดเสื้อ
     public void TakeOffClothes()
     {
@@ -563,7 +608,6 @@ public class ButtonNighttimeController : MonoBehaviour
         feelingSystem.CalculateFeelings(12f, 2.5f); 
         StartCoroutine(ContinueusResetButtons(0f, 2));
     }
-    #endregion
 
     private IEnumerator ContinueusResetButtons(float duration,int indexReset)
     {
