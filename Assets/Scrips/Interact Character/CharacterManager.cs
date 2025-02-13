@@ -50,7 +50,7 @@ public class CharacterManager : MonoBehaviour
             DisableAllCharacters();
         }
         // เปลี่ยนฉากเมื่อเกินเที่ยงคืนและไดอะล็อกจบลงแล้ว
-        if (gameTime.IsAfterMidnight() && isDialogEnded)
+        if (gameTime.GetHourCurrentTime() == 0 && isDialogEnded)
         {
             dialogTrigger.TriggerDialog("test", "test", ()=>IntoNighScene(2));
             
