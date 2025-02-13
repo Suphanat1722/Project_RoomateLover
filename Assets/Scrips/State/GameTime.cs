@@ -39,6 +39,12 @@ public class GameTime : MonoBehaviour
     public int GetHourCurrentTime() => Hour;
     public int GetMinuteCurrentTime() => Minute;
 
+    public void SetTimeCurrentTime(int hour, int minute)
+    {
+        Hour = hour;
+        Minute = minute;
+    }
+
     private void UpdateTimeUI()
     {
         // แสดงเวลาในรูปแบบ 24 ชั่วโมง

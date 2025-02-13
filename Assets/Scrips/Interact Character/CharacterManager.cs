@@ -33,6 +33,8 @@ public class CharacterManager : MonoBehaviour
         RandomCharacterInRoom();
         // สมัครสมาชิกกับ Event
         dialogTrigger.OnDialogEndedEvent += HandleDialogEnded;
+
+        gameTime.SetTimeCurrentTime(6,0);
     }
     private void OnDestroy()
     {
@@ -71,6 +73,7 @@ public class CharacterManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
+
             // ตรวจสอบว่ามีการคลิก UI ก่อนหรือไม่
             if (EventSystem.current.IsPointerOverGameObject())
             {

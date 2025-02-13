@@ -110,6 +110,11 @@ public class ButtonNighttimeController : MonoBehaviour
 
         // การการปุ่มเลือกน้ำแตก
         HandleCumSelection();
+
+        if (gameTime.GetHourCurrentTime() == 2)
+        {
+            sceneController.LoadSceneByIndex(0);
+        }
         
     }
 
