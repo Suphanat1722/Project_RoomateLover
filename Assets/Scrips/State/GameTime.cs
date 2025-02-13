@@ -25,6 +25,13 @@ public class GameTime : MonoBehaviour
         }
     }
 
+    // เพิ่มฟังก์ชัน AddTimeValue
+    public void AddTimeValue(int minutes)
+    {
+        AddTime(0, minutes); // เรียกใช้ฟังก์ชัน AddTime เพื่อเพิ่มเวลา
+        UpdateTimeUI(); // อัปเดต UI เพื่อแสดงเวลาที่เปลี่ยนแปลง
+    }
+
     public TextMeshProUGUI timeText;
 
     private void Start()
