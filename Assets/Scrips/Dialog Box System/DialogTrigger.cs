@@ -4,7 +4,7 @@ using Live2D.Cubism.Core;
 
 public class DialogTrigger : MonoBehaviour
 {
-    [SerializeField]GameObject canvasDialogBoxActive;
+    [SerializeField] GameObject canvasDialogBoxActive;
 
     DialogManager dialogManager; 
     Action onDialogEnded;
@@ -33,13 +33,16 @@ public class DialogTrigger : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && DialogManager. isTyping && canvasDialogBoxActive.activeSelf)
+        if (Input.GetMouseButtonDown(0) && canvasDialogBoxActive.activeSelf)
         {
-            dialogManager.DisplayNextSentence();
-        }  
-        else if (Input.GetMouseButtonDown(0) && !DialogManager. isTyping && canvasDialogBoxActive.activeSelf)
-        {
-            DialogManager.isLeftClickedToSkip = true;
+            if (DialogManager.isTyping)
+            {
+                dialogManager.DisplayNextSentence();
+            }
+            else
+            {
+                DialogManager.isLeftClickedToSkip = true;
+            }
         }
     }
 }
