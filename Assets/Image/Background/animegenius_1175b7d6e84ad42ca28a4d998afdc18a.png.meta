@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 9f9e0042cf002504d8ed10dd84a1a03d
+guid: f023b80cd22048142919ed872bad1db2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1589807552345571119
-    second: CharacterInRoom_New_0
-  - first:
-      213: -934349614943576880
-    second: CharacterInRoom_New_1
-  - first:
-      213: 1215202870169185198
-    second: CharacterInRoom_New_2
+      213: 2037653452964733029
+    second: animegenius_1175b7d6e84ad42ca28a4d998afdc18a_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 1000
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,67 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterInRoom_New_0
+      name: animegenius_1175b7d6e84ad42ca28a4d998afdc18a_0
       rect:
         serializedVersion: 2
-        x: 238
-        y: 1722
-        width: 1851
-        height: 3194
+        x: 0
+        y: 0
+        width: 1024
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 26ec4849e6ee0384a91045592406b70c
-      internalID: 1209325508
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterInRoom_New_1
-      rect:
-        serializedVersion: 2
-        x: 2880
-        y: 1722
-        width: 1850
-        height: 3196
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b8d0b8d715656a74395c7f05de837cbe
-      internalID: -1504077380
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterInRoom_New_2
-      rect:
-        serializedVersion: 2
-        x: 492
-        y: 321
-        width: 3828
-        height: 1326
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f3fbd4c17da2d2247baff822cc1210b9
-      internalID: -718284277
+      spriteID: 560af4ff403374c10800000000000000
+      internalID: 2037653452964733029
       vertices: []
       indices: 
       edges: []
@@ -175,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 91b13da210d727b44b3f31edfe7725db
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -184,10 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      CharacterInRoom_New_0: 1209325508
-      CharacterInRoom_New_1: -1504077380
-      CharacterInRoom_New_2: -718284277
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
