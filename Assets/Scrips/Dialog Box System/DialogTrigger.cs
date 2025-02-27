@@ -5,6 +5,7 @@ using Live2D.Cubism.Core;
 public class DialogTrigger : MonoBehaviour
 {
     [SerializeField] GameObject canvasDialogBoxActive;
+    public static bool IsDialogActive;
 
     DialogManager dialogManager; 
     Action onDialogEnded;
@@ -53,6 +54,15 @@ public class DialogTrigger : MonoBehaviour
             {
                 DialogManager.isLeftClickedToSkip = true;
             }
+        }
+
+        if (canvasDialogBoxActive.activeSelf)
+        {
+            IsDialogActive = true;
+        }
+        else
+        {
+            IsDialogActive = false;
         }
     }
 }
