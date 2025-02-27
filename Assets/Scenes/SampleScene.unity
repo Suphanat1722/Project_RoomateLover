@@ -559,6 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 107283681}
   - component: {fileID: 107283684}
+  - component: {fileID: 107283685}
   m_Layer: 3
   m_Name: Character
   m_TagString: Untagged
@@ -609,6 +610,19 @@ MonoBehaviour:
   ShoppingActive: {fileID: 2031415203}
   characters:
   - {fileID: 249685257}
+--- !u!114 &107283685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107283679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762b0afeb73d8124ea1a8e2704d9b28f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogTrigger: {fileID: 863343098}
 --- !u!1 &126923039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2962,8 +2976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 776390fea729a494dabafb40b3f45623, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj_Frame: {fileID: 1646017483}
-  obj_Blur: {fileID: 0}
+  obj_Blur: {fileID: 1646017483}
+  obj_Frame: {fileID: 1106341061}
   pl_GoSchool: {fileID: 1516221305}
 --- !u!4 &385214670
 Transform:
@@ -3667,7 +3681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &502869420
 Transform:
   m_ObjectHideFlags: 0

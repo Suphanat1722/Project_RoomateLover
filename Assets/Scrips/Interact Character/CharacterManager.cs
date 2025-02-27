@@ -47,10 +47,8 @@ public class CharacterManager : MonoBehaviour
         HandleCharacterInteraction();
 
         // ปิดตัวละครเมื่อเมนูโต้ตอบแสดงอยู่
-        if (menuInteractCharacter.activeSelf)
-        {
-            DisableAllCharacters();
-        }
+        DisableAllCharacters();
+
         // เปลี่ยนฉากเมื่อเกินเที่ยงคืนและไดอะล็อกจบลงแล้ว
         if (gameTime.GetHourCurrentTime() == 0 && isDialogEnded)
         {
@@ -146,7 +144,7 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     private void DisableAllCharacters()
     {
-        if (menuInteractCharacter.activeSelf || dialogBoxActive.activeSelf)
+        if (menuInteractCharacter.activeSelf || DialogTrigger.IsDialogActive)
         {
             foreach (var character in characters)
             {
