@@ -34,7 +34,7 @@ public class CharacterManager : MonoBehaviour
         // สมัครสมาชิกกับ Event
         dialogTrigger.OnDialogEndedEvent += HandleDialogEnded;
 
-        gameTime.SetTimeCurrentTime(6,0);
+        
     }
     private void OnDestroy()
     {
@@ -60,7 +60,7 @@ public class CharacterManager : MonoBehaviour
     }
     private void HandleDialogEnded()
     {
-        Debug.Log("ไดอะล็อกสิ้นสุด");
+        //Debug.Log("ไดอะล็อกสิ้นสุด");
         isDialogEnded = true;
     }
 
@@ -149,6 +149,12 @@ public class CharacterManager : MonoBehaviour
             foreach (var character in characters)
             {
                 character.SetActive(false);
+            }
+        }else if (!menuInteractCharacter.activeSelf || !DialogTrigger.IsDialogActive)
+        {
+            foreach (var character in characters)
+            {
+                character.SetActive(true);
             }
         }
     }

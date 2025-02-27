@@ -17,7 +17,7 @@ public class DialogManager : MonoBehaviour
     Queue<string> sentences; // คิวสำหรับเก็บประโยคสนทนา
     DialogData dialogData; // ข้อมูลบทสนทนา
 
-    void Start()
+    void Awake()
     {
         sentences = new Queue<string>();
         LoadDialogData(); // โหลดข้อมูลบทสนทนาเมื่อเริ่มต้น

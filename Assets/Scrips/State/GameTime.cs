@@ -11,10 +11,10 @@ public class GameTime : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
-        }
+        }*/
         UpdateTimeUI();
     }
 
