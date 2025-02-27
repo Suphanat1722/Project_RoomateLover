@@ -14,6 +14,12 @@ public class DialogTrigger : MonoBehaviour
 
     public void TriggerDialog(string characterName, string titleName, Action onDialogEnd)
     {
+        if (dialogManager == null)
+        {
+            Debug.LogError("DialogManager is not assigned!");
+            return;
+        }
+
         canvasDialogBoxActive.SetActive(true);
         dialogManager.StartDialog(characterName, titleName);
         this.onDialogEnded = onDialogEnd;
@@ -26,9 +32,13 @@ public class DialogTrigger : MonoBehaviour
         OnDialogEndedEvent?.Invoke(); // แจ้งเตือนว่าไดอะล็อกจบลงแล้ว
     }
 
-    void Start()
+    void Awake()
     {
         dialogManager = FindFirstObjectByType<DialogManager>();
+        if (dialogManager == null)
+        {
+            Debug.LogError("DialogManager not found in the scene!");
+        }
     }
 
     void Update()
