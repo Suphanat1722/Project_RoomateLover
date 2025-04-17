@@ -216,7 +216,7 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     private void IntoNighScene(int sceneIndex)
     {
-        sceneController.LoadSceneByIndex(sceneIndex);
+       // sceneController.LoadSceneByIndex(sceneIndex);
     }
     //------------------------------------------------ส่วนการกระทำต่างๆ ของปุ่ม----------------------------------
 

@@ -8527,7 +8527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594c8b1ad9574d24cb4c20ddbb89d0de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeText: {fileID: 0}
+  timeText: {fileID: 83870432}
 --- !u!4 &723506153
 Transform:
   m_ObjectHideFlags: 0

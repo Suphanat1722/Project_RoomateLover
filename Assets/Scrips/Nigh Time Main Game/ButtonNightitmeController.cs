@@ -113,7 +113,7 @@ public class ButtonNighttimeController : MonoBehaviour
 
         if (gameTime.GetHourCurrentTime() == 2)
         {
-            sceneController.LoadSceneByIndex(0);
+            //sceneController.LoadSceneByIndex(0);
         }
         
     }
