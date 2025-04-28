@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using static SceneController;
+using UnityEngine.SceneManagement;
 
 public class TimelineController : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class TimelineController : MonoBehaviour
     public PlayableDirector pl_GoHome;
 
     GameTime gameTime;
+    SceneController sceneController;
 
 
     DialogTrigger dialogTrigger;
@@ -21,15 +24,17 @@ public class TimelineController : MonoBehaviour
         pl_GoHome.stopped += OnPlayableDirectorStopped;
 
         gameTime = FindFirstObjectByType<GameTime>();
+        sceneController = FindFirstObjectByType<SceneController>();
         dialogTrigger = FindFirstObjectByType<DialogTrigger>();
     }
 
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space)) // ถ้ากด Spacebar ให้เริ่มเล่น Timeline
+        // ตื่นนอน ทานข้าว
+        if (gameTime.GetHourCurrentTime() >= 8.00 && gameTime.GetHourCurrentTime() <= 9.00)
         {
-            PlayTimelineGoToSchool();
-        }*/
+            Debug.Log("ช่วงเย็นหลัง 19.00");
+        }
     }
 
     public void PlayTimelineGoToSchool()
@@ -69,12 +74,19 @@ public class TimelineController : MonoBehaviour
             {
                 gameTime.AddTime(0, 30);
                 PlayTimelineGoToHome();
+                
                 Debug.Log("pl_GoSchool จบการเล่นไดอะล็อก");
             });
         }
         if (director == pl_GoHome)
         {
             gameTime.AddTime(7, 30);
+
+            sceneController.SwitchScene(SceneController.SceneType.OutsideRoom);
+            obj_Frame.SetActive(false);
+            obj_Blur.SetActive(false); 
+            obj_GoHome.SetActive(false);
+            obj_GoSchool.SetActive(false);
         }
     }
 
@@ -84,5 +96,10 @@ public class TimelineController : MonoBehaviour
         // ลบ Event Listener เมื่อ Object ถูกทำลาย
         pl_GoSchool.stopped -= OnPlayableDirectorStopped;
         pl_GoHome.stopped -= OnPlayableDirectorStopped;
+    }
+
+    public void GoHome()
+    {
+        sceneController.SwitchScene(SceneController.SceneType.MainRoom);
     }
 }

@@ -11,29 +11,46 @@ public class SceneController : MonoBehaviour
     [SerializeField] GameObject objScensBedRoom;
     [SerializeField] GameObject objScensOutsideRoom;
 
+    public enum SceneType
+    {
+        MainRoom,
+        BathRoom,
+        BedRoom,
+        OutsideRoom
+    }
+
     private void Start()
     {      
         gameTime = FindFirstObjectByType<GameTime>();
+    }
 
-        objScensMainRoom.SetActive(true);
+
+    // ฟังก์ชันสำหรับเปลี่ยนฉาก
+    public void SwitchScene(SceneType scene)
+    {
+        // ปิดทุกฉากก่อน
+        objScensMainRoom.SetActive(false);
         objScensBathRoom.SetActive(false);
         objScensBedRoom.SetActive(false);
         objScensOutsideRoom.SetActive(false);
-    }
-    /*
-     // เปลี่ยน Scene โดยใช้ Index (จาก Build Settings)
-     public void LoadSceneByIndex(int sceneIndex)
-     {
-         SceneManager.LoadScene(sceneIndex);
-     }  
-    */
 
-    private void Update()
-    {
-        //ช่วงเย็นหลัง 19.00
-        if (gameTime.GetHourCurrentTime() >= 19)
+        // เปิดฉากที่ต้องการ
+        switch (scene)
         {
-            Debug.Log("ช่วงเย็นหลัง 19.00");
+            case SceneType.MainRoom:
+                objScensMainRoom.SetActive(true);
+                break;
+            case SceneType.BathRoom:
+                objScensBathRoom.SetActive(true);
+                break;
+            case SceneType.BedRoom:
+                objScensBedRoom.SetActive(true);
+                break;
+            case SceneType.OutsideRoom:
+                objScensOutsideRoom.SetActive(true);
+                break;
         }
     }
+
+
 }
