@@ -102,4 +102,9 @@ public class TimelineController : MonoBehaviour
     {
         sceneController.SwitchScene(SceneController.SceneType.MainRoom);
     }
+
+    public void GoStore()
+    {
+        sceneController.SwitchScene(SceneController.SceneType.StoreRoom);
+    }
 }

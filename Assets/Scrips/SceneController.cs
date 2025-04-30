@@ -10,13 +10,15 @@ public class SceneController : MonoBehaviour
     [SerializeField] GameObject objScensBathRoom;
     [SerializeField] GameObject objScensBedRoom;
     [SerializeField] GameObject objScensOutsideRoom;
+    [SerializeField] GameObject objScensStoreRoom;
 
     public enum SceneType
     {
         MainRoom,
         BathRoom,
         BedRoom,
-        OutsideRoom
+        OutsideRoom,
+        StoreRoom
     }
 
     private void Start()
@@ -33,6 +35,7 @@ public class SceneController : MonoBehaviour
         objScensBathRoom.SetActive(false);
         objScensBedRoom.SetActive(false);
         objScensOutsideRoom.SetActive(false);
+        objScensStoreRoom.SetActive(false);
 
         // เปิดฉากที่ต้องการ
         switch (scene)
@@ -48,6 +51,9 @@ public class SceneController : MonoBehaviour
                 break;
             case SceneType.OutsideRoom:
                 objScensOutsideRoom.SetActive(true);
+                break;
+            case SceneType.StoreRoom:
+                objScensStoreRoom.SetActive(true);
                 break;
         }
     }
