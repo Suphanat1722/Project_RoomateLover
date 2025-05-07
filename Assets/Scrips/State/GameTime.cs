@@ -11,10 +11,11 @@ public class GameTime : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space))
+        if (GetHourCurrentTime() < 0 )
         {
-            AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
-        }*/
+            
+        }
+
         UpdateTimeUI();
     }
 
@@ -43,6 +44,19 @@ public class GameTime : MonoBehaviour
     {
         Hour = hour;
         Minute = minute;
+    }
+
+    public void AddTimeUntilMidnight(int hoursToAdd, int minutesToAdd)
+    {
+        int currentTotalMinutes = Hour * 60 + Minute;
+        int addedTotalMinutes = hoursToAdd * 60 + minutesToAdd;
+
+        int minutesUntilMidnight = (24 * 60) - currentTotalMinutes;
+
+        // ถ้าเวลาที่จะบวกเกินเที่ยงคืน ให้ตัดเหลือแค่เวลาที่เหลือก่อนเที่ยงคืน
+        int finalAddedMinutes = Mathf.Min(addedTotalMinutes, minutesUntilMidnight);
+
+        AddTime(0, finalAddedMinutes); // ใช้ AddTime เดิมเพราะมันจัดการ carry ชั่วโมงกับนาทีให้แล้ว
     }
 
     private void UpdateTimeUI()

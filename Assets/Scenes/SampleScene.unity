@@ -1415,6 +1415,8 @@ MonoBehaviour:
   ShoppingActive: {fileID: 2031415203}
   characters:
   - {fileID: 249685257}
+  - {fileID: 1100100021}
+  - {fileID: 502869419}
 --- !u!114 &107283685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7167,7 +7169,7 @@ GameObject:
   - component: {fileID: 502869420}
   - component: {fileID: 502869422}
   - component: {fileID: 502869421}
-  m_Layer: 3
+  m_Layer: 13
   m_Name: Character sleep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7183,7 +7185,7 @@ Transform:
   m_GameObject: {fileID: 502869419}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.996, y: -0.881, z: 0}
+  m_LocalPosition: {x: -2.93, y: -1.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -4,14 +4,14 @@ using UnityEngine.EventSystems;
 
 public class CharacterManager : MonoBehaviour
 {
-    [Header("Dialog Settings")]
-    [SerializeField] private DialogTrigger dialogTrigger;
-    [Header("PlayerStats Settings")]
-    [SerializeField] private PlayerStats playerStats;
-    [Header("GameTime Settings")]
-    [SerializeField] private GameTime gameTime;
-    [Header("SceneController Settings")]
-    [SerializeField] private SceneController sceneController;
+    [Header("Dialog")]
+    public DialogTrigger dialogTrigger;
+    [Header("PlayerStats")]
+    public PlayerStats playerStats;
+    [Header("GameTime")]
+    public GameTime gameTime;
+    [Header("SceneController")]
+    public SceneController sceneController;
 
     [Header("UI Elements")]
     [SerializeField] private GameObject menuInteractCharacter;
@@ -30,11 +30,12 @@ public class CharacterManager : MonoBehaviour
 
     private void Start()
     {
-        RandomCharacterInRoom();
+
         // สมัครสมาชิกกับ Event
         dialogTrigger.OnDialogEndedEvent += HandleDialogEnded;
+        CharacterSitdown();
 
-        
+
     }
     private void OnDestroy()
     {
@@ -46,15 +47,24 @@ public class CharacterManager : MonoBehaviour
     {
         HandleCharacterInteraction();
 
-        // ปิดตัวละครเมื่อเมนูโต้ตอบแสดงอยู่
-        DisableAllCharacters();
-
         // เปลี่ยนฉากเมื่อเกินเที่ยงคืนและไดอะล็อกจบลงแล้ว
         if (gameTime.GetHourCurrentTime() == 0 && isDialogEnded)
         {
-            dialogTrigger.TriggerDialog("test", "test", ()=>IntoNighScene(2));
-            
+            //sceneController.SwitchScene(SceneController.SceneType.BedRoom);
+            SleepingCharacter();
             isDialogEnded = false; // รีเซ็ตสถานะ
+        }
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Sleeping Character"))
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Debug.Log("จะลักหลับหรือไม่");
+                sceneController.SwitchScene(SceneController.SceneType.BedRoom);
+            }
+
         }
 
     }
@@ -90,7 +100,6 @@ public class CharacterManager : MonoBehaviour
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Character"))
                 {
                     dialogTrigger.TriggerDialog("นีน่า", "นีน่าในห้อง", ActivateInteractMenu);
-                    DisableAllCharacters();
                 }
             }
         }
@@ -108,7 +117,6 @@ public class CharacterManager : MonoBehaviour
             ItemGameIventoryActive.SetActive(false);
             ShowerOptionsActive.SetActive(false);
             ShoppingActive.SetActive(false);
-            RandomCharacterInRoom();
         }
     }
 
@@ -121,27 +129,22 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(true);
     }
 
-    /// <summary>
-    /// สุ่มเปิดตัวละครในห้อง
-    /// </summary>
-    public void RandomCharacterInRoom()
-    {
-        StartCoroutine(RandomCharacterWithDelay());
-    }
-    private IEnumerator RandomCharacterWithDelay()
-    {
-        yield return new WaitForSeconds(0.3f); // หน่วงเวลา 0.5 วินาที
 
-        int randomIndex = Random.Range(0, characters.Length);
-        for (int i = 0; i < characters.Length; i++)
-        {
-            characters[i].SetActive(i == randomIndex);
-        }
+    public void CharacterSitdown()
+    {
+        characters[0].SetActive(true);
     }
 
-    /// <summary>
-    /// ปิดตัวละครทั้งหมดในฉาก
-    /// </summary>
+
+    public void SleepingCharacter()
+    {
+        //ตัวละครนอน
+        characters[0].SetActive(false);
+        characters[1].SetActive(false);
+        characters[2].SetActive(true);
+    }
+
+    /*
     private void DisableAllCharacters()
     {
         if (menuInteractCharacter.activeSelf || DialogTrigger.IsDialogActive)
@@ -157,22 +160,8 @@ public class CharacterManager : MonoBehaviour
                 character.SetActive(true);
             }
         }
-    }
+    }*/
 
-    /// <summary>
-    /// เช็คว่าเปิดเมนูหรือ UI อะไรอยู่ไหม (ไม่ได้ใช้งาน)
-    /// </summary>
-    public void ToggleCharacterInteraction(bool isMenuOpen)
-    {
-        foreach (var character in characters)
-        {
-            Collider2D collider = character.GetComponent<Collider2D>();
-            if (collider != null)
-            {
-                collider.enabled = !isMenuOpen && character.activeSelf;
-            }
-        }
-    }
     /// <summary>
     /// เปิดเมนูพูดคุย
     /// </summary>
@@ -208,7 +197,7 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     private void ResetRoom()
     {
-        RandomCharacterInRoom();
+
     }
 
     /// <summary>
@@ -239,7 +228,8 @@ public class CharacterManager : MonoBehaviour
 
             dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
             playerStats.UseActionPoint(20);
-            gameTime.AddTime(5,30);
+            // ใช้อันนี้แทน AddTime เพื่อไม่ให้เกินเที่ยงคืน
+            gameTime.AddTimeUntilMidnight(5, 30);
         }
         else
         {
@@ -372,7 +362,8 @@ public class CharacterManager : MonoBehaviour
     {
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
+        gameTime.SetTimeCurrentTime(00,00);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", ResetRoom);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", SleepingCharacter);     
     }
 }
