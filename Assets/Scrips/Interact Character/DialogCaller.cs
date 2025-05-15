@@ -12,12 +12,12 @@ public class DialogCaller : MonoBehaviour
         gameTime = FindFirstObjectByType<GameTime>();
         timelineController = FindFirstObjectByType<TimelineController>();
 
-        gameTime.SetTimeCurrentTime(7, 30);
+        gameTime.SetTimeCurrentTime(7,30);
 
-        StartDialogSequence();
+       
     }
 
-    void StartDialogSequence()
+    public void StartDialogSequence()
     {
 
         dialogTrigger.TriggerDialog("นีน่า", "ตื่นนอน", () =>
@@ -34,9 +34,24 @@ public class DialogCaller : MonoBehaviour
         });
     }
 
-    // Update is called once per frame
+    private bool hasStartedDialog = false;
+
     void Update()
     {
+        int hour = gameTime.GetHourCurrentTime();
+        int minute = gameTime.GetMinuteCurrentTime();
 
+        // เรียก dialog เมื่อถึง 7:30 และยังไม่ได้เรียก
+        if (!hasStartedDialog && hour == 7 && minute == 30)
+        {
+            StartDialogSequence();
+            hasStartedDialog = true;
+        }
+
+        // รีเซ็ตเมื่อเวลาหลุดจาก 7:30
+        if (hasStartedDialog && (hour != 7 || minute != 30))
+        {
+            hasStartedDialog = false;
+        }
     }
 }

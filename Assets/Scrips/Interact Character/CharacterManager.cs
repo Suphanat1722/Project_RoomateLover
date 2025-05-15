@@ -49,11 +49,11 @@ public class CharacterManager : MonoBehaviour
 
         // เปลี่ยนฉากเมื่อเกินเที่ยงคืนและไดอะล็อกจบลงแล้ว
         if (gameTime.GetHourCurrentTime() == 0 && isDialogEnded)
-        {
-            //sceneController.SwitchScene(SceneController.SceneType.BedRoom);
-            SleepingCharacter();
+        {           
+            SleepingCharacter(true);
             isDialogEnded = false; // รีเซ็ตสถานะ
         }
+
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
@@ -63,6 +63,7 @@ public class CharacterManager : MonoBehaviour
             {
                 Debug.Log("จะลักหลับหรือไม่");
                 sceneController.SwitchScene(SceneController.SceneType.BedRoom);
+                SleepingCharacter(false);
             }
 
         }
@@ -136,12 +137,21 @@ public class CharacterManager : MonoBehaviour
     }
 
 
-    public void SleepingCharacter()
+    public void SleepingCharacter(bool isSleeping)
     {
-        //ตัวละครนอน
-        characters[0].SetActive(false);
-        characters[1].SetActive(false);
-        characters[2].SetActive(true);
+        if (isSleeping)
+        {
+            characters[0].SetActive(false);
+            characters[1].SetActive(false);
+            characters[2].SetActive(true);
+        }
+        else
+        {
+            characters[0].SetActive(true);
+            characters[1].SetActive(false);
+            characters[2].SetActive(false);
+        }
+
     }
 
     /*
@@ -364,6 +374,6 @@ public class CharacterManager : MonoBehaviour
         menuInteractCharacter.SetActive(false);
         gameTime.SetTimeCurrentTime(00,00);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", SleepingCharacter);     
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", () => SleepingCharacter(true));
     }
 }

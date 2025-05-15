@@ -57,6 +57,9 @@ public class SceneController : MonoBehaviour
                 break;
         }
     }
-
-
+    public void OnExit()
+    {
+        SwitchScene(SceneController.SceneType.MainRoom);
+        gameTime.SetTimeCurrentTime(7,30);
+    }
 }
