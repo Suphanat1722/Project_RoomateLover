@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FronShower_0: -1256217565404706997
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

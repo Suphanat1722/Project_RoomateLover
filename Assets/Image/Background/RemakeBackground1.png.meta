@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      RemakeBackground1_0: -2649022173643224412
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
