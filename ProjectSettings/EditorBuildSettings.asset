@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Shower.unity
     guid: 12cfe06ed7a950a489f858ba6f33d0b9
+  - enabled: 1
+    path: Assets/Scenes/Night time.unity
+    guid: c4ee848f08107e844813e6112c3097b4
+  - enabled: 1
+    path: Assets/Scenes/Morning Scene.unity
+    guid: db1991bacb1b5be47901b1c160f8de84
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

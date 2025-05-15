@@ -8,7 +8,7 @@ public class ShowerMiniGame : MonoBehaviour
     private int stateAlert = 0; // ค่าความสงสัย
     private int maxAlert = 10;  // ค่าความสงสัยสูงสุด
     private int stateJF = 0;
-    private bool hasAlerted = false; // ตัวแปรตรวจสอบสถานะ
+    private bool hasAlerted; // ตัวแปรตรวจสอบสถานะ
 
     private void Update()
     {
@@ -90,7 +90,7 @@ public class ShowerMiniGame : MonoBehaviour
     {
         if (stateJF >= 10)
         {
-            dialogTrigger.TriggerDialog("test", "test", () => sceneController.LoadSceneByIndex(0));
+            //dialogTrigger.TriggerDialog("test", "test", () => sceneController.LoadSceneByIndex(0));
             Debug.Log("แตก 1!!");
         }
 
@@ -99,6 +99,6 @@ public class ShowerMiniGame : MonoBehaviour
     public void test()
     {
         Debug.Log("test");
-        dialogTrigger.TriggerDialog("test", "test", () => sceneController.LoadSceneByIndex(0));
+        //dialogTrigger.TriggerDialog("test", "test", () => sceneController.LoadSceneByIndex(0));
     }
 }

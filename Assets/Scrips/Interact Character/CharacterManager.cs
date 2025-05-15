@@ -4,8 +4,14 @@ using UnityEngine.EventSystems;
 
 public class CharacterManager : MonoBehaviour
 {
-    [Header("Dialog Settings")]
-    [SerializeField] private DialogTrigger dialogTrigger;
+    [Header("Dialog")]
+    public DialogTrigger dialogTrigger;
+    [Header("PlayerStats")]
+    public PlayerStats playerStats;
+    [Header("GameTime")]
+    public GameTime gameTime;
+    [Header("SceneController")]
+    public SceneController sceneController;
 
     [Header("UI Elements")]
     [SerializeField] private GameObject menuInteractCharacter;
@@ -20,21 +26,55 @@ public class CharacterManager : MonoBehaviour
     [Header("Character Settings")]
     [SerializeField] private GameObject[] characters;
 
+    private bool isDialogEnded = false;
+
     private void Start()
     {
-        RandomCharacterInRoom();
+
+        // สมัครสมาชิกกับ Event
+        dialogTrigger.OnDialogEndedEvent += HandleDialogEnded;
+        CharacterSitdown();
+
+
+    }
+    private void OnDestroy()
+    {
+        // ยกเลิกการสมัครสมาชิกเมื่อ Destroy
+        dialogTrigger.OnDialogEndedEvent -= HandleDialogEnded;
     }
 
     private void Update()
     {
         HandleCharacterInteraction();
 
-        // ปิดตัวละครเมื่อเมนูโต้ตอบแสดงอยู่
-        if (menuInteractCharacter.activeSelf)
-        {
-            DisableAllCharacters();
+        // เปลี่ยนฉากเมื่อเกินเที่ยงคืนและไดอะล็อกจบลงแล้ว
+        if (gameTime.GetHourCurrentTime() == 0 && isDialogEnded)
+        {           
+            SleepingCharacter(true);
+            isDialogEnded = false; // รีเซ็ตสถานะ
         }
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+        if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Sleeping Character"))
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Debug.Log("จะลักหลับหรือไม่");
+                sceneController.SwitchScene(SceneController.SceneType.BedRoom);
+                SleepingCharacter(false);
+            }
+
+        }
+
     }
+    private void HandleDialogEnded()
+    {
+        //Debug.Log("ไดอะล็อกสิ้นสุด");
+        isDialogEnded = true;
+    }
+
     /// <summary>
     /// ตรวจจับการคลิกตัวละครในฉาก และเปิดการโต้ตอบ
     /// </summary>
@@ -42,6 +82,7 @@ public class CharacterManager : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
+
             // ตรวจสอบว่ามีการคลิก UI ก่อนหรือไม่
             if (EventSystem.current.IsPointerOverGameObject())
             {
@@ -60,7 +101,6 @@ public class CharacterManager : MonoBehaviour
                 if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Character"))
                 {
                     dialogTrigger.TriggerDialog("นีน่า", "นีน่าในห้อง", ActivateInteractMenu);
-                    DisableAllCharacters();
                 }
             }
         }
@@ -78,7 +118,6 @@ public class CharacterManager : MonoBehaviour
             ItemGameIventoryActive.SetActive(false);
             ShowerOptionsActive.SetActive(false);
             ShoppingActive.SetActive(false);
-            RandomCharacterInRoom();
         }
     }
 
@@ -91,47 +130,47 @@ public class CharacterManager : MonoBehaviour
         panelMenuButtonInteract.SetActive(true);
     }
 
-    /// <summary>
-    /// สุ่มเปิดตัวละครในห้อง
-    /// </summary>
-    public void RandomCharacterInRoom()
-    {
-        StartCoroutine(RandomCharacterWithDelay());
-    }
-    private IEnumerator RandomCharacterWithDelay()
-    {
-        yield return new WaitForSeconds(0.3f); // หน่วงเวลา 0.5 วินาที
 
-        int randomIndex = Random.Range(0, characters.Length);
-        for (int i = 0; i < characters.Length; i++)
+    public void CharacterSitdown()
+    {
+        characters[0].SetActive(true);
+    }
+
+
+    public void SleepingCharacter(bool isSleeping)
+    {
+        if (isSleeping)
         {
-            characters[i].SetActive(i == randomIndex);
+            characters[0].SetActive(false);
+            characters[1].SetActive(false);
+            characters[2].SetActive(true);
         }
+        else
+        {
+            characters[0].SetActive(true);
+            characters[1].SetActive(false);
+            characters[2].SetActive(false);
+        }
+
     }
 
-    /// <summary>
-    /// ปิดตัวละครทั้งหมดในฉาก
-    /// </summary>
+    /*
     private void DisableAllCharacters()
     {
-        if (menuInteractCharacter.activeSelf || dialogBoxActive.activeSelf)
+        if (menuInteractCharacter.activeSelf || DialogTrigger.IsDialogActive)
         {
             foreach (var character in characters)
             {
                 character.SetActive(false);
             }
-        }
-
-        // ปิด Collider เมื่อ UI เปิด
-        foreach (var character in characters)
+        }else if (!menuInteractCharacter.activeSelf || !DialogTrigger.IsDialogActive)
         {
-            Collider2D collider = character.GetComponent<Collider2D>();
-            if (collider != null)
+            foreach (var character in characters)
             {
-                collider.enabled = !menuInteractCharacter.activeSelf;
+                character.SetActive(true);
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// เปิดเมนูพูดคุย
@@ -168,9 +207,16 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     private void ResetRoom()
     {
-        RandomCharacterInRoom();
+
     }
 
+    /// <summary>
+    /// เปลี่ยนฉากเข้าช่วงกลางคืน
+    /// </summary>
+    private void IntoNighScene(int sceneIndex)
+    {
+       // sceneController.LoadSceneByIndex(sceneIndex);
+    }
     //------------------------------------------------ส่วนการกระทำต่างๆ ของปุ่ม----------------------------------
 
     public void ChatWithCharacter()
@@ -185,40 +231,89 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     public void TalkNormally()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องทั่วไป", ResetRoom);
+            playerStats.UseActionPoint(20);
+            // ใช้อันนี้แทน AddTime เพื่อไม่ให้เกินเที่ยงคืน
+            gameTime.AddTimeUntilMidnight(5, 30);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
     }
     /// <summary>
     /// ปุ่มแยกย่อยของ ChatWithCharacter()
     /// </summary>
     public void TalkFunny()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องตลก", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องตลก", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
+        
     }
     /// <summary>
     /// ปุ่มแยกย่อยของ ChatWithCharacter()
     /// </summary>
     public void TalkDirty()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องลามก", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องลามก", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
+
     }
     /// <summary>
     /// ปุ่มแยกย่อยของ ChatWithCharacter()
     /// </summary>
     public void TalkSerious()
     {
-        panelButtonTalk.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องจริงจัง", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "พูดคุยเรื่องจริงจัง", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
+
     }
 
 
@@ -240,10 +335,21 @@ public class CharacterManager : MonoBehaviour
 
     public void WatchTvWithCharacter()
     {
-        panelMenuButtonInteract.SetActive(false);
-        menuInteractCharacter.SetActive(false);
+        if (playerStats.actionPoint >= 20)
+        {
+            panelMenuButtonInteract.SetActive(false);
+            menuInteractCharacter.SetActive(false);
 
-        dialogTrigger.TriggerDialog("ผู้เล่น", "เลือกดูTV", ResetRoom);
+            dialogTrigger.TriggerDialog("ผู้เล่น", "เลือกดูTV", ResetRoom);
+            playerStats.UseActionPoint(20);
+        }
+        else
+        {
+            panelButtonTalk.SetActive(false);
+            menuInteractCharacter.SetActive(false);
+
+            dialogTrigger.TriggerDialog("test", "test", ResetRoom);
+        }
     }
 
     public void ShowerWithCharacter()
@@ -266,7 +372,8 @@ public class CharacterManager : MonoBehaviour
     {
         panelMenuButtonInteract.SetActive(false);
         menuInteractCharacter.SetActive(false);
+        gameTime.SetTimeCurrentTime(00,00);
 
-        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", ResetRoom);
+        dialogTrigger.TriggerDialog("นีน่า", "เลือกเข้านอน", () => SleepingCharacter(true));
     }
 }

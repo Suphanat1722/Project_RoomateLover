@@ -7,6 +7,18 @@ public class GameTime : MonoBehaviour
     public int Hour { get; private set; }
     public int Minute { get; private set; }
 
+    public TextMeshProUGUI timeText;
+
+    private void Update()
+    {
+        if (GetHourCurrentTime() < 0 )
+        {
+            
+        }
+
+        UpdateTimeUI();
+    }
+
     public GameTime(int hour, int minute)
     {
         Hour = hour;
@@ -25,33 +37,32 @@ public class GameTime : MonoBehaviour
         }
     }
 
-    public TextMeshProUGUI timeText;
+    public int GetHourCurrentTime() => Hour;
+    public int GetMinuteCurrentTime() => Minute;
 
-    private void Start()
+    public void SetTimeCurrentTime(int hour, int minute)
     {
-        // ตั้งค่าเวลาเริ่มต้น
-        Hour = 8;
-        Minute = 0;     
+        Hour = hour;
+        Minute = minute;
     }
 
-    private void Update()
+    public void AddTimeUntilMidnight(int hoursToAdd, int minutesToAdd)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AddTime(0, 30); // เพิ่มครึ่งชั่วโมง
-        }
-        UpdateTimeUI();
+        int currentTotalMinutes = Hour * 60 + Minute;
+        int addedTotalMinutes = hoursToAdd * 60 + minutesToAdd;
+
+        int minutesUntilMidnight = (24 * 60) - currentTotalMinutes;
+
+        // ถ้าเวลาที่จะบวกเกินเที่ยงคืน ให้ตัดเหลือแค่เวลาที่เหลือก่อนเที่ยงคืน
+        int finalAddedMinutes = Mathf.Min(addedTotalMinutes, minutesUntilMidnight);
+
+        AddTime(0, finalAddedMinutes); // ใช้ AddTime เดิมเพราะมันจัดการ carry ชั่วโมงกับนาทีให้แล้ว
     }
 
     private void UpdateTimeUI()
     {
-        // แปลงเวลาเป็นระบบ 12 ชั่วโมง
-        string period = Hour >= 12 ? "pm" : "am";
-        int displayHour = Hour % 12;
-        if (displayHour == 0) displayHour = 12; // แก้ไข 0 ให้เป็น 12
-
-        // อัปเดตข้อความแสดงผล
-        timeText.text = $"{displayHour:00}:{Minute:00} {period}";
+        // แสดงเวลาในรูปแบบ 24 ชั่วโมง
+        timeText.text = $"{Hour:00}:{Minute:00}";
     }
 
 }
