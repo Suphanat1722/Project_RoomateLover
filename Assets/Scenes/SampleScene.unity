@@ -7132,6 +7132,8 @@ MonoBehaviour:
   legOpened: {fileID: 1962175260}
   legClosedCollider: {fileID: 1905899179}
   legOpenedCollider: {fileID: 1293624655}
+  pussyClosed: {fileID: 567493710}
+  pussyOpened: {fileID: 1990749452}
   pussyClosedCollider: {fileID: 1782919806}
   pussyOpenedCollider: {fileID: 1766355776}
   breastRightCollider: {fileID: 410257019}

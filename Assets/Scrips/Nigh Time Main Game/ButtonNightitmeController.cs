@@ -31,6 +31,7 @@ public class ButtonNighttimeController : MonoBehaviour
     [Header("Legs State")]
     public GameObject legClosed, legOpened;
     public GameObject legClosedCollider, legOpenedCollider;
+    public GameObject pussyClosed, pussyOpened;
     public GameObject pussyClosedCollider, pussyOpenedCollider;
 
     [Header("Other body Collider")]
@@ -327,6 +328,9 @@ public class ButtonNighttimeController : MonoBehaviour
 
         legClosedCollider.SetActive(!spread);
         legOpenedCollider.SetActive(spread);
+
+        pussyClosed.SetActive(!spread);
+        pussyOpened.SetActive(spread);
 
         pussyClosedCollider.SetActive(!spread);
         pussyOpenedCollider.SetActive(spread);
