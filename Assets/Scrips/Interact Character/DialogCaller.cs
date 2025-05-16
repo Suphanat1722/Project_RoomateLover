@@ -12,9 +12,10 @@ public class DialogCaller : MonoBehaviour
         gameTime = FindFirstObjectByType<GameTime>();
         timelineController = FindFirstObjectByType<TimelineController>();
 
-        gameTime.SetTimeCurrentTime(7,30);
+        //gameTime.SetTimeCurrentTime(7,30);
+        gameTime.SetTimeCurrentTime(0,00);
 
-       
+
     }
 
     public void StartDialogSequence()

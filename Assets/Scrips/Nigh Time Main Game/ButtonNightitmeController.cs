@@ -29,7 +29,6 @@ public class ButtonNighttimeController : MonoBehaviour
     public ClothingItem underwear;
 
     [Header("Legs State")]
-    public GameObject hipClosed, hipOpened;
     public GameObject legClosed, legOpened;
     public GameObject legClosedCollider, legOpenedCollider;
     public GameObject pussyClosedCollider, pussyOpenedCollider;
@@ -109,13 +108,7 @@ public class ButtonNighttimeController : MonoBehaviour
         }
 
         // การการปุ่มเลือกน้ำแตก
-        HandleCumSelection();
-
-        if (gameTime.GetHourCurrentTime() == 2)
-        {
-            //sceneController.LoadSceneByIndex(0);
-        }
-        
+        HandleCumSelection();    
     }
 
     private void HandleMouseInput()
@@ -328,9 +321,6 @@ public class ButtonNighttimeController : MonoBehaviour
     private void SetLegsState(bool spread)
     {
         isOpenLegs = spread;
-
-        hipClosed.SetActive(!spread);
-        hipOpened.SetActive(spread);
 
         legClosed.SetActive(!spread);
         legOpened.SetActive(spread);
