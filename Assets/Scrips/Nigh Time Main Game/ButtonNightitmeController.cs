@@ -9,18 +9,26 @@ public class ButtonNighttimeController : MonoBehaviour
     [System.Serializable]
     public class ClothingItem
     {
-        public GameObject shirtLevel_0,shirtLevel_1, shirtLevel_2;
-        public GameObject clothing;
-        public GameObject colliderWorn;
-        public GameObject colliderNotWorn;
+        public GameObject[] levels; // เก็บระดับของเสื้อผ้า (เช่น shirtLevel_0, shirtLevel_1, shirtLevel_2)
         public int maxLevel;
         public int currentLevel = 0;
+        public bool isActive = true; // ควบคุมการแสดงผลของเสื้อผ้า
 
         public void UpdateState()
         {
-            clothing.SetActive(currentLevel < maxLevel);
-            colliderWorn.SetActive(currentLevel < maxLevel);
-            colliderNotWorn.SetActive(currentLevel >= maxLevel);
+            // ถ้ามี levels (เช่น shirt, shorts, underwear ที่มีระดับ)
+            if (levels != null && levels.Length > 0)
+            {
+                for (int i = 0; i < levels.Length; i++)
+                {
+                    if (levels[i] != null)
+                    {
+                        levels[i].SetActive(i == currentLevel);
+                    }
+                }
+            }
+            // อัปเดตสถานะการแสดงผล (ใช้สำหรับ shorts และ underwear ถ้าไม่มี levels)
+            isActive = currentLevel < maxLevel;
         }
     }
 
@@ -31,7 +39,6 @@ public class ButtonNighttimeController : MonoBehaviour
 
     [Header("Legs State")]
     public GameObject legClosed, legOpened;
-    public GameObject legClosedCollider, legOpenedCollider;
     public GameObject pussyClosed, pussyOpened;
     public GameObject pussyClosedCollider, pussyOpenedCollider;
 
@@ -77,7 +84,7 @@ public class ButtonNighttimeController : MonoBehaviour
     private bool isSelectCumOutside;
     private string previousLayerNameWhenInserted = "Cancel";
 
-    float selectCumCountDown = 5f;
+    float selectCumCountDown = 5f; 
 
     private void Update()
     {
@@ -112,26 +119,26 @@ public class ButtonNighttimeController : MonoBehaviour
         // การการปุ่มเลือกน้ำแตก
         HandleCumSelection();    
     }
-    public void SetShirtLevel(int level)
+    public void SetClothingLevel(ClothingItem item, int level)
     {
-        shirt.currentLevel = Mathf.Clamp(level, 0, shirt.maxLevel);
-        UpdateShirtVisual();
-    }
-    public void AddShirtLevel(int amountToAdd)
-    {
-        int newLevel = shirt.currentLevel + amountToAdd;
-        newLevel = Mathf.Clamp(newLevel, 0, shirt.maxLevel);
-
-        SetShirtLevel(newLevel); // เรียกใช้เมธอดเดิมที่มีอยู่
+        item.currentLevel = Mathf.Clamp(level, 0, item.maxLevel);
+        item.UpdateState();
     }
 
-    private void UpdateShirtVisual()
+    private void CheckClothingLevels()
     {
-        shirt.shirtLevel_0.SetActive(shirt.currentLevel == 0);
-        shirt.shirtLevel_1.SetActive(shirt.currentLevel == 1);
-        shirt.shirtLevel_2.SetActive(shirt.currentLevel == 2);
+        shirt.UpdateState();
+        shorts.UpdateState();
+        underwear.UpdateState();
 
-        Debug.Log($"shirt.currentLevel == {shirt.currentLevel}");
+        bool isUnderwearRemoved = !underwear.isActive;
+        bool isShortsRemoved = !shorts.isActive;
+
+        breastLeftCollider.SetActive(!shirt.isActive);
+        breastRightCollider.SetActive(!shirt.isActive);
+
+        pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
+        pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
     }
 
 
@@ -343,39 +350,35 @@ public class ButtonNighttimeController : MonoBehaviour
         }
         
     }
-    private void SetLegsState(bool spread)
+    private void SetLegsState(bool isLegsOpen)
     {
-        isOpenLegs = spread;
+        isOpenLegs = isLegsOpen;
 
-        legClosed.SetActive(!spread);
-        legOpened.SetActive(spread);
+        legClosed.SetActive(!isLegsOpen);
+        legOpened.SetActive(isLegsOpen);
 
-        legClosedCollider.SetActive(!spread);
-        legOpenedCollider.SetActive(spread);
 
-        pussyClosed.SetActive(!spread);
-        pussyOpened.SetActive(spread);
+        if (isLegsOpen)
+        {
+            shorts.currentLevel = 3;
+            underwear.currentLevel = 3;
+        }
+        else if(!isLegsOpen && shorts.currentLevel == 3)
+        {
+            shorts.currentLevel = 0;
+            underwear.currentLevel = 0;
+        }
+        else if (!isLegsOpen && underwear.currentLevel == 3)
+        {
+            shorts.currentLevel = shorts.maxLevel;
+            underwear.currentLevel = 0;
+        }
 
-        pussyClosedCollider.SetActive(!spread);
-        pussyOpenedCollider.SetActive(spread);
-    }
-    private void CheckClothingLevels()
-    {
-        shirt.UpdateState();
-        shorts.UpdateState();
-        underwear.UpdateState();
+        pussyClosed.SetActive(!isLegsOpen);
+        pussyOpened.SetActive(isLegsOpen);
 
-        bool isUnderwearRemoved = underwear.currentLevel >= underwear.maxLevel;
-        bool isShortsRemoved = shorts.currentLevel >= shorts.maxLevel;
-
-        breastLeftCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
-        breastRightCollider.SetActive(shirt.currentLevel >= shirt.maxLevel);
-
-        legClosedCollider.SetActive(!isShortsRemoved);
-        legOpenedCollider.SetActive(isUnderwearRemoved);
-
-        pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
-        pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
+        pussyClosedCollider.SetActive(!isLegsOpen);
+        pussyOpenedCollider.SetActive(isLegsOpen);
     }
     private void HandleCumSelection()
     {
@@ -446,8 +449,6 @@ public class ButtonNighttimeController : MonoBehaviour
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
                 currentLayerName = null;
-
-               // AddShirtLevel(1);
                 
                 StartCoroutine(ContinueusResetButtons(0,2));
                 break;
@@ -457,16 +458,18 @@ public class ButtonNighttimeController : MonoBehaviour
                 {
                     if (shorts.currentLevel >= shorts.maxLevel)
                     {
+                        //ไม่ต้องทำอะไร
                         underwear.currentLevel = underwear.maxLevel;
                         currentLayerName = null;
                     }
                     else
                     {
+                        //ให้ถอดออก
                         shorts.currentLevel = shorts.maxLevel;
                     }
                 }
                 else
-                {
+                {                 
                     if (shorts.currentLevel >= shorts.maxLevel)
                     {
                         underwear.currentLevel = Mathf.Clamp(underwear.currentLevel + 1, 0, underwear.maxLevel);
@@ -475,6 +478,10 @@ public class ButtonNighttimeController : MonoBehaviour
                     else
                     {
                         shorts.currentLevel = Mathf.Clamp(shorts.currentLevel + 1, 0, shorts.maxLevel);
+                    }
+                    if (shorts.currentLevel == 3)
+                    {
+                        shorts.currentLevel = shorts.maxLevel;
                     }
                 }               
                 currentLayerName = null;
@@ -493,21 +500,24 @@ public class ButtonNighttimeController : MonoBehaviour
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel - 1, 0, shirt.maxLevel);
                 currentLayerName = null;
 
-
-
                 StartCoroutine(ContinueusResetButtons(0,2));
                 break;
             case "Body Under":
                 // เพิ่มการตรวจสอบว่ากางเกงในถูกถอดแล้วหรือยังก่อนจะใส่กลับ
-                if (underwear.currentLevel > 0)
+                if (underwear.currentLevel > 0 && underwear.currentLevel != 3)
                 {
                     underwear.currentLevel = Mathf.Clamp(underwear.currentLevel - 1, 0, underwear.maxLevel);
                     currentLayerName = null;
                     StartCoroutine(ContinueusResetButtons(0, 2));
                 }
-                else if (shorts.currentLevel > 0)
+                else if (shorts.currentLevel > 0 && underwear.currentLevel != 3)
                 {
                     shorts.currentLevel = Mathf.Clamp(shorts.currentLevel - 1, 0, shorts.maxLevel);
+                    currentLayerName = null;
+                    StartCoroutine(ContinueusResetButtons(0, 2));
+                }else if (underwear.currentLevel == 3)
+                {
+                    shorts.currentLevel = 3;
                     currentLayerName = null;
                     StartCoroutine(ContinueusResetButtons(0, 2));
                 }
@@ -517,9 +527,8 @@ public class ButtonNighttimeController : MonoBehaviour
     //ถ่างขา
     public void OpenLegs()
     {
-        if (feelingSystem.feelGood.currentValue >= 30f)
+        if (feelingSystem.feelGood.currentValue >= 30f && ((shorts.currentLevel == 0 || shorts.currentLevel == 3) && (underwear.currentLevel == 0 || underwear.currentLevel == 3)))
         {
-           // StartCoroutine(ContinuousActionWhileInserted());
             SetLegsState(true);
             currentLayerName = null;
             StartCoroutine(ContinueusResetButtons(0, 2)); 
