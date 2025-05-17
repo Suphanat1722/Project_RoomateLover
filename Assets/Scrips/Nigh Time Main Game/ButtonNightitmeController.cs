@@ -9,6 +9,7 @@ public class ButtonNighttimeController : MonoBehaviour
     [System.Serializable]
     public class ClothingItem
     {
+        public GameObject shirtLevel_0,shirtLevel_1, shirtLevel_2;
         public GameObject clothing;
         public GameObject colliderWorn;
         public GameObject colliderNotWorn;
@@ -111,6 +112,29 @@ public class ButtonNighttimeController : MonoBehaviour
         // การการปุ่มเลือกน้ำแตก
         HandleCumSelection();    
     }
+    public void SetShirtLevel(int level)
+    {
+        shirt.currentLevel = Mathf.Clamp(level, 0, shirt.maxLevel);
+        UpdateShirtVisual();
+    }
+    public void AddShirtLevel(int amountToAdd)
+    {
+        int newLevel = shirt.currentLevel + amountToAdd;
+        newLevel = Mathf.Clamp(newLevel, 0, shirt.maxLevel);
+
+        SetShirtLevel(newLevel); // เรียกใช้เมธอดเดิมที่มีอยู่
+    }
+
+    private void UpdateShirtVisual()
+    {
+        shirt.shirtLevel_0.SetActive(shirt.currentLevel == 0);
+        shirt.shirtLevel_1.SetActive(shirt.currentLevel == 1);
+        shirt.shirtLevel_2.SetActive(shirt.currentLevel == 2);
+
+        Debug.Log($"shirt.currentLevel == {shirt.currentLevel}");
+    }
+
+
 
     private void HandleMouseInput()
     {
@@ -415,12 +439,16 @@ public class ButtonNighttimeController : MonoBehaviour
     // ถอดเสื้อ
     public void TakeOffClothes()
     {
+       
         StartCoroutine(ContinuousActionWhileTakeClothes());
         switch (currentLayerName)
         {
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
                 currentLayerName = null;
+
+               // AddShirtLevel(1);
+                
                 StartCoroutine(ContinueusResetButtons(0,2));
                 break;
             case "Body Under":
@@ -453,6 +481,8 @@ public class ButtonNighttimeController : MonoBehaviour
                 StartCoroutine(ContinueusResetButtons(0,2));
                 break;
         }
+
+        
     }
     // สวมเสื้อ
     public void DressClothes()
@@ -462,6 +492,9 @@ public class ButtonNighttimeController : MonoBehaviour
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel - 1, 0, shirt.maxLevel);
                 currentLayerName = null;
+
+
+
                 StartCoroutine(ContinueusResetButtons(0,2));
                 break;
             case "Body Under":
