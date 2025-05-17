@@ -6521,7 +6521,6 @@ Transform:
   - {fileID: 1531040921}
   - {fileID: 206666088}
   - {fileID: 410257020}
-  - {fileID: 1533090220}
   - {fileID: 1782919807}
   - {fileID: 1766355777}
   m_Father: {fileID: 479889906}
@@ -7621,7 +7620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   feelGood:
-    currentValue: 30
+    currentValue: 0
     maxValue: 100
   feelBad:
     currentValue: 0
@@ -7629,11 +7628,11 @@ MonoBehaviour:
   playerArousal:
     currentValue: 50
     maxValue: 100
-  trustValue: 100
-  sexualInterest: 100
-  mood: 100
+  trustValue: 30
+  sexualInterest: 20
+  mood: 50
   playerEnergy: 50
-  playerSexEnergy: 1
+  playerSexEnergy: 2
   playerMoney: 1500
 --- !u!114 &479889910
 MonoBehaviour:
@@ -7675,8 +7674,6 @@ MonoBehaviour:
     isActive: 1
   legClosed: {fileID: 1365079693}
   legOpened: {fileID: 1962175260}
-  legClosedCollider: {fileID: 1905899179}
-  legOpenedCollider: {fileID: 1293624655}
   pussyClosed: {fileID: 567493710}
   pussyOpened: {fileID: 1990749452}
   pussyClosedCollider: {fileID: 1782919806}
@@ -7701,7 +7698,6 @@ MonoBehaviour:
   textRightHand: {fileID: 1364972434}
   feelingSystem: {fileID: 479889909}
   gameTime: {fileID: 1283497548}
-  sceneController: {fileID: 1025670579}
   feelGoodSlider: {fileID: 1593195623}
   feelBadSlider: {fileID: 1518272697}
 --- !u!1 &502869419
@@ -22101,97 +22097,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290625146}
   m_CullTransparentMesh: 1
---- !u!1 &1293624655
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1293624656}
-  - component: {fileID: 1293624657}
-  m_Layer: 9
-  m_Name: Leg2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1293624656
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1293624655}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1533090220}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1293624657
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1293624655}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 1.7637558, y: -0.9367379}
-      - {x: 0.7015453, y: -1.7631904}
-      - {x: 0.45141184, y: -2.9845946}
-      - {x: -0.41970634, y: -2.9718585}
-      - {x: -0.8401166, y: -1.7702867}
-      - {x: -1.4791638, y: -1.1934706}
-      - {x: -2.9622688, y: -0.3405205}
-      - {x: -2.9290273, y: -2.3846037}
-      - {x: -2.2001595, y: -2.9838471}
-      - {x: 2.0876684, y: -3.01197}
-      - {x: 2.9723444, y: -2.3268297}
-      - {x: 2.9571502, y: -0.253439}
-  m_UseDelaunayMesh: 0
 --- !u!1 &1298679077
 GameObject:
   m_ObjectHideFlags: 0
@@ -23281,7 +23186,7 @@ GameObject:
   - component: {fileID: 1365079695}
   - component: {fileID: 1365079696}
   m_Layer: 9
-  m_Name: Leg 1
+  m_Name: Leg Closed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25752,39 +25657,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532486217}
   m_CullTransparentMesh: 1
---- !u!1 &1533090219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1533090220}
-  m_Layer: 9
-  m_Name: Legs
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1533090220
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533090219}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1905899180}
-  - {fileID: 1293624656}
-  m_Father: {fileID: 421948851}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1538228991
 GameObject:
   m_ObjectHideFlags: 0
@@ -31597,100 +31469,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898137589}
   m_CullTransparentMesh: 1
---- !u!1 &1905899179
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1905899180}
-  - component: {fileID: 1905899181}
-  m_Layer: 9
-  m_Name: Leg1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1905899180
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905899179}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1533090220}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1905899181
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905899179}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.90535855, y: -1.6764573}
-      - {x: 0.54297364, y: -2.0523295}
-      - {x: 0.28209552, y: -2.4732552}
-      - {x: 0.09633553, y: -2.9697876}
-      - {x: -0.2576406, y: -2.9686675}
-      - {x: -0.39629835, y: -2.4532332}
-      - {x: -0.63358057, y: -2.049869}
-      - {x: -0.8477627, y: -1.8270267}
-      - {x: -1.066294, y: -1.6303092}
-      - {x: -1.5491849, y: -1.3712524}
-      - {x: -1.8159266, y: -2.0448241}
-      - {x: -1.9568596, y: -2.9800382}
-      - {x: 1.7507766, y: -3.0034873}
-      - {x: 1.6332012, y: -2.1444187}
-      - {x: 1.4008611, y: -1.3447852}
-  m_UseDelaunayMesh: 0
 --- !u!1 &1914295774
 GameObject:
   m_ObjectHideFlags: 0
@@ -32295,12 +32073,12 @@ GameObject:
   - component: {fileID: 1962175262}
   - component: {fileID: 1962175263}
   m_Layer: 9
-  m_Name: Leg  2
+  m_Name: Leg  Opened
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1962175261
 Transform:
   m_ObjectHideFlags: 0

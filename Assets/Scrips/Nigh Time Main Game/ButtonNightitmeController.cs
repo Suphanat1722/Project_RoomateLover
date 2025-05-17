@@ -66,7 +66,7 @@ public class ButtonNighttimeController : MonoBehaviour
     [Header("Feeling System")]
     public FeelingSystem feelingSystem;
     public GameTime gameTime;
-    public SceneController sceneController;
+ 
 
     [Header("UI Elements for Feelings")]
     public Slider feelGoodSlider;
@@ -79,10 +79,13 @@ public class ButtonNighttimeController : MonoBehaviour
     private bool isMoveMoveFast = false;
     private bool isPushPushDeep = false;
     private bool isInsertDickInPussy;
-    private bool isTakeClothes;
     private bool isSelectCumInside;
     private bool isSelectCumOutside;
     private string previousLayerNameWhenInserted = "Cancel";
+    private bool isTakeOffClothes;
+    private bool isTouchBody;
+    private bool isTouchPussy;
+    private bool isTouchHead;
 
     float selectCumCountDown = 5f; 
 
@@ -94,26 +97,28 @@ public class ButtonNighttimeController : MonoBehaviour
         textLeftHand.text = selectedLayerLeft;
         textRightHand.text = selectedLayerRight;
 
+        if (shirt.currentLevel > 0)
+        {
+            isTakeOffClothes = true;
+        }
+        else
+        {
+            isTakeOffClothes = false;
+        }
+        if (isTakeOffClothes)
+        {
+            feelingSystem.CalculateFeelings( 1000 * Time.deltaTime, 3000 * Time.deltaTime);
+        }
+
         // อัปเดตค่าของ Slider ตามค่าความรู้สึกดี
         if (feelGoodSlider != null)
         {
             feelGoodSlider.value = feelingSystem.GetFeelGoodValue() / feelingSystem.feelGood.maxValue;
         }
-
         // อัปเดตค่าของ Slider สำหรับความรู้สึกแย่
         if (feelBadSlider != null)
         {
             feelBadSlider.value = feelingSystem.GetFeelBadValue() / feelingSystem.feelBad.maxValue;
-        }
-
-        //ค่าสถาณะต่างๆ ในทุกๆ 1 วิ
-        if (shirt.currentLevel > 0)
-        {
-            isTakeClothes = true;
-        }
-        else
-        {
-            isTakeClothes = false;
         }
 
         // การการปุ่มเลือกน้ำแตก
@@ -140,8 +145,6 @@ public class ButtonNighttimeController : MonoBehaviour
         pussyClosedCollider.SetActive(!isOpenLegs && isUnderwearRemoved);
         pussyOpenedCollider.SetActive(isOpenLegs && isUnderwearRemoved);
     }
-
-
 
     private void HandleMouseInput()
     {
@@ -441,15 +444,14 @@ public class ButtonNighttimeController : MonoBehaviour
 
     // ถอดเสื้อ
     public void TakeOffClothes()
-    {
-       
-        StartCoroutine(ContinuousActionWhileTakeClothes());
+    {  
+ 
         switch (currentLayerName)
         {
             case "Body Upper":
                 shirt.currentLevel = Mathf.Clamp(shirt.currentLevel + 1, 0, shirt.maxLevel);
                 currentLayerName = null;
-                
+
                 StartCoroutine(ContinueusResetButtons(0,2));
                 break;
             case "Body Under":
@@ -661,19 +663,6 @@ public class ButtonNighttimeController : MonoBehaviour
         // หลังจากเวลาผ่านไปแล้ว, สามารถเปิดปุ่มกลับมาได้หรือทำอย่างอื่นตามที่ต้องการ
         // ตรงนี้คุณอาจต้องการเรียก ShowUiButtons() หรือทำการอัปเดต UI อื่นๆ
     }
-    private IEnumerator ContinuousActionWhileTakeClothes()
-    {
-        while (isTakeClothes)
-        {
-            feelingSystem.CalculateFeelings(2f, 5f);
-
-            if (isTakeClothes)
-            {
-                yield break;
-            }
-
-            yield return new WaitForSeconds(1f);
-        }      
-    }
+    
     
 }
