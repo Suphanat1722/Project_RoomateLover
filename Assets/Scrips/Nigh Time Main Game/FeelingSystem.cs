@@ -35,8 +35,8 @@ public class FeelingSystem : MonoBehaviour
         feelGood.currentValue = Mathf.Clamp(feelGood.currentValue, 0f, feelGood.maxValue);
 
         // คำนวณค่าความรู้สึกแย่
-        float badMultiplier = 1f - goodMultiplier;
-        feelBad.currentValue += ((baseGoodIncrease * badMultiplier) / 10) * Time.deltaTime;
+        float badMultiplier = (trustValue / 100f) * (sexualInterest / 100f) * (mood / 100f);
+        feelBad.currentValue += ((baseBadIncrease * badMultiplier) / 10) * Time.deltaTime;
         feelBad.currentValue = Mathf.Clamp(feelBad.currentValue, 0f, feelBad.maxValue);
     }
 

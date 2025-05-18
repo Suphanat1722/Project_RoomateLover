@@ -107,7 +107,7 @@ public class ButtonNighttimeController : MonoBehaviour
         }
         if (isTakeOffClothes)
         {
-            feelingSystem.CalculateFeelings( 1000 * Time.deltaTime, 3000 * Time.deltaTime);
+            feelingSystem.CalculateFeelings( 100 , 300);
         }
 
         // อัปเดตค่าของ Slider ตามค่าความรู้สึกดี
