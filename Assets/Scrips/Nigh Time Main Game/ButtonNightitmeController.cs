@@ -105,9 +105,22 @@ public class ButtonNighttimeController : MonoBehaviour
         {
             isTakeOffClothes = false;
         }
+
         if (isTakeOffClothes)
         {
-            feelingSystem.CalculateFeelings( 100 , 300);
+            feelingSystem.CalculateFeelings( 50 , 300);
+        }
+        if (isTouchBody)
+        {
+            feelingSystem.CalculateFeelings(300, 600);
+        }
+        else
+        {
+            isTouchBody = false;
+        }
+        if (isTouchHead)
+        {
+            
         }
 
         // อัปเดตค่าของ Slider ตามค่าความรู้สึกดี
@@ -551,37 +564,42 @@ public class ButtonNighttimeController : MonoBehaviour
     public void OnHeadRubButtonClick()
     {
         // ลดค่าความรู้สึกแย่
-        feelingSystem.CalculateFeelings(0f, -5f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม ที่นี่ใช้ 0 เพื่อไม่เพิ่มค่าความรู้สึกดี      
+           
     }
     // บีบ นม
     public void OnGrabBreastButtonClick()
-    {     
-        feelingSystem.CalculateFeelings(10f, 2f); // ค่าตัวอย่าง, ปรับตามความเหมาะสม     
+    {
+        isTouchBody = true;
+        StartCoroutine(ContinueusResetButtons(3f, 2));
     }
     //เลีย หัวนม
     public void OnLickBreastButtonClick()
-    {    
-        feelingSystem.CalculateFeelings(10f, 2f);        
+    {
+        isTouchBody = true;
+        StartCoroutine(ContinueusResetButtons(3f, 2));
     }
     // ถูๆจิมิ
     public void OnRubPussyButtonClick()
     {
-        feelingSystem.CalculateFeelings(10f, 2f);
+        isTouchBody = true;
+        StartCoroutine(ContinueusResetButtons(3f, 2));
     }
     // ชักว่าว
     public void OnJerkOffButtonClick()
-    {      
-        feelingSystem.CalculateFeelings(10f, 2f); 
+    {
+        StartCoroutine(ContinueusResetButtons(3f, 2));
     }
     // สอดนิ้วเข้าไป
     public void OnFingerInsidePussyButtonClick()
-    {        
-        feelingSystem.CalculateFeelings(10f, 2f);    
+    {
+        isTouchBody = true;
+
     }
     // เลีย จิมิ
     public void OnLickPussyButtonClick()
-    {       
-        feelingSystem.CalculateFeelings(10f, 2f);     
+    {
+        isTouchBody = true;
+        StartCoroutine(ContinueusResetButtons(3f, 2));
     }
     // เอา ควย สอดใส่
     public void OnInsertDickInPussyButtonClick()
@@ -610,13 +628,13 @@ public class ButtonNighttimeController : MonoBehaviour
     public void OnPushShallowButtonClick()
     {   
         isPushPushDeep = false;
-        feelingSystem.CalculateFeelings(8f, 1.5f);
+        isTouchBody = true;
     }
     //ดัน ควย เข้าลึกๆ
     public void OnPushDeepButtonClick()
     {
-        isPushPushDeep = true;      
-        feelingSystem.CalculateFeelings(20f, 4f);
+        isPushPushDeep = true;
+        isTouchBody = true;
     }
     //เอาควยออก
     public void OnPullOutButtonClick()
@@ -642,13 +660,13 @@ public class ButtonNighttimeController : MonoBehaviour
     // เลือกใช้ Vibrator
     public void OnUseVibratorButtonClick()
     {
-        feelingSystem.CalculateFeelings(15f, 3f); 
+        isTouchBody = true;
         StartCoroutine(ContinueusResetButtons(0f, 2));
     }
     // เลือกใช้ Egg Vibrator
     public void OnUseEggVibratorButtonClick()
     {
-        feelingSystem.CalculateFeelings(12f, 2.5f); 
+        isTouchBody = true;
         StartCoroutine(ContinueusResetButtons(0f, 2));
     }
 
@@ -656,10 +674,12 @@ public class ButtonNighttimeController : MonoBehaviour
     {
         // ปิดปุ่มที่กำลังเปิดอยู่ทั้งหมด
         ResetAllButtons(indexReset);
+        
 
         // รอเวลาที่กำหนด
         yield return new WaitForSeconds(duration);
 
+        isTouchBody = false;
         // หลังจากเวลาผ่านไปแล้ว, สามารถเปิดปุ่มกลับมาได้หรือทำอย่างอื่นตามที่ต้องการ
         // ตรงนี้คุณอาจต้องการเรียก ShowUiButtons() หรือทำการอัปเดต UI อื่นๆ
     }
