@@ -3,99 +3,89 @@ using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
 {
-    [Header("Dependencies")]
     private InteractionManager interactionManager;
     private string actionName;
     private Button buttonComponent;
 
-    #region Unity Lifecycle
-    private void Awake()
+    void Awake()
     {
-        InitializeButton();
+        SetupButton();
     }
 
-    private void OnDestroy()
+    void OnDestroy()
     {
-        CleanupListeners();
+        RemoveButtonListeners();
     }
-    #endregion
 
-    #region Public Methods
     public void Initialize(InteractionManager manager, string action)
     {
-        if (!ValidateInitializationParameters(manager, action))
+        // ตรวจสอบว่าข้อมูลที่ส่งมาถูกต้องไหม
+        if (manager == null || string.IsNullOrEmpty(action))
+        {
+            Debug.LogError($"[ActionButton] ข้อมูลไม่ครบ - Manager: {manager != null}, Action: {!string.IsNullOrEmpty(action)}");
             return;
+        }
 
-        SetupButton(manager, action);
-        RegisterClickListener();
+        // เก็บข้อมูล
+        interactionManager = manager;
+        actionName = action;
+        Debug.Log($"[ActionButton] ตั้งค่า {gameObject.name} กับคำสั่ง: {actionName}");
+
+        // เชื่อมโยงปุ่มกับฟังก์ชัน
+        ConnectButtonToFunction();
     }
-    #endregion
 
-    #region Private Methods
-    private void InitializeButton()
+    private void SetupButton()
     {
         buttonComponent = GetComponent<Button>();
 
         if (buttonComponent == null)
         {
-            Debug.LogError($"[ActionButton] Button component missing on {gameObject.name}");
+            Debug.LogError($"[ActionButton] ไม่พบ Button component ใน {gameObject.name}");
         }
         else
         {
-            Debug.Log($"[ActionButton] Button found on {gameObject.name}, Interactable: {buttonComponent.interactable}");
+            Debug.Log($"[ActionButton] พบ Button ใน {gameObject.name}, สามารถคลิกได้: {buttonComponent.interactable}");
         }
     }
 
-    private bool ValidateInitializationParameters(InteractionManager manager, string action)
-    {
-        if (manager == null || string.IsNullOrEmpty(action))
-        {
-            Debug.LogError($"[ActionButton] Invalid parameters for {gameObject.name} - Manager: {manager != null}, Action: {!string.IsNullOrEmpty(action)}");
-            return false;
-        }
-        return true;
-    }
-
-    private void SetupButton(InteractionManager manager, string action)
-    {
-        interactionManager = manager;
-        actionName = action;
-        Debug.Log($"[ActionButton] Initialized {gameObject.name} with action: {actionName}");
-    }
-
-    private void RegisterClickListener()
+    private void ConnectButtonToFunction()
     {
         if (buttonComponent == null)
         {
-            Debug.LogError($"[ActionButton] Cannot register listener - Button is null on {gameObject.name}");
+            Debug.LogError($"[ActionButton] ไม่สามารถเชื่อมโยงปุ่มได้ - Button เป็น null ใน {gameObject.name}");
             return;
         }
 
+        // ลบ listener เก่าทั้งหมดก่อน
         buttonComponent.onClick.RemoveAllListeners();
-        buttonComponent.onClick.AddListener(HandleButtonClick);
-        Debug.Log($"[ActionButton] Listener registered for {gameObject.name}");
+
+        // เพิ่ม listener ใหม่
+        buttonComponent.onClick.AddListener(OnButtonClicked);
+
+        Debug.Log($"[ActionButton] เชื่อมโยงปุ่มสำเร็จ: {gameObject.name}");
     }
 
-    private void HandleButtonClick()
+    private void OnButtonClicked()
     {
-        Debug.Log($"[ActionButton] Button clicked: {actionName} on {gameObject.name}");
+        Debug.Log($"[ActionButton] ปุ่มถูกคลิก: {actionName} ใน {gameObject.name}");
 
         if (interactionManager == null)
         {
-            Debug.LogError($"[ActionButton] InteractionManager is null on {gameObject.name}");
+            Debug.LogError($"[ActionButton] InteractionManager เป็น null ใน {gameObject.name}");
             return;
         }
 
+        // ส่งคำสั่งไปยัง InteractionManager
         interactionManager.OnActionButtonClick(actionName);
     }
 
-    private void CleanupListeners()
+    private void RemoveButtonListeners()
     {
         if (buttonComponent != null)
         {
             buttonComponent.onClick.RemoveAllListeners();
-            Debug.Log($"[ActionButton] Cleaned up listeners for {gameObject.name}");
+            Debug.Log($"[ActionButton] ลบ listeners สำหรับ {gameObject.name}");
         }
     }
-    #endregion
 }
