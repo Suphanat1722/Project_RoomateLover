@@ -3,67 +3,99 @@ using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
 {
+    [Header("Dependencies")]
     private InteractionManager interactionManager;
-    private string action;
-    private Button button;
+    private string actionName;
+    private Button buttonComponent;
 
+    #region Unity Lifecycle
     private void Awake()
     {
-        button = GetComponent<Button>();
-        if (button == null)
-        {
-            Debug.LogError($"Button component not found on {gameObject.name}");
-        }
-        else
-        {
-            Debug.Log($"Button component found on {gameObject.name}, Interactable: {button.interactable}");
-        }
-    }
-
-    public void Initialize(InteractionManager manager, string actionName)
-    {
-        Debug.Log($"Initialize called for {gameObject.name} with action: {actionName}");
-        if (manager == null || string.IsNullOrEmpty(actionName))
-        {
-            Debug.LogError($"Invalid initialization parameters for ActionButton on {gameObject.name}");
-            return;
-        }
-
-        interactionManager = manager;
-        action = actionName;
-
-        if (button != null)
-        {
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(OnButtonClick);
-            Debug.Log($"Added OnButtonClick listener to {gameObject.name}");
-        }
-        else
-        {
-            Debug.LogError($"Button is null on {gameObject.name}, cannot add listener!");
-        }
-    }
-
-    private void OnButtonClick()
-    {
-        Debug.Log($"OnButtonClick called for action: {action} on {gameObject.name}");
-        if (interactionManager != null)
-        {
-            Debug.Log($"Calling OnActionButtonClick with action: {action}");
-            interactionManager.OnActionButtonClick(action);
-        }
-        else
-        {
-            Debug.LogError($"InteractionManager is null in ActionButton on {gameObject.name}");
-        }
+        InitializeButton();
     }
 
     private void OnDestroy()
     {
-        if (button != null)
+        CleanupListeners();
+    }
+    #endregion
+
+    #region Public Methods
+    public void Initialize(InteractionManager manager, string action)
+    {
+        if (!ValidateInitializationParameters(manager, action))
+            return;
+
+        SetupButton(manager, action);
+        RegisterClickListener();
+    }
+    #endregion
+
+    #region Private Methods
+    private void InitializeButton()
+    {
+        buttonComponent = GetComponent<Button>();
+
+        if (buttonComponent == null)
         {
-            //button.onClick.RemoveAllListeners();
-            Debug.Log($"Removed listeners from {gameObject.name}");
+            Debug.LogError($"[ActionButton] Button component missing on {gameObject.name}");
+        }
+        else
+        {
+            Debug.Log($"[ActionButton] Button found on {gameObject.name}, Interactable: {buttonComponent.interactable}");
         }
     }
+
+    private bool ValidateInitializationParameters(InteractionManager manager, string action)
+    {
+        if (manager == null || string.IsNullOrEmpty(action))
+        {
+            Debug.LogError($"[ActionButton] Invalid parameters for {gameObject.name} - Manager: {manager != null}, Action: {!string.IsNullOrEmpty(action)}");
+            return false;
+        }
+        return true;
+    }
+
+    private void SetupButton(InteractionManager manager, string action)
+    {
+        interactionManager = manager;
+        actionName = action;
+        Debug.Log($"[ActionButton] Initialized {gameObject.name} with action: {actionName}");
+    }
+
+    private void RegisterClickListener()
+    {
+        if (buttonComponent == null)
+        {
+            Debug.LogError($"[ActionButton] Cannot register listener - Button is null on {gameObject.name}");
+            return;
+        }
+
+        buttonComponent.onClick.RemoveAllListeners();
+        buttonComponent.onClick.AddListener(HandleButtonClick);
+        Debug.Log($"[ActionButton] Listener registered for {gameObject.name}");
+    }
+
+    private void HandleButtonClick()
+    {
+        Debug.Log($"[ActionButton] Button clicked: {actionName} on {gameObject.name}");
+
+        if (interactionManager == null)
+        {
+            Debug.LogError($"[ActionButton] InteractionManager is null on {gameObject.name}");
+            return;
+        }
+
+        interactionManager.OnActionButtonClick(actionName);
+    }
+
+    private void CleanupListeners()
+    {
+        if (buttonComponent != null)
+        {
+            buttonComponent.onClick.RemoveAllListeners();
+            Debug.Log($"[ActionButton] Cleaned up listeners for {gameObject.name}");
+        }
+    }
+    #endregion
 }
