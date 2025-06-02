@@ -15,29 +15,29 @@ public class InteractionManager : MonoBehaviour
         public int maxLevel = 3;
         public string interactionLayer;
         public List<string> availableActions;
-        public bool hasLegsVariant = false;
+        public bool hasLegsVariant = false; //กำหนดว่ามีสำหรับเปิดขาไหม
 
-        public bool IsFullyRemoved()
+        public bool IsFullyRemoved()//ตรวจสอบว่าเสื้อผ้าถอดหมดแล้วหรือยัง
         {
             return currentLevel >= maxLevel;
         }
 
-        public bool CanBeRemovedFurther()
+        public bool CanBeRemovedFurther()//ตรวจสอบว่ายังถอดเพิ่มได้อีกไหม
         {
             return currentLevel < maxLevel;
         }
 
-        public bool CanBeDressed()
+        public bool CanBeDressed()//ตรวจสอบว่าใส่เสื้อผ้าได้ไหม
         {
             return currentLevel > 0;
         }
 
-        public void ResetToFullyDressed()
+        public void ResetToFullyDressed()//ใส่เสื้อผ้าเต็มตัว
         {
             currentLevel = 0;
         }
 
-        public void RemoveOneLevel()
+        public void RemoveOneLevel()//ถอดเสื้อผ้าออก 1 ชั้น
         {
             if (CanBeRemovedFurther())
                 currentLevel++;
@@ -120,23 +120,18 @@ public class InteractionManager : MonoBehaviour
         RaycastHit2D bestHit = new RaycastHit2D();
 
         // ตรวจสอบตามลำดับความสำคัญ (ชิ้นด้านหน้าก่อน)
-        // 1. กางเกง (ด้านหน้าสุด)
-        bestHit = CheckForLayer(hits, "Pants");
-        if (bestHit.collider != null && CanClickClothing("Pants")) return bestHit;
-
-        // 2. กางเกงใน
-        bestHit = CheckForLayer(hits, "Underwear");
-        if (bestHit.collider != null && CanClickClothing("Underwear")) return bestHit;
-
-        // 3. เสื้อ
         bestHit = CheckForLayer(hits, "Shirt");
         if (bestHit.collider != null && CanClickClothing("Shirt")) return bestHit;
 
-        // 4. ขา (ด้านหลังสุด)
+        bestHit = CheckForLayer(hits, "Pants");
+        if (bestHit.collider != null && CanClickClothing("Pants")) return bestHit;
+
+        bestHit = CheckForLayer(hits, "Underwear");
+        if (bestHit.collider != null && CanClickClothing("Underwear")) return bestHit;
+
         bestHit = CheckForLayer(hits, "Legs");
         if (bestHit.collider != null && CanClickClothing("Legs")) return bestHit;
 
-        // ถ้าไม่เจออะไรเลย ส่งกลับ hit แรก
         return hits[0];
     }
 
@@ -249,11 +244,13 @@ public class InteractionManager : MonoBehaviour
         }
         else if (actionString == "Dress")
         {
-            return currentClothingPiece.CanBeDressed();
+            // แก้เงื่อนไขจาก CanBeDressed() เป็นเช็คว่ายังลดระดับได้อีก
+            return currentClothingPiece.currentLevel > 0;
         }
         else if (actionString == "SpreadLegs")
         {
-            return !isLegsOpen;
+            // แสดงปุ่มกางขาก็ต่อเมื่อ:
+            return !isLegsOpen && (IsFullyDressed() || IsFullyRemoved());
         }
         else if (actionString == "CloseLegs")
         {
@@ -265,6 +262,16 @@ public class InteractionManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private bool IsFullyDressed()
+    {
+        return pants.currentLevel == 0 && underwear.currentLevel == 0 || pants.currentLevel == 3 && underwear.currentLevel == 0;
+    }
+
+    private bool IsFullyRemoved()
+    {
+        return pants.IsFullyRemoved() && underwear.IsFullyRemoved(); ;
     }
 
     private string GetActionDisplayText(string actionString)
@@ -332,11 +339,14 @@ public class InteractionManager : MonoBehaviour
             return;
         }
 
-        currentClothingPiece.ResetToFullyDressed();
-        SyncWithSpreadVersion();
-        UpdateRelatedClothing();
-
-        Debug.Log($"ใส่ {currentClothingPiece.name} กลับ");
+        // แก้จาก ResetToFullyDressed() เป็นลดทีละระดับ
+        if (currentClothingPiece.currentLevel > 0)
+        {
+            currentClothingPiece.currentLevel--; // ลดระดับลง 1
+            SyncWithSpreadVersion();
+            UpdateRelatedClothing();
+            Debug.Log($"ใส่กลับ {currentClothingPiece.name} เป็น level: {currentClothingPiece.currentLevel}");
+        }
     }
 
     private void HandleSpreadLegs()
