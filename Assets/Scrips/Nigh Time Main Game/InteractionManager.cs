@@ -16,18 +16,46 @@ public class InteractionManager : MonoBehaviour
         public string interactionLayer;
         public List<string> availableActions;
 
-        public void UpdateState()
+        public void UpdateState(bool isLegsPiece = false, bool isLegsOpen = false, ClothingPiece pairedPiece = null, InteractionManager manager = null)
         {
-
-            for (int i = 0; i < levels.Length; i++)
+            if (levels == null || levels.Length == 0)
             {
-                if (levels[i] != null)
+                Debug.LogError($"Levels array for {name} is not set or empty!");
+                return;
+            }
+
+            if (isLegsPiece)
+            {
+                if (levels.Length < 2)
                 {
-                    levels[i].SetActive(i == currentLevel);
+                    Debug.LogError($"Levels array for {name} must have at least 2 elements for legs (closed and open states)!");
+                    return;
                 }
-                else
+
+                levels[0].SetActive(!isLegsOpen); // ขาปิด
+                levels[1].SetActive(isLegsOpen);  // ขาเปิด
+            }
+            else if (name == "Shirt" || name == "ShirtSpread")
+            {
+                // เรียกฟังก์ชันที่จัดการทั้ง Shirt และ ShirtSpread
+                if (manager != null)
                 {
-                    Debug.LogWarning($"Level {i} for {name} is null!");
+                    manager.UpdateShirtStates(isLegsOpen);
+                }
+            }
+            else
+            {
+                // สำหรับชิ้นส่วนอื่น (เช่น pants, underwear): ใช้ currentLevel
+                for (int i = 0; i < levels.Length; i++)
+                {
+                    if (levels[i] != null)
+                    {
+                        levels[i].SetActive(i == currentLevel);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Level {i} for {name} is null!");
+                    }
                 }
             }
         }
@@ -40,9 +68,10 @@ public class InteractionManager : MonoBehaviour
 
     [Header("Interaction Areas")]
     public ClothingPiece shirt;
+    public ClothingPiece shirtSpread;
     public ClothingPiece pants;
+    public ClothingPiece underwear;
     public ClothingPiece legs;
-    public ClothingPiece pussy;
 
     [Header("UI Elements")]
     public GameObject actionPanel;
@@ -56,10 +85,26 @@ public class InteractionManager : MonoBehaviour
 
     private void Start()
     {
-        shirt.UpdateState();
+        // ทำให้ shirt และ shirtSpread ใช้ currentLevel ร่วมกัน
+        shirtSpread.currentLevel = shirt.currentLevel;
+
+        // อัปเดตสถานะเริ่มต้น
+        shirt.UpdateState(false, isLegsOpen, null, this);
         pants.UpdateState();
-        legs.UpdateState();
-        pussy.UpdateState();
+        underwear.UpdateState();
+        legs.UpdateState(true, isLegsOpen);
+
+        // ตรวจสอบเพิ่มเติมเพื่อให้แน่ใจว่า shirtSpread ปิดในตอนเริ่มต้น
+        if (!isLegsOpen)
+        {
+            for (int i = 0; i < shirtSpread.levels.Length; i++)
+            {
+                if (shirtSpread.levels[i] != null)
+                {
+                    shirtSpread.levels[i].SetActive(false);
+                }
+            }
+        }
 
         if (actionPanel != null)
         {
@@ -67,9 +112,53 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
+    private void UpdateShirtStates(bool isLegsOpen)
+    {
+        // บังคับปิดทุก levels ของทั้ง Shirt และ ShirtSpread ก่อน
+        for (int i = 0; i < shirt.levels.Length; i++)
+        {
+            if (shirt.levels[i] != null)
+            {
+                shirt.levels[i].SetActive(false);
+            }
+        }
+        for (int i = 0; i < shirtSpread.levels.Length; i++)
+        {
+            if (shirtSpread.levels[i] != null)
+            {
+                shirtSpread.levels[i].SetActive(false);
+            }
+        }
+
+        // อัปเดตตาม isLegsOpen
+        if (isLegsOpen)
+        {
+            // เปิด ShirtSpread ตาม currentLevel
+            for (int i = 0; i < shirtSpread.levels.Length; i++)
+            {
+                if (shirtSpread.levels[i] != null)
+                {
+                    bool shouldBeActive = (i == shirtSpread.currentLevel);
+                    shirtSpread.levels[i].SetActive(shouldBeActive);
+                }
+            }
+        }
+        else
+        {
+            // เปิด Shirt ตาม currentLevel
+            for (int i = 0; i < shirt.levels.Length; i++)
+            {
+                if (shirt.levels[i] != null)
+                {
+                    bool shouldBeActive = (i == shirt.currentLevel);
+                    shirt.levels[i].SetActive(shouldBeActive);
+                }
+            }
+        }
+    }
+
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -83,7 +172,6 @@ public class InteractionManager : MonoBehaviour
             }
             else
             {
-                // ตรวจสอบว่าคลิกที่ UI หรือไม่
                 if (actionPanel != null && actionPanel.activeSelf && !IsPointerOverUI())
                 {
                     Debug.Log("Hiding action panel due to click outside");
@@ -114,10 +202,10 @@ public class InteractionManager : MonoBehaviour
             currentClothingPiece = shirt;
         else if (layerName == pants.interactionLayer)
             currentClothingPiece = pants;
+        else if (layerName == underwear.interactionLayer)
+            currentClothingPiece = underwear;
         else if (layerName == legs.interactionLayer)
             currentClothingPiece = legs;
-        else if (layerName == pussy.interactionLayer)
-            currentClothingPiece = pussy;
 
         if (currentClothingPiece != null)
         {
@@ -129,7 +217,6 @@ public class InteractionManager : MonoBehaviour
             {
                 if (ShouldShowAction(action))
                 {
-
                     GameObject buttonObj = Instantiate(buttonPrefab, actionPanel.transform);
                     Button button = buttonObj.GetComponent<Button>();
                     TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -156,7 +243,7 @@ public class InteractionManager : MonoBehaviour
             case "TakeOff":
                 return !currentClothingPiece.IsFullyRemoved();
             case "Dress":
-                return currentClothingPiece.currentLevel > 0; // แก้ไข: ควรแสดงเมื่อ currentLevel > 0
+                return currentClothingPiece.currentLevel > 0;
             case "SpreadLegs":
                 return !isLegsOpen;
             case "CloseLegs":
@@ -185,14 +272,21 @@ public class InteractionManager : MonoBehaviour
 
     public void OnActionButtonClick(string action)
     {
-
         switch (action)
         {
             case "TakeOff":
                 if (currentClothingPiece.currentLevel < currentClothingPiece.maxLevel)
                 {
                     currentClothingPiece.currentLevel++;
-                    currentClothingPiece.UpdateState();
+                    if (currentClothingPiece == shirt)
+                    {
+                        shirtSpread.currentLevel = currentClothingPiece.currentLevel;
+                    }
+                    currentClothingPiece.UpdateState(currentClothingPiece == legs, isLegsOpen, null, this);
+                    if (currentClothingPiece == shirt)
+                    {
+                        UpdateShirtStates(isLegsOpen); // อัปเดตทั้ง Shirt และ ShirtSpread
+                    }
                 }
                 else
                 {
@@ -203,8 +297,16 @@ public class InteractionManager : MonoBehaviour
                 if (currentClothingPiece.currentLevel > 0)
                 {
                     currentClothingPiece.currentLevel = 0;
+                    if (currentClothingPiece == shirt)
+                    {
+                        shirtSpread.currentLevel = currentClothingPiece.currentLevel;
+                    }
                     Debug.Log($"Reset {currentClothingPiece.name} level to {currentClothingPiece.currentLevel}");
-                    currentClothingPiece.UpdateState();
+                    currentClothingPiece.UpdateState(currentClothingPiece == legs, isLegsOpen, null, this);
+                    if (currentClothingPiece == shirt)
+                    {
+                        UpdateShirtStates(isLegsOpen); // อัปเดตทั้ง Shirt และ ShirtSpread
+                    }
                 }
                 else
                 {
@@ -213,13 +315,15 @@ public class InteractionManager : MonoBehaviour
                 break;
             case "SpreadLegs":
                 isLegsOpen = true;
-                legs.UpdateState();
-                Debug.Log("กางขา");
+                legs.UpdateState(true, isLegsOpen);
+                UpdateShirtStates(isLegsOpen);
+                Debug.Log("กางขา และเปลี่ยนไปใช้ ShirtSpread");
                 break;
             case "CloseLegs":
                 isLegsOpen = false;
-                legs.UpdateState();
-                Debug.Log("หุบขา");
+                legs.UpdateState(true, isLegsOpen);
+                UpdateShirtStates(isLegsOpen);
+                Debug.Log("หุบขา และเปลี่ยนกลับไปใช้ Shirt ปกติ");
                 break;
             case "FingerInside":
                 Debug.Log("สอดนิ้วเข้าจิ๋ม");
