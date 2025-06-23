@@ -26,10 +26,10 @@ public class GameController : MonoBehaviour
         if (autoFindManagers)
         {
             // Try to find managers if not assigned
-            if (clothingManager == null) clothingManager = FindObjectOfType<ClothingManager>();
-            if (uiManager == null) uiManager = FindObjectOfType<UIManager>();
-            if (inputHandler == null) inputHandler = FindObjectOfType<InputHandler>();
-            if (actionHandler == null) actionHandler = FindObjectOfType<ActionHandler>();
+            if (clothingManager == null) clothingManager = FindAnyObjectByType<ClothingManager>();
+            if (uiManager == null) uiManager = FindAnyObjectByType<UIManager>();
+            if (inputHandler == null) inputHandler = FindAnyObjectByType<InputHandler>();
+            if (actionHandler == null) actionHandler = FindAnyObjectByType<ActionHandler>();
         }
 
         // Validate all managers are present
