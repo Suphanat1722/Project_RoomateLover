@@ -10830,6 +10830,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 683140464}
+  - component: {fileID: 683140465}
   m_Layer: 0
   m_Name: Body Legs
   m_TagString: Untagged
@@ -10854,6 +10855,58 @@ Transform:
   - {fileID: 1317051620}
   m_Father: {fileID: 1508538206}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &683140465
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683140463}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 1}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 0.58778536, y: -0.80901694}
+      - {x: 0.9510565, y: 0.30901712}
+  m_UseDelaunayMesh: 0
 --- !u!1 &685322905
 GameObject:
   m_ObjectHideFlags: 0
@@ -20695,8 +20748,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &1178573016
-CircleCollider2D:
+--- !u!60 &1178573016
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -20729,8 +20782,36 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.03, y: 2.51}
-  m_Radius: 1.2694726
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.333333, y: 8.333333}
+    newSize: {x: 8.333333, y: 8.333333}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.39660332, y: -2.7895675}
+      - {x: 0.1719006, y: -3.1443355}
+      - {x: 0.13405038, y: -3.4169564}
+      - {x: 0.14648172, y: -4.0185757}
+      - {x: 0.003687255, y: -4.004014}
+      - {x: 0.05033648, y: -3.4706154}
+      - {x: 0.011689961, y: -3.120387}
+      - {x: -0.13905397, y: -2.8354251}
+      - {x: -0.50214, y: -2.450073}
+      - {x: -1.0664154, y: -2.1945846}
+      - {x: -1.1831669, y: -2.8017292}
+      - {x: -1.1593719, y: -3.3490076}
+      - {x: -1.0104966, y: -4.026414}
+      - {x: 1.177291, y: -4.0264134}
+      - {x: 1.3364679, y: -3.5362415}
+      - {x: 1.3976564, y: -2.881458}
+      - {x: 1.2115682, y: -2.1449277}
+  m_UseDelaunayMesh: 0
 --- !u!1 &1183730622
 GameObject:
   m_ObjectHideFlags: 0
@@ -23378,8 +23459,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &1317051622
-CircleCollider2D:
+--- !u!60 &1317051622
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -23412,8 +23493,35 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.03, y: 2.51}
-  m_Radius: 1.2876372
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.333333, y: 8.333333}
+    newSize: {x: 8.333333, y: 8.333333}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.2247088, y: -1.9980036}
+      - {x: -1.0488853, y: -2.0636168}
+      - {x: -1.9055973, y: -2.2701879}
+      - {x: -2.7356977, y: -2.5911338}
+      - {x: -2.7495494, y: -3.7197394}
+      - {x: -1.937569, y: -3.4688594}
+      - {x: -1.2341425, y: -3.3946128}
+      - {x: -0.5596935, y: -3.2119598}
+      - {x: -0.16352575, y: -3.196347}
+      - {x: 0.10370842, y: -3.1306415}
+      - {x: 0.37747073, y: -3.211184}
+      - {x: 0.8084674, y: -3.224918}
+      - {x: 1.3124821, y: -3.349717}
+      - {x: 1.911014, y: -3.3877954}
+      - {x: 2.8431687, y: -3.702717}
+      - {x: 2.8563042, y: -2.5377207}
+  m_UseDelaunayMesh: 0
 --- !u!1 &1325597296
 GameObject:
   m_ObjectHideFlags: 0
@@ -32925,7 +33033,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1958951328}
+  - component: {fileID: 1958951329}
+  - component: {fileID: 1958951333}
   - component: {fileID: 1958951330}
+  - component: {fileID: 1958951332}
+  - component: {fileID: 1958951331}
   m_Layer: 6
   m_Name: InteractionManager
   m_TagString: Untagged
@@ -32948,6 +33060,98 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1481146765}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1958951329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958951327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fb43de2837d5149a90ae130c5165fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shirt:
+    name: Shirt
+    type: 0
+    levels:
+    - {fileID: 1104425878}
+    - {fileID: 324246388}
+    - {fileID: 1350961863}
+    currentLevel: 0
+    maxLevel: 3
+    interactionLayer: Shirt
+    availableActions: 0000000001000000
+    hasLegsVariant: 0
+  shirtSpread:
+    name: Shirt Spread
+    type: 0
+    levels:
+    - {fileID: 509939415}
+    - {fileID: 685322905}
+    - {fileID: 1395323117}
+    currentLevel: 0
+    maxLevel: 3
+    interactionLayer: Shirt
+    availableActions: 0000000001000000
+    hasLegsVariant: 1
+  pants:
+    name: Pants
+    type: 1
+    levels:
+    - {fileID: 850767578}
+    - {fileID: 175348499}
+    - {fileID: 1247660227}
+    currentLevel: 0
+    maxLevel: 3
+    interactionLayer: Pants
+    availableActions: 0000000001000000
+    hasLegsVariant: 0
+  pantsSpread:
+    name: Pants Spread
+    type: 1
+    levels:
+    - {fileID: 59367359}
+    currentLevel: 0
+    maxLevel: 1
+    interactionLayer: Pants
+    availableActions: 0000000001000000
+    hasLegsVariant: 1
+  underwear:
+    name: Underwear
+    type: 2
+    levels:
+    - {fileID: 1594472883}
+    - {fileID: 589765671}
+    - {fileID: 6487143}
+    currentLevel: 0
+    maxLevel: 3
+    interactionLayer: Underwear
+    availableActions: 0000000001000000
+    hasLegsVariant: 0
+  underwearSpread:
+    name: Underwear Spread
+    type: 2
+    levels:
+    - {fileID: 109039629}
+    currentLevel: 0
+    maxLevel: 1
+    interactionLayer: Underwear
+    availableActions: 0000000001000000
+    hasLegsVariant: 1
+  legs:
+    name: Legs
+    type: 3
+    levels:
+    - {fileID: 1178573013}
+    - {fileID: 1317051619}
+    currentLevel: 0
+    maxLevel: 1
+    interactionLayer: Legs
+    availableActions: 0200000003000000
+    hasLegsVariant: 1
+  isLegsOpen: 0
 --- !u!114 &1958951330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32957,102 +33161,57 @@ MonoBehaviour:
   m_GameObject: {fileID: 1958951327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4673be9fc4cec504e85059e593ce377f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a44d501b276c574c8e6988a90a77c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shirt:
-    name: Shirt
-    levels:
-    - {fileID: 1104425878}
-    - {fileID: 324246388}
-    - {fileID: 1350961863}
-    currentLevel: 0
-    maxLevel: 3
-    interactionLayer: Shirt
-    availableActions:
-    - TakeOff
-    - Dress
-    hasLegsVariant: 0
-  shirtSpread:
-    name: Shirt Spread
-    levels:
-    - {fileID: 509939415}
-    - {fileID: 685322905}
-    - {fileID: 1395323117}
-    currentLevel: 0
-    maxLevel: 3
-    interactionLayer: Shirt Spread
-    availableActions:
-    - TakeOff
-    - Dress
-    hasLegsVariant: 0
-  pants:
-    name: Pants
-    levels:
-    - {fileID: 850767578}
-    - {fileID: 175348499}
-    - {fileID: 1247660227}
-    currentLevel: 0
-    maxLevel: 3
-    interactionLayer: Pants
-    availableActions:
-    - TakeOff
-    - Dress
-    hasLegsVariant: 0
-  pantsSpread:
-    name: Pants Spread
-    levels:
-    - {fileID: 59367359}
-    - {fileID: 0}
-    - {fileID: 0}
-    currentLevel: 0
-    maxLevel: 1
-    interactionLayer: Pants Spread
-    availableActions:
-    - TakeOff
-    - Dress
-    hasLegsVariant: 0
-  underwear:
-    name: Underwear
-    levels:
-    - {fileID: 1594472883}
-    - {fileID: 589765671}
-    - {fileID: 6487143}
-    currentLevel: 0
-    maxLevel: 3
-    interactionLayer: Underwear
-    availableActions:
-    - TakeOff
-    - Dress
-    hasLegsVariant: 0
-  underwearSpread:
-    name: Underwear Spread
-    levels:
-    - {fileID: 109039629}
-    - {fileID: 0}
-    - {fileID: 0}
-    currentLevel: 0
-    maxLevel: 1
-    interactionLayer: Underwear Spread
-    availableActions:
-    - TakeOff
-    - Dress
-    hasLegsVariant: 0
-  legs:
-    name: Legs
-    levels:
-    - {fileID: 1178573013}
-    - {fileID: 1317051619}
-    currentLevel: 0
-    maxLevel: 1
-    interactionLayer: Legs
-    availableActions:
-    - SpreadLegs
-    - CloseLegs
-    hasLegsVariant: 0
   actionPanel: {fileID: 997853441}
   buttonPrefab: {fileID: 3392458131214535352, guid: 86d1a2821d01e344899a12147ad43915, type: 3}
   actionText: {fileID: 245492094}
+  buttonSpacing: 100
+--- !u!114 &1958951331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958951327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f7fa086d44af240a52d9dcc709f8ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1958951332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958951327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cd887d2cd97754685a2dad18e40bab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1958951333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958951327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ea4f2cfbd06be48b15653529891083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothingManager: {fileID: 1958951329}
+  uiManager: {fileID: 1958951330}
+  inputHandler: {fileID: 1958951332}
+  actionHandler: {fileID: 1958951331}
+  autoFindManagers: 1
 --- !u!1 &1965523302
 GameObject:
   m_ObjectHideFlags: 0
