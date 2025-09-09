@@ -9,11 +9,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Character
+  - 
   - Water
   - UI
-  - Body Upper
-  - Body Under
+  - BodyBase
+  - Shirt
   - Head
   - Legs
   - Pussy
