@@ -3,39 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using TMPro;
 
 public class ClothingInteractionManager : MonoBehaviour
 {
-    // ============ ACTION STATE (ข้อ 4) ============
+    // ====== STATE / CONDITION ======
     public enum PartActionState { None, Grabbed, Touched, Spread, Custom1, Custom2 }
 
-    // ============ DATA MODEL ============
+    public enum ConditionType
+    {
+        None,
+        RequiresSelfVisible,
+        RequiresSelfHidden,
+        RequiresOtherVisible,
+        RequiresOtherHidden,
+        RequiresSelfState,
+        RequiresNotSelfState
+    }
+
+    // ====== DATA: BUTTON DEF ======
+    [Serializable]
+    public class ButtonDef
+    {
+        [Tooltip("ข้อความบนปุ่ม")]
+        public string label = "ปุ่ม";
+
+        [Header("เงื่อนไขแสดงผล")]
+        public ConditionType condition = ConditionType.None;
+        [Tooltip("ใช้เมื่อเงื่อนไขอิงอีกชิ้น เช่น ต้องถอด Pants ก่อน")]
+        public string otherPartId;
+        [Tooltip("ใช้เมื่อเงื่อนไขอิงสถานะของตัวเอง")]
+        public PartActionState requiredSelfState = PartActionState.None;
+
+        [Header("เมื่อกดปุ่ม (Inspector จะลากเมทอดมาใส่ได้)")]
+        public UnityEvent onClick;
+    }
+
+    // ====== DATA: PART ======
     [Serializable]
     public class ClothingPart
     {
-        [Tooltip("ID ของชิ้น (ต้องตรงกับ Tag หรือ LayerName ที่เลือกใช้) เช่น Shirt, Pants, Breast, Thigh")]
+        [Tooltip("ID ของชิ้นส่วน (ต้องตรงกับ Tag หรือ LayerName ที่เลือกใช้)")]
         public string partId;
 
-        [Tooltip("SpriteRenderer ของชิ้นนี้")]
+        [Header("Visual / Level")]
         public SpriteRenderer renderer;
-
-        [Tooltip("สไปรต์ตามเลเวล (0..N-1). เว้นว่างได้ถ้าใช้แค่ซ่อน/แสดง")]
         public List<Sprite> levelSprites = new();
-
-        [Tooltip("เลเวลเริ่มต้น")]
         public int startLevel = 0;
-
-        [Tooltip("Max level (รวม). 0 = ใช้จำนวน levelSprites-1")]
+        [Tooltip("Max level (รวม). 0 = ใช้จำนวน sprites-1")]
         public int explicitMaxLevel = 0;
 
-        [Header("Interactivity / Colliders (ข้อ 3)")]
-        [Tooltip("Collider ที่จะเปิด/ปิดตาม state")]
+        [Tooltip("เมื่อกดถอดที่เลเวลสุดท้าย จะให้หายไปไหม")]
+        public bool hideWhenBeyondMax = true;
+
+        [Header("Interact / Collider")]
         public List<Collider2D> collidersToToggle = new();
-        [Tooltip("คลิกได้เมื่อมองเห็นหรือไม่")]
         public bool interactableWhenVisible = true;
-        [Tooltip("คลิกได้เมื่อถูกถอดจน 'หาย' หรือไม่")]
         public bool interactableWhenHidden = false;
+
+        [Header("Buttons (ปรับใน Inspector)")]
+        public List<ButtonDef> buttons = new();
 
         [Header("Runtime (read-only)")]
         [HideInInspector] public int level;
@@ -56,22 +82,45 @@ public class ClothingInteractionManager : MonoBehaviour
             Apply();
         }
 
-        public void WearBack()   // ใส่กลับเต็ม
+        public void StepUndress()
+        {
+            if (level < MaxLevel)
+            {
+                level++;
+                Apply();
+            }
+            else
+            {
+                if (hideWhenBeyondMax)
+                {
+                    level = MaxLevel + 1; // หายไป
+                    Apply();
+                }
+                // ถ้าไม่ให้หาย: ค้างที่ Max ไม่ทำอะไร
+            }
+        }
+
+        public void WearBack()
         {
             level = 0;
             Apply();
         }
 
-        public void RemoveFully() // ถอดจน "หาย"
+        public void RemoveFully()
         {
             level = MaxLevel + 1;
+            Apply();
+        }
+
+        public void SetLevel(int toLevel)
+        {
+            level = Mathf.Max(0, toLevel);
             Apply();
         }
 
         public void SetActionState(PartActionState s)
         {
             actionState = s;
-            // ถ้าการเปลี่ยน state มีผลกับภาพ/คอลลิเดอร์ เพิ่ม logic ได้ที่นี่
             UpdateColliderInteractivity();
         }
 
@@ -109,75 +158,36 @@ public class ClothingInteractionManager : MonoBehaviour
         }
     }
 
-    // ============ ปุ่มเงื่อนไข (Data-driven) ============
-    public enum ConditionType
-    {
-        None,
-        RequiresSelfVisible,
-        RequiresSelfHidden,
-        RequiresOtherVisible,
-        RequiresOtherHidden,
-        RequiresSelfState,     // ข้อ 4: ต้องอยู่ใน state ที่กำหนด
-        RequiresNotSelfState
-    }
-
-    [Serializable]
-    public class ConditionalAction
-    {
-        [Tooltip("ปุ่มนี้ไปโผล่ที่ชิ้นไหน (partId) เช่น Thigh, Breast")]
-        public string targetPartId;
-
-        [Tooltip("ชื่อปุ่ม")]
-        public string label;
-
-        [Tooltip("เงื่อนไขการแสดงปุ่ม")]
-        public ConditionType condition = ConditionType.None;
-
-        [Tooltip("ถ้าเงื่อนไขอิงชิ้นอื่น ให้กรอก partId ของชิ้นนั้น เช่น Pants")]
-        public string otherPartId;
-
-        [Tooltip("ถ้าเป็นเงื่อนไขอิง state ของตัวเอง ให้เลือก state ที่ต้องการ")]
-        public PartActionState requiredSelfState = PartActionState.None;
-
-        [Header("ผลเมื่อกดปุ่ม")]
-        [Tooltip("ตั้ง state ให้ชิ้นเป้าหมายเมื่อกดปุ่ม (เว้น None เพื่อไม่แตะ)")]
-        public PartActionState setSelfStateTo = PartActionState.None;
-
-        [Tooltip("เหตุการณ์ (UnityEvent) ที่จะถูกเรียกเมื่อกดปุ่ม")]
-        public UnityEvent onInvoke;
-    }
-
-    // ============ Inspector ============
+    // ====== INSPECTOR: INPUT / UI / PARTS ======
     [Header("Raycast / Input")]
     public LayerMask bodyPartLayer;
     public Camera mainCamera;
-    [Tooltip("เปิด = ใช้ LayerName เป็นตัวบ่งชี้ชิ้น; ปิด = ใช้ Tag (ข้อ 2)")]
+    [Tooltip("ON = ใช้ LayerName, OFF = ใช้ Tag")]
     public bool useLayerNameInsteadOfTag = false;
 
     [Header("UI")]
-    public Canvas actionCanvas;             // Screen Space - Overlay แนะนำ
-    public ActionMenuUI actionMenuPrefab;   // Prefab เมนู (VerticalLayout + Button prefab)
+    public Canvas actionCanvas;
+    public ActionMenuUI actionMenuPrefab;
 
     [Header("Parts")]
     public List<ClothingPart> parts = new();
 
-    [Header("Extra Actions (Data-driven)")]
-    public List<ConditionalAction> extraActions = new();
-
-    // ============ Events (ข้อ 5) ============
-    public event Action<string, string> OnActionPerformed;    // (partId, actionLabel)
+    // ====== EVENTS (ออกไประบบอื่น) ======
+    public event Action<string, string> OnActionPerformed;      // (partId, buttonLabel)
     public event Action<string, bool> OnPartVisibilityChanged; // (partId, visible)
 
-    // ============ Runtime ============
+    // ====== RUNTIME ======
     private ActionMenuUI _currentMenu;
     private RectTransform _canvasRect;
+
+    [SerializeField] bool debugLogs = false;
 
     void Awake()
     {
         if (!mainCamera) mainCamera = Camera.main;
+        if (actionCanvas) _canvasRect = actionCanvas.transform as RectTransform;
         if (!actionCanvas) Debug.LogWarning("actionCanvas is not assigned.");
         if (!actionMenuPrefab) Debug.LogWarning("actionMenuPrefab is not assigned.");
-        if (actionCanvas) _canvasRect = actionCanvas.transform as RectTransform;
 
         foreach (var p in parts)
         {
@@ -191,8 +201,7 @@ public class ClothingInteractionManager : MonoBehaviour
     void OnDestroy()
     {
         foreach (var p in parts)
-            if (p != null)
-                p.OnVisibilityChangedInternal -= HandlePartVisibilityChanged;
+            if (p != null) p.OnVisibilityChangedInternal -= HandlePartVisibilityChanged;
     }
 
     void Update()
@@ -206,19 +215,27 @@ public class ClothingInteractionManager : MonoBehaviour
 
             Vector2 world = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             var hit = Physics2D.OverlapPoint(world, bodyPartLayer);
+
+            if (debugLogs)
+            {
+                if (!hit) Debug.Log("Click: no collider hit");
+                else
+                {
+                    string idDbg = useLayerNameInsteadOfTag ? LayerMask.LayerToName(hit.gameObject.layer) : hit.tag;
+                    Debug.Log($"Click hit: {hit.name} | tag={hit.tag} | layer={LayerMask.LayerToName(hit.gameObject.layer)} | resolvedId={idDbg}");
+                }
+            }
+
             if (hit != null)
             {
-                string id = useLayerNameInsteadOfTag
-                    ? LayerMask.LayerToName(hit.gameObject.layer)
-                    : hit.tag;
-
+                string id = useLayerNameInsteadOfTag ? LayerMask.LayerToName(hit.gameObject.layer) : hit.tag;
                 ShowActionsFor(id, Input.mousePosition);
             }
             else HideMenu();
         }
     }
 
-    // ============ Menu building ============
+    // ====== MENU BUILDING ======
     void ShowActionsFor(string partId, Vector3 screenPos)
     {
         HideMenu();
@@ -244,63 +261,53 @@ public class ClothingInteractionManager : MonoBehaviour
     {
         var list = new List<ActionMenuUI.Item>();
         var self = FindPart(partId);
+        if (self == null) return list;
 
-        // 1) กติกาพื้นฐาน: ถ้าเป็นชิ้นที่มี renderer → ถอด/ใส่กลับ
-        if (self != null && self.renderer != null)
+        // วนตามลำดับปุ่มที่กำหนดใน Inspector
+        foreach (var def in self.buttons)
         {
-            if (self.IsVisible)
-                list.Add(new ActionMenuUI.Item($"ถอด{ThaiName(partId)}", () => PerformBuiltIn(self, "ถอด", () => self.RemoveFully())));
-            else
-                list.Add(new ActionMenuUI.Item($"สวมกลับ{ThaiName(partId)}", () => PerformBuiltIn(self, "สวมกลับ", () => self.WearBack())));
-        }
+            if (!CheckCondition(def, self)) continue;
 
-        // 2) ปุ่มเพิ่มเติมตามเงื่อนไข
-        foreach (var rule in extraActions)
-        {
-            if (!string.Equals(rule.targetPartId, partId, StringComparison.Ordinal)) continue;
-            if (!CheckCondition(rule, self)) continue;
-
-            list.Add(new ActionMenuUI.Item(rule.label, () =>
+            // สร้างปุ่มพร้อม action
+            list.Add(new ActionMenuUI.Item(def.label, () =>
             {
-                // ตั้ง state ถ้ากำหนดไว้
-                if (self != null && rule.setSelfStateTo != PartActionState.None)
-                    self.SetActionState(rule.setSelfStateTo);
+                // เรียก UnityEvent ที่ผูกไว้
+                def.onClick?.Invoke();
 
-                // เรียก UnityEvent
-                rule.onInvoke?.Invoke();
-
-                // แจ้งออกไประบบอื่น
-                OnActionPerformed?.Invoke(partId, rule.label);
+                // แจ้งออกไป (ไว้ต่อระบบอื่น เช่น คะแนน/เสียง)
+                OnActionPerformed?.Invoke(partId, def.label);
             }));
         }
 
-        // 3) ปุ่มปิด
+        // ปุ่มปิด
         list.Add(new ActionMenuUI.Item("ปิด", () => { }));
         return list;
     }
 
-    bool CheckCondition(ConditionalAction rule, ClothingPart self)
+    bool CheckCondition(ButtonDef def, ClothingPart self)
     {
-        switch (rule.condition)
+        switch (def.condition)
         {
             case ConditionType.None: return true;
             case ConditionType.RequiresSelfVisible: return self != null && self.IsVisible;
             case ConditionType.RequiresSelfHidden: return self != null && !self.IsVisible;
-            case ConditionType.RequiresOtherVisible: { var o = FindPart(rule.otherPartId); return o != null && o.IsVisible; }
-            case ConditionType.RequiresOtherHidden: { var o = FindPart(rule.otherPartId); return o != null && !o.IsVisible; }
-            case ConditionType.RequiresSelfState: return self != null && self.actionState == rule.requiredSelfState;
-            case ConditionType.RequiresNotSelfState: return self != null && self.actionState != rule.requiredSelfState;
+            case ConditionType.RequiresOtherVisible: { var o = FindPart(def.otherPartId); return o != null && o.IsVisible; }
+            case ConditionType.RequiresOtherHidden: { var o = FindPart(def.otherPartId); return o != null && !o.IsVisible; }
+            case ConditionType.RequiresSelfState: return self != null && self.actionState == def.requiredSelfState;
+            case ConditionType.RequiresNotSelfState: return self != null && self.actionState != def.requiredSelfState;
         }
         return false;
     }
 
-    void PerformBuiltIn(ClothingPart target, string label, Action op)
-    {
-        op?.Invoke();
-        OnActionPerformed?.Invoke(target.partId, label);
-    }
+    // ====== PUBLIC UTILS (ไว้ผูก UnityEvent ได้ง่าย) ======
+    // คุณลากเมทอดเหล่านี้ไปใส่ใน onClick ของปุ่มได้เลย
+    public void StepUndress(string id) { var p = FindPart(id); if (p != null) { p.StepUndress(); OnActionPerformed?.Invoke(id, "StepUndress"); } }
+    public void WearBack(string id) { var p = FindPart(id); if (p != null) { p.WearBack(); OnActionPerformed?.Invoke(id, "WearBack"); } }
+    public void RemoveFully(string id) { var p = FindPart(id); if (p != null) { p.RemoveFully(); OnActionPerformed?.Invoke(id, "RemoveFully"); } }
+    public void SetLevel(string id, int lvl) { var p = FindPart(id); if (p != null) { p.SetLevel(lvl); OnActionPerformed?.Invoke(id, $"SetLevel:{lvl}"); } }
+    public void SetState(string id, PartActionState st) { var p = FindPart(id); if (p != null) { p.SetActionState(st); OnActionPerformed?.Invoke(id, $"SetState:{st}"); } }
 
-    // ============ Events / Helpers ============
+    // ====== EVENTS / HELPERS ======
     void HandlePartVisibilityChanged(string partId, bool visible)
     {
         OnPartVisibilityChanged?.Invoke(partId, visible);
@@ -309,6 +316,7 @@ public class ClothingInteractionManager : MonoBehaviour
     ClothingPart FindPart(string id)
         => parts.Find(p => p != null && !string.IsNullOrEmpty(p.partId) && p.partId == id);
 
+    // ช่วยแปลชื่อ ถ้าอยากแสดงไทยใน label ของคุณเองก็ทำได้
     string ThaiName(string id)
     {
         switch (id)

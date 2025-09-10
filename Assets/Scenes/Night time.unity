@@ -2630,45 +2630,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPartLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8064
   mainCamera: {fileID: 434386684}
   useLayerNameInsteadOfTag: 1
   actionCanvas: {fileID: 206270686}
-  actionMenuPrefab: {fileID: 4757862747418890444, guid: 01e23ee9deb79df4d82cc215b4689514, type: 3}
+  actionMenuPrefab: {fileID: 1655184877387788828, guid: 73201f8aebcf805479482db77631fcc1, type: 3}
   parts:
-  - partId: 7
+  - partId: Shirt
     renderer: {fileID: 1176438127}
     levelSprites:
     - {fileID: 257000215155605088, guid: 9253874d2be64e24d9d31c6fde713db6, type: 3}
     - {fileID: -4325245263934650717, guid: 9253874d2be64e24d9d31c6fde713db6, type: 3}
     - {fileID: -616826453566446211, guid: 9253874d2be64e24d9d31c6fde713db6, type: 3}
     startLevel: 0
-    explicitMaxLevel: 3
+    explicitMaxLevel: 2
+    hideWhenBeyondMax: 1
     collidersToToggle:
     - {fileID: 1176438128}
     interactableWhenVisible: 1
     interactableWhenHidden: 0
+    buttons:
+    - label: "\u0E16\u0E2D\u0E14\u0E40\u0E2A\u0E37\u0E49\u0E2D"
+      condition: 1
+      otherPartId: 
+      requiredSelfState: 0
+      onClick:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1963591285}
+            m_TargetAssemblyTypeName: ClothingInteractionManager, Assembly-CSharp
+            m_MethodName: StepUndress
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Shirt
+              m_BoolArgument: 0
+            m_CallState: 2
+    - label: "\u0E2A\u0E27\u0E21\u0E01\u0E25\u0E31\u0E1A"
+      condition: 1
+      otherPartId: 
+      requiredSelfState: 0
+      onClick:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1963591285}
+            m_TargetAssemblyTypeName: ClothingInteractionManager, Assembly-CSharp
+            m_MethodName: WearBack
+            m_Mode: 5
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Shirt
+              m_BoolArgument: 0
+            m_CallState: 2
     level: 0
     actionState: 0
-  extraActions:
-  - targetPartId: 7
-    label: test1
-    condition: 0
-    otherPartId: 
-    requiredSelfState: 0
-    setSelfStateTo: 0
-    onInvoke:
-      m_PersistentCalls:
-        m_Calls: []
-  - targetPartId: 7
-    label: test2
-    condition: 0
-    otherPartId: 
-    requiredSelfState: 0
-    setSelfStateTo: 0
-    onInvoke:
-      m_PersistentCalls:
-        m_Calls: []
+  debugLogs: 0
 --- !u!1 &1984331295
 GameObject:
   m_ObjectHideFlags: 0
